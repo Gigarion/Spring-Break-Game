@@ -1,3 +1,7 @@
+package Animations;
+
+import Util.StdDraw;
+
 public class HitScanLine extends Animation {
      private double destX;
      private double destY;

@@ -1,9 +1,13 @@
+package Engine;
+
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseEvent;
+
+import Actors.*;
+import Projectiles.*;
+import Util.StdDraw;
+import Animations.*;
 
 import java.awt.event.KeyEvent;
 
@@ -99,7 +103,7 @@ public class Engine {
      }
 
      public void fireProjectile(Actor src, double x, double y) {
-          Projectile p = new Projectile(src.getX(), src.getY(), 5);
+          Projectile p = new Projectile(src.getX(), src.getY(), 5, 100000);
           p.setDest(x, y);
           p.setSpeed(50);
           actorQueue.add(p);
@@ -111,8 +115,8 @@ public class Engine {
                hitScanQueue.add(new SwingAnimation(player, 8, "sord.png", StdDraw.mouseX(), StdDraw.mouseY()));
                stopCount += 3;
           }
-          //fireProjectile(player, (int)StdDraw.mouseX(), (int)StdDraw.mouseY());
-          //fireHitScan(player, StdDraw.mouseX(), StdDraw.mouseY());
+          //fireProjectile(player, (int)Util.StdDraw.mouseX(), (int)Util.StdDraw.mouseY());
+          //fireHitScan(player, Util.StdDraw.mouseX(), Util.StdDraw.mouseY());
           for (Actor a : actorQueue) {
                if (a.contains(x, y)) {
                     if (a instanceof Mob) {
@@ -168,8 +172,8 @@ public class Engine {
           ConcurrentLinkedQueue<Mob> notHit = new ConcurrentLinkedQueue<>(mobQueue);
           notHit.remove(player);
           double angle = getRads(destX, destY);
-          double currX = src.x;
-          double currY = src.y;
+          double currX = src.getX();
+          double currY = src.getY();
 
           while (currX > xMin && currX < xMax && currY > yMin && currY < yMax) {
                currX += (2 * Math.cos(angle));
@@ -183,12 +187,12 @@ public class Engine {
                     }
                }
           }
-          hitScanQueue.add(new HitScanLine(src.x, src.y, currX, currY));
+          hitScanQueue.add(new HitScanLine(src.getX(), src.getY(), currX, currY));
           return mobsHit;
      }
 
      private double getRads(double destX, double destY) {
-          double angle =  Math.toDegrees(Math.atan2(destY - player.y, destX - player.x));
+          double angle =  Math.toDegrees(Math.atan2(destY - player.getX(), destX - player.getX()));
 
           if(angle < 0) {
                angle += 360;

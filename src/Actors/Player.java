@@ -1,3 +1,5 @@
+package Actors;
+import Util.StdDraw;
 public class Player extends Actor {
      int maxHP;
      int hp;

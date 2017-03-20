@@ -1,3 +1,5 @@
+package Actors;
+
 public class Actor {
      protected double x;
      protected double y;

@@ -1,4 +1,4 @@
-// actors with health, probably mostly used for enemies unless I make the supports killable
+package Actors;// actors with health, probably mostly used for enemies unless I make the supports killable
 
 public class Mob extends Actor {
      int hp;

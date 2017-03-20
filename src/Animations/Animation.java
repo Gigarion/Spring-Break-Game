@@ -1,3 +1,5 @@
+package Animations;
+
 public abstract class Animation {
      protected double x;
      protected double y;

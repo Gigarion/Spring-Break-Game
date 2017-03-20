@@ -1,5 +1,9 @@
+package Animations;
+
+import Util.StdDraw;
+
 // particle effects class
-public class Particle extends Actor {
+public class Particle extends Animation {
      private long ttl; // time to live in milliseconds
      public Particle(int x, int y, int ttl) {
           super(x, y, 0);
@@ -7,11 +11,7 @@ public class Particle extends Actor {
      }
 
      @Override
-     public void update() {
-
-     }
-
-     public void draw() {
+     public void draw(int frame) {
           StdDraw.setPenColor(StdDraw.BLUE);
           StdDraw.circle(x, y, 2);
           StdDraw.setPenColor();

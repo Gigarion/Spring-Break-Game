@@ -1,9 +1,14 @@
+package Projectiles;
+import Actors.Actor;
+import Util.StdDraw;
+
 public class Projectile extends Actor {
      private double destX, destY;
-     double vel, rad;
-     double range;
-     public Projectile(double x, double y, int r) {
+     private double vel, rad;
+     private double range;
+     public Projectile(double x, double y, int r, double range) {
           super(x, y, r);
+          this.range = range;
      }
 
      // x, y, for targets, velocities in pixels/sec

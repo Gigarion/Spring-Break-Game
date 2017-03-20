@@ -1,4 +1,8 @@
-import java.util.Stack;
+package Animations;
+
+import Actors.Player;
+import Util.StdDraw;
+
 public class SwingAnimation extends Animation {
      private String imgPath = "img/";
      private String imgLoc;

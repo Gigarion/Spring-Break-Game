@@ -1,6 +1,7 @@
 public class Projectile extends Actor {
      private double destX, destY;
      double vel, rad;
+     double range;
      public Projectile(double x, double y, int r) {
           super(x, y, r);
      }

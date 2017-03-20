@@ -13,28 +13,30 @@ public class Engine {
      private ConcurrentLinkedQueue<Mob> mobQueue = new ConcurrentLinkedQueue<>();
      private ConcurrentLinkedQueue<Actor> actorQueue = new ConcurrentLinkedQueue<>();
      private ConcurrentLinkedQueue<Actor> projectileQueue = new ConcurrentLinkedQueue<>();
-     private ConcurrentLinkedQueue<HitScanLine> hitScanQueue = new ConcurrentLinkedQueue<>();
+     private ConcurrentLinkedQueue<Animation> hitScanQueue = new ConcurrentLinkedQueue<>();
      private int xMin, xMax, yMin, yMax;
      private Player player;
-     private int cycle;
+     private int frame;
+     private int stopCount;
 
      public Engine(int xMin, int xMax, int yMin, int yMax) {
           this.xMin = xMin;
           this.xMax = xMax;
           this.yMin = yMin;
           this.yMax = yMax;
-          this.cycle = 0;
+          this.frame = 0;
+          this.stopCount = 0;
 
           drawTimer.schedule(new TimerTask() {
                public void run() {
                     drawTick();
                }
-          }, 0, 17);
+          }, 0, 16);
           logicTimer.schedule(new TimerTask() {
                public void run() {
                     logicTick();
                }
-          }, 200, 5);
+          }, 200, 1);
 
      }
 
@@ -43,40 +45,42 @@ public class Engine {
           for (Actor actor: actorQueue) {
                actor.update();
           }
-          if ((cycle % 2 == 0) && StdDraw.mousePressed()) {
+          if ((frame % 2 == 0) && StdDraw.mousePressed()) {
                mouseClick((int)StdDraw.mouseX(), (int)StdDraw.mouseY());
           }
           handleKeyboard();
-          cycle += 1;
+          frame = ((frame + 1) % 10000);
+          if (stopCount > 0)
+               stopCount--;
      }
 
      // draw loop cycle
      public void drawTick() {
           StdDraw.clear();
+          for (Animation hsl : hitScanQueue) {
+               if (hsl.getTTL() <= 0)
+                    hitScanQueue.remove(hsl);
+               hsl.draw(frame);
+          }
           for (Actor actor : actorQueue) {
                if (checkActor(actor))
                     actor.draw();
-          }
-          for (HitScanLine hsl : hitScanQueue) {
-               if (hsl.getTTL() <= 0)
-                    hitScanQueue.remove(hsl);
-               hsl.draw();
           }
           StdDraw.show();
      }
 
      private void handleKeyboard() {
           if (StdDraw.isKeyPressed(KeyEvent.VK_W)) {
-               player.moveY(1);
+               player.moveY(.2);
           }
           if (StdDraw.isKeyPressed(KeyEvent.VK_S)) {
-               player.moveY(-1);
+               player.moveY(-0.2);
           }
           if (StdDraw.isKeyPressed(KeyEvent.VK_A)) {
-               player.moveX(-1);
+               player.moveX(-0.2);
           }
           if (StdDraw.isKeyPressed(KeyEvent.VK_D)) {
-               player.moveX(1);
+               player.moveX(0.2);
           }
      }
 
@@ -103,8 +107,12 @@ public class Engine {
      }
 
      public void mouseClick(int x, int y) {
+          if (stopCount == 0){
+               hitScanQueue.add(new SwingAnimation(player, 8, "sord.png", StdDraw.mouseX(), StdDraw.mouseY()));
+               stopCount += 3;
+          }
           //fireProjectile(player, (int)StdDraw.mouseX(), (int)StdDraw.mouseY());
-          fireHitScan(player, StdDraw.mouseX(), StdDraw.mouseY());
+          //fireHitScan(player, StdDraw.mouseX(), StdDraw.mouseY());
           for (Actor a : actorQueue) {
                if (a.contains(x, y)) {
                     if (a instanceof Mob) {

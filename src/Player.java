@@ -29,13 +29,13 @@ public class Player extends Actor {
 
      // shift the player's location by dist in the x direction
      // trusts game engine to call this and protect border cases
-     public void moveX(int dist) {
+     public void moveX(double dist) {
           this.x += dist;
      }
 
      // shift the player's location by dist in the y direction
      // trusts game engine to call this and protect border cases
-     public void moveY(int dist) {
+     public void moveY(double dist) {
           this.y += dist;
      }
 

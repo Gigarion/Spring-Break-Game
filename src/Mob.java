@@ -2,7 +2,7 @@
 
 public class Mob extends Actor {
      int hp;
-     double offset = 1;
+     double offset = 0.35;
      public Mob(int x, int y, int r, int hp) {
           super(x, y, r);
           this.hp = hp;

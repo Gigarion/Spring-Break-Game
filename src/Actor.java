@@ -33,6 +33,6 @@ public class Actor {
           return false;
      }
 
-     public double getX() { return x;}
-     public double getY() { return y;}
+     public synchronized double getX() { return x;}
+     public synchronized double getY() { return y;}
 }

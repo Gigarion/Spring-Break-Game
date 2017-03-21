@@ -7,30 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69d04400-34d6-49b7-820e-0bde14eb2f0f" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Spring-Break-Game.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/Spring_Break_Game_jar/img/sord.jpg" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/Spring_Break_Game_jar/Spring-Break-Game.jar" afterPath="$PROJECT_DIR$/out/artifacts/Spring_Break_Game_jar/Spring-Break-Game.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Actors/Actor.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Actors/Actor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Animations/HitScanLine.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Animations/HitScanLine.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Animations/SwingAnimation.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Animations/SwingAnimation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/Engine$1.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/Engine$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/Engine$2.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/Engine$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/Engine.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/Engine.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/GameTest.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/GameTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Projectiles/HitScan.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Projectiles/HitScan.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Projectiles/Projectile.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Projectiles/Projectile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Util/StdDraw.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Util/StdDraw.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Weapons/Weapon.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Weapons/Weapon.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/GameGUI.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/GameTest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/GameTest.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/Actor.java" afterPath="$PROJECT_DIR$/src/Actors/Actor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Animations/HitScanLine.java" afterPath="$PROJECT_DIR$/src/Animations/HitScanLine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Animations/SwingAnimation.java" afterPath="$PROJECT_DIR$/src/Animations/SwingAnimation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/Engine.java" afterPath="$PROJECT_DIR$/src/Engine/Engine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GameTest.java" afterPath="$PROJECT_DIR$/src/GameTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Projectiles/HitScan.java" afterPath="$PROJECT_DIR$/src/Projectiles/HitScan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Projectiles/Projectile.java" afterPath="$PROJECT_DIR$/src/Projectiles/Projectile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Util/StdDraw.java" afterPath="$PROJECT_DIR$/src/Util/StdDraw.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Weapons/Weapon.java" afterPath="$PROJECT_DIR$/src/Weapons/Weapon.java" />
     </list>
     <ignored path="Spring-Break-Game.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -105,11 +85,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/GameTest.java">
+      <file leaf-file-name="GameGUI.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/GameGUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="31" column="40" lean-forward="false" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
+            <state relative-caret-position="495">
+              <caret line="40" column="0" lean-forward="true" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -117,7 +97,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Engine.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Engine.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Engine/Engine.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="431">
@@ -169,8 +149,9 @@
         <option value="$PROJECT_DIR$/src/Animations/SwingAnimation.java" />
         <option value="$PROJECT_DIR$/src/Projectiles/Projectile.java" />
         <option value="$PROJECT_DIR$/src/Weapons/Weapon.java" />
-        <option value="$PROJECT_DIR$/src/GameTest.java" />
         <option value="$PROJECT_DIR$/src/Engine/Engine.java" />
+        <option value="$PROJECT_DIR$/src/GameTest.java" />
+        <option value="$PROJECT_DIR$/src/GameGUI.java" />
       </list>
     </option>
   </component>
@@ -222,24 +203,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -248,10 +211,9 @@
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="preferences.general" />
-    <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -467,7 +429,7 @@
     </configuration>
     <configuration default="false" name="Unnamed" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="GameTest" />
+      <option name="MAIN_CLASS_NAME" value="GameGUI" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -528,7 +490,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -680,7 +642,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GameTest.java">
+    <entry file="file://$PROJECT_DIR$/src/GameGUI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="11" column="42" lean-forward="false" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
@@ -1162,16 +1124,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GameTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="31" column="40" lean-forward="false" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Engine/Engine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="431">
@@ -1186,6 +1138,16 @@
             <element signature="method#checkActor#0;class#Engine#0" expanded="false" />
             <element signature="method#fireHitScan#0;class#Engine#0" expanded="false" />
             <element signature="method#getRads#0;class#Engine#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GameGUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="40" column="0" lean-forward="true" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -50,7 +50,7 @@ public class Engine {
             actor.update();
             checkActor(actor);
         }
-        if ((frame % 100 == 0) && StdDraw.mousePressed()) {
+        if ((frame % 20 == 0) && StdDraw.mousePressed()) {
             mouseClick((int) StdDraw.mouseX(), (int) StdDraw.mouseY());
         }
         handleKeyboard();
@@ -120,7 +120,8 @@ public class Engine {
             stopCount += 3;
         }
         fireProjectile(player, Util.StdDraw.mouseX(), Util.StdDraw.mouseY());
-        fireHitScan(player, Util.StdDraw.mouseX(), Util.StdDraw.mouseY());
+        HitScan hs = new HitScan(player, Util.StdDraw.mouseX(), Util.StdDraw.mouseY(), 200, 0);
+        fireHitScan(hs);
         for (Actor a : actorQueue) {
             if (a.contains(x, y)) {
                 if (a instanceof Mob) {
@@ -182,26 +183,33 @@ public class Engine {
     }
 
     // fire a hitscan, currently ignores hitting (all?) players
-    public Iterable<Actor> fireHitScan(Actor src, double destX, double destY) {
+    public Iterable<Actor> fireHitScan(HitScan hs) {
+
         ConcurrentLinkedQueue<Actor> mobsHit = new ConcurrentLinkedQueue<>();
         ConcurrentLinkedQueue<Mob> notHit = new ConcurrentLinkedQueue<>(mobQueue);
-        double angle = getRads(destX, destY);
-        double currX = src.getX();
-        double currY = src.getY();
+        double angle = getRads(hs.getDestX(), hs.getDestY());
+        double currX = hs.getSrcX();
+        double currY = hs.getSrcY();
 
         while (currX > xMin && currX < xMax && currY > yMin && currY < yMax) {
             currX += (2 * Math.cos(angle));
             currY += (2 * Math.sin(angle));
             Actor a = new Actor(currX, currY, 1);
+            int hits = 0;
             for (Mob mob : notHit) {
                 if (mob.collides(a) && !mobsHit.contains(mob)) {
-                    mob.hit(200);
+                    mob.hit(hs.getDamage());
                     mobsHit.add(mob);
                     notHit.remove(mob);
+                    hits++;
                 }
+                if (hits > hs.getPierceCount())
+                    break;
             }
+            if (hits > hs.getPierceCount())
+                break;
         }
-        hitScanQueue.add(new HitScanLine(src.getX(), src.getY(), currX, currY));
+        hitScanQueue.add(new HitScanLine(hs.getSrcX(), hs.getSrcY(), currX, currY));
         return mobsHit;
     }
 

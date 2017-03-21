@@ -1,5 +1,7 @@
 package Engine;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -12,22 +14,26 @@ import Animations.*;
 import java.awt.event.KeyEvent;
 
 public class Engine {
+    private static final double MOVEMENT_SIZE = 0.5;
     private Timer logicTimer = new Timer("Logic Timer", true);
     private Timer drawTimer = new Timer("Draw Timer", true);
     private ConcurrentLinkedQueue<Mob> mobQueue = new ConcurrentLinkedQueue<>();
     private ConcurrentLinkedQueue<Actor> actorQueue = new ConcurrentLinkedQueue<>();
     private ConcurrentLinkedQueue<Actor> projectileQueue = new ConcurrentLinkedQueue<>();
-    private ConcurrentLinkedQueue<Animation> hitScanQueue = new ConcurrentLinkedQueue<>();
-    private int xMin, xMax, yMin, yMax;
+    private ConcurrentLinkedQueue<Animation> animationQueue = new ConcurrentLinkedQueue<>();
+    // min always zero, visible is a square
+    private int maxLogX, maxLogY;
+    // radius around the player normally seen
+    private int visibleRadius;
     private Player player;
     private int frame;
     private int stopCount;
+    private int clickedButton;
 
-    public Engine(int xMin, int xMax, int yMin, int yMax) {
-        this.xMin = xMin;
-        this.xMax = xMax;
-        this.yMin = yMin;
-        this.yMax = yMax;
+    public Engine(int lXMax, int lYMax, int vRadius) {
+        this.maxLogX = lXMax;
+        this.maxLogY = lYMax;
+        this.visibleRadius = vRadius;
         this.frame = 0;
         this.stopCount = 0;
 
@@ -62,33 +68,75 @@ public class Engine {
     // draw loop cycle
     private void drawTick() {
         StdDraw.clear();
-        StdDraw.line(900, 0, 900, 900);
+        StdDraw.rectangle(450, 450, 300, 300);
+        StdDraw.line(getVisibleXMax(), 0, getVisibleXMax(),  maxLogY);
 
-        for (Animation hsl : hitScanQueue) {
+        for (Animation hsl : animationQueue) {
             if (hsl.getTTL() <= 0)
-                hitScanQueue.remove(hsl);
+                animationQueue.remove(hsl);
             hsl.draw(frame);
         }
         for (Actor actor : actorQueue) {
-            if (checkActor(actor))
-                actor.draw();
+            actor.draw();
         }
         StdDraw.show();
     }
 
+    private double getVisibleYMin() {
+        if (player.getY() - visibleRadius <= 0)
+            return 0;
+        if (player.getY() + visibleRadius > maxLogY)
+            return maxLogY - 2*visibleRadius;
+        return player.getY() - visibleRadius;
+    }
+
+    private double getVisibleYMax() {
+        if (player.getY() + visibleRadius >= maxLogY)
+            return maxLogY;
+        if (player.getY() - visibleRadius <= 0)
+            return 2*visibleRadius;
+        return player.getY() + visibleRadius;
+    }
+
+    private double getVisibleXMin() {
+        if (player.getX() - visibleRadius <= 0)
+            return 0;
+        if (player.getX() + visibleRadius >= maxLogX)
+            return maxLogX - 2*visibleRadius;
+        return player.getX() - visibleRadius;
+    }
+
+    private double getVisibleXMax() {
+        if (player.getX() + visibleRadius > maxLogX)
+            return maxLogX;
+        if (player.getX() - visibleRadius < 0)
+            return 2*visibleRadius;
+        return player.getX() + visibleRadius;
+    }
+
     private void handleKeyboard() {
         if (StdDraw.isKeyPressed(KeyEvent.VK_W)) {
-            player.moveY(.5);
-            StdDraw.setYscale(50, 950);
+            player.moveY(MOVEMENT_SIZE);
+            if (getVisibleYMax() < maxLogY && getVisibleYMax() + MOVEMENT_SIZE < maxLogY) {
+                //System.out.println(getVisibleYMax() + " " + getVisibleYMin());
+                StdDraw.setYscale(getVisibleYMin() + MOVEMENT_SIZE, getVisibleYMax() + MOVEMENT_SIZE);
+            }
         }
         if (StdDraw.isKeyPressed(KeyEvent.VK_S)) {
-            player.moveY(-0.5);
+            player.moveY(-MOVEMENT_SIZE);
+            if (getVisibleYMin() > 0 && getVisibleYMin() - MOVEMENT_SIZE > 0)
+                StdDraw.setYscale(getVisibleYMin() - MOVEMENT_SIZE, getVisibleYMax() - MOVEMENT_SIZE);
         }
         if (StdDraw.isKeyPressed(KeyEvent.VK_A)) {
-            player.moveX(-0.5);
+            if (getVisibleXMin() > 0 && getVisibleXMin() - MOVEMENT_SIZE > 0)
+                StdDraw.setXscale(getVisibleXMin() - MOVEMENT_SIZE, getVisibleXMax() - MOVEMENT_SIZE + 300);
+            player.moveX(-MOVEMENT_SIZE);
         }
         if (StdDraw.isKeyPressed(KeyEvent.VK_D)) {
-            player.moveX(0.5);
+            if (getVisibleXMax() < maxLogX && getVisibleXMax() + MOVEMENT_SIZE < maxLogX) {
+                StdDraw.setXscale(getVisibleXMin() + MOVEMENT_SIZE, getVisibleXMax() + MOVEMENT_SIZE + 300);
+            }
+            player.moveX(MOVEMENT_SIZE);
         }
     }
 
@@ -106,30 +154,27 @@ public class Engine {
         return actorQueue.add(a);
     }
 
-    public void fireProjectile(Actor src, double x, double y) {
-        Projectile p = new Projectile(src.getX(), src.getY(), 5, 200);
-        p.setDest(x, y);
-        p.setSpeed(1);
-        actorQueue.add(p);
-        projectileQueue.add(p);
+    public void fireProjectile(Projectile projectile) {
+        actorQueue.add(projectile);
+        projectileQueue.add(projectile);
     }
 
     private void mouseClick(int x, int y) {
-        if (stopCount == 0) {
-            hitScanQueue.add(new SwingAnimation(player, 8, "sord.png", StdDraw.mouseX(), StdDraw.mouseY()));
-            stopCount += 3;
+        switch (clickedButton) {
+            case MouseEvent.BUTTON1: {
+                animationQueue.add(new SwingAnimation(player, 8, "sord.png", StdDraw.mouseX(), StdDraw.mouseY()));
+                HitScan hs = new HitScan(player, StdDraw.mouseX(), StdDraw.mouseY(), 200, 1, 80);
+                hs.setShowLine(false);
+                fireHitScan(hs);
+            } break;
+            case MouseEvent.BUTTON3: {
+                Projectile proj = new Projectile(player, StdDraw.mouseX(), StdDraw.mouseY(), 5, 200, 2);
+                fireProjectile(proj);
+            } break;
+            default: break;
         }
-        fireProjectile(player, Util.StdDraw.mouseX(), Util.StdDraw.mouseY());
-        HitScan hs = new HitScan(player, Util.StdDraw.mouseX(), Util.StdDraw.mouseY(), 200, 0);
-        fireHitScan(hs);
-        for (Actor a : actorQueue) {
-            if (a.contains(x, y)) {
-                if (a instanceof Mob) {
-                    Mob m = (Mob) a;
-                    //m.hit(20);
-                }
-            }
-        }
+        //HitScan hs = new HitScan(player, StdDraw.mouseX(), StdDraw.mouseY(), 200, 0, 10000);
+        //fireHitScan(hs);
     }
 
     private boolean checkActor(Actor a) {
@@ -141,7 +186,6 @@ public class Engine {
             }
             for (Mob mob : mobQueue) {
                 if (mob.collides(a)) {
-                    System.out.println("ouch");
                     mob.hit(20);
                 }
             }
@@ -179,7 +223,7 @@ public class Engine {
     }
 
     private boolean inBounds(double x, double y) {
-        return (x < (xMax * 1.02) && x > (xMin * 98) && y < (yMax * 1.02) && y > (yMin * 0.98));
+        return (x < (maxLogX * 1.002) && x > 0 && y < (maxLogY * 1.002) && y > 0);
     }
 
     // fire a hitscan, currently ignores hitting (all?) players
@@ -190,8 +234,12 @@ public class Engine {
         double angle = getRads(hs.getDestX(), hs.getDestY());
         double currX = hs.getSrcX();
         double currY = hs.getSrcY();
+        double dist = 0;
 
-        while (currX > xMin && currX < xMax && currY > yMin && currY < yMax) {
+        while (inBounds(currX, currY) && dist < hs.getRange()) {
+            double xDiff = currX - hs.getSrcX();
+            double yDiff = currY - hs.getSrcY();
+            dist = Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
             currX += (2 * Math.cos(angle));
             currY += (2 * Math.sin(angle));
             Actor a = new Actor(currX, currY, 1);
@@ -209,7 +257,8 @@ public class Engine {
             if (hits > hs.getPierceCount())
                 break;
         }
-        hitScanQueue.add(new HitScanLine(hs.getSrcX(), hs.getSrcY(), currX, currY));
+        if (hs.getShowLine())
+            animationQueue.add(new HitScanLine(hs.getSrcX(), hs.getSrcY(), currX, currY));
         return mobsHit;
     }
 
@@ -221,5 +270,10 @@ public class Engine {
         }
 
         return Math.toRadians(angle);
+    }
+
+    public void setClickedButton(int clickedButton) {
+        this.clickedButton = clickedButton;
+        System.out.println(clickedButton);
     }
 }

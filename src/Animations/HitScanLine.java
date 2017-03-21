@@ -12,6 +12,7 @@ public class HitScanLine extends Animation {
         this.destY = destY;
     }
 
+
     @Override
     public void draw(int frame) {
         StdDraw.line(x, y, destX, destY);

@@ -23,10 +23,10 @@ public class SwingAnimation extends Animation {
                startFrame = frame;
           double relFrame = frame - startFrame;
           //(8 + Math.cos(rad)) +
-          double newX = src.getX() + (10 * Math.sin(rad)) + ((relFrame / 2) * Math.cos(rad));
+          double newX = src.getX() + (6 * Math.sin(rad)) + ((relFrame / 2) * Math.cos(rad));
           //(10 + Math.sin(rad)) +
-          double newY = src.getY() - (10 * Math.cos(rad)) +  (Math.sin(rad) * relFrame/2);
-          StdDraw.picture(newX, newY, imgLoc, 25, 100, deg - 90);
+          double newY = src.getY() - (6 * Math.cos(rad)) +  (Math.sin(rad) * relFrame/2);
+          StdDraw.picture(newX, newY, imgLoc, 20, 80, deg - 90);
           ttl--;
       }
 }

@@ -9,8 +9,9 @@ import Actors.Actor;
 public class HitScan {
     private Actor src;
     private int damage, pierceCount;
-    private double srcX, srcY, destX, destY;
-    public HitScan(Actor src, double destX, double destY, int damage, int pierceCount) {
+    private double srcX, srcY, destX, destY, range;
+    private boolean showLine;
+    public HitScan(Actor src, double destX, double destY, int damage, int pierceCount, double range) {
         this.src = src;
         this.srcX = src.getX();
         this.srcY = src.getY();
@@ -18,6 +19,20 @@ public class HitScan {
         this.destY = destY;
         this.damage = damage;
         this.pierceCount = pierceCount;
+        this.range = range;
+        this.showLine = true;
+    }
+
+    public void setShowLine(boolean showLine) {
+        this.showLine = showLine;
+    }
+
+    public boolean getShowLine() {
+        return showLine;
+    }
+
+    public Actor getSrc() {
+        return this.src;
     }
 
     public int getDamage() {
@@ -42,5 +57,9 @@ public class HitScan {
 
     public double getDestY() {
         return destY;
+    }
+
+    public double getRange() {
+        return this.range;
     }
 }

@@ -5,8 +5,6 @@ import Projectiles.Projectile;
 public abstract class Weapon {
     public final int TYPE_HITSCAN = 0;
     public final int TYPE_PROJECTILE = 1;
-    public final int TYPE_THROWN = 2;
-    public final int TYPE_MELEE = 3;
     private int damage; // damage per shot
     private int reload; // relaod time ms
     private int type;
@@ -14,14 +12,16 @@ public abstract class Weapon {
     private int fireRate;
     private long nextShot; // time millis when next shot is allowed
 
-    public Weapon(int damage, int reload, int type, int clip, int fireRate, int nextShot) {
+    public Weapon(int damage, int reload, int type, int clip, int fireRate) {
         this.damage = damage;
         this.reload = reload;
         this.type = type;
         this.clip = clip;
         this.fireRate = fireRate;
-        this.nextShot = nextShot;
+        this.nextShot = System.currentTimeMillis();
     }
 
-    public abstract Projectile fire(double destX, double destY);
+    // returns either a projectile or hitscan, I didn't want to make them inherit a superclass honestly
+    // use typing to determine how to cast this.
+    public abstract Object fire(double destX, double destY);
 }

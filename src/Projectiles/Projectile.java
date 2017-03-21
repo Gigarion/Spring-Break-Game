@@ -4,24 +4,21 @@ import Actors.Actor;
 import Util.StdDraw;
 
 public class Projectile extends Actor {
+    private Actor src;
     private double destX, destY;
     private double vel, rad;
     private double range;
+
     private double startX, startY;
 
-    public Projectile(double x, double y, int r, double range) {
-        super(x, y, r);
+    public Projectile(Actor src, double destX, double destY, int r, double range, double speed) {
+        super(src.getX(), src.getY(), r);
+        this.src = src;
         this.startX = x;
         this.startY = y;
         this.range = range;
-    }
-
-    // x, y, for targets, velocities in pixels/sec
-
-    public void setDest(double x, double y) {
-        this.destX = x;
-        this.destY = y;
-        this.rad = getAngle(x, y);
+        this.vel = speed;
+        this.rad = getAngle(destX, destY);
     }
 
     public double getDestX() {
@@ -46,6 +43,14 @@ public class Projectile extends Actor {
         return this.range;
     }
 
+    public double getStartX() {
+        return startX;
+    }
+
+    public double getStartY() {
+        return startY;
+    }
+
     // thanks stackoverflow
     private double getAngle(double destX, double destY) {
         double angle = Math.toDegrees(Math.atan2(destY - y, destX - x));
@@ -57,10 +62,6 @@ public class Projectile extends Actor {
         return Math.toRadians(angle);
     }
 
-    public void setSpeed(double vel) {
-        this.vel = vel;
-    }
-
     @Override
     public void update() {
         x += (vel * Math.cos(rad));
@@ -68,8 +69,7 @@ public class Projectile extends Actor {
     }
 
     public void draw() {
-        StdDraw.setPenColor(StdDraw.RED);
-        StdDraw.filledSquare(x, y, 5);
-        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.picture(x, y, "img/arrow.png", 40, 10, Math.toDegrees(rad));
+        //StdDraw.filledSquare(x, y, 5);
     }
 }

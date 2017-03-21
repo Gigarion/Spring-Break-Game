@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Spring-Break-Game:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Spring_Break_Game_jar</output-path>
+    <root id="archive" name="Spring-Break-Game.jar">
+      <element id="module-output" name="Spring-Break-Game" />
+    </root>
+  </artifact>
+</component>

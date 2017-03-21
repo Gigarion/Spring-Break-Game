@@ -1,5 +1,5 @@
 package Actors;// actors with health, probably mostly used for enemies unless I make the supports killable
-
+import Util.StdDraw;
 public class Mob extends Actor {
      int hp;
      double offset = 0.35;

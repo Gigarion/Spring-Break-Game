@@ -45,7 +45,7 @@ public class Engine {
      }
 
      // logic loop cycle
-     public void logicTick() {
+     private void logicTick() {
           for (Actor actor: actorQueue) {
                actor.update();
           }
@@ -59,8 +59,10 @@ public class Engine {
      }
 
      // draw loop cycle
-     public void drawTick() {
+     private void drawTick() {
           StdDraw.clear();
+          StdDraw.line(900, 0, 900, 900);
+
           for (Animation hsl : hitScanQueue) {
                if (hsl.getTTL() <= 0)
                     hitScanQueue.remove(hsl);
@@ -75,16 +77,16 @@ public class Engine {
 
      private void handleKeyboard() {
           if (StdDraw.isKeyPressed(KeyEvent.VK_W)) {
-               player.moveY(.2);
+               player.moveY(.5);
           }
           if (StdDraw.isKeyPressed(KeyEvent.VK_S)) {
-               player.moveY(-0.2);
+               player.moveY(-0.5);
           }
           if (StdDraw.isKeyPressed(KeyEvent.VK_A)) {
-               player.moveX(-0.2);
+               player.moveX(-0.5);
           }
           if (StdDraw.isKeyPressed(KeyEvent.VK_D)) {
-               player.moveX(0.2);
+               player.moveX(0.5);
           }
      }
 
@@ -110,7 +112,7 @@ public class Engine {
           projectileQueue.add(p);
      }
 
-     public void mouseClick(int x, int y) {
+     private void mouseClick(int x, int y) {
           if (stopCount == 0){
                hitScanQueue.add(new SwingAnimation(player, 8, "sord.png", StdDraw.mouseX(), StdDraw.mouseY()));
                stopCount += 3;
@@ -127,7 +129,7 @@ public class Engine {
           }
      }
 
-     public boolean checkActor(Actor a) {
+     private boolean checkActor(Actor a) {
           if (a instanceof Projectile) {
                for (Mob mob : mobQueue) {
                     if (mob.collides(a)) {
@@ -149,8 +151,8 @@ public class Engine {
           }
 
 
-          if (a.getX() > (xMax * 1.2) || a.getX() < (xMin * 0.8)
-               || a.getY() > (yMax * 1.2) || a.getY() < (yMin * 0.8)) {
+          if (a.getX() > (xMax * 1.02) || a.getX() < (xMin * 98)
+               || a.getY() > (yMax * 1.02) || a.getY() < (yMin * 0.98)) {
                actorQueue.remove(a);
 
                if (a instanceof Mob) {
@@ -166,11 +168,10 @@ public class Engine {
           return true;
      }
 
-     // fire a hitscan
+     // fire a hitscan, currently ignores hitting (all?) players
      public Iterable<Actor> fireHitScan(Actor src, double destX, double destY) {
           ConcurrentLinkedQueue<Actor> mobsHit = new ConcurrentLinkedQueue<>();
           ConcurrentLinkedQueue<Mob> notHit = new ConcurrentLinkedQueue<>(mobQueue);
-          notHit.remove(player);
           double angle = getRads(destX, destY);
           double currX = src.getX();
           double currY = src.getY();

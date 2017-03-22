@@ -7,9 +7,6 @@ import Util.StdDraw;
 public class Player extends Actor {
     private String name;
     private int maxHP;
-
-
-
     private int hp;
     private int level;
     private int exp;

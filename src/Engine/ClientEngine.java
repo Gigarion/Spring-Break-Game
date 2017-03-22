@@ -1,7 +1,6 @@
 package Engine;
 
 import Actors.Actor;
-import Actors.Mob;
 import Actors.Player;
 import Animations.Animation;
 import Animations.HitScanLine;
@@ -20,6 +19,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by Gig on 3/21/2017.
+ * Client size game engine for the game
  */
 
 
@@ -34,6 +34,7 @@ public class ClientEngine {
     private static final int LOGIC_INTERVAL = 1;
     private static final int HUD_WIDTH = 300;
     // active animations
+    private ConcurrentLinkedQueue<Projectile> projectileQueue;
     private ConcurrentLinkedQueue<Animation> animationQueue;
     private ConcurrentLinkedQueue<Actor> actorQueue;
     // my clientMailroom
@@ -54,9 +55,13 @@ public class ClientEngine {
 
     // constructor
     public ClientEngine(int lXMax, int lYMax, int vRadius, ClientMailroom clientMailroom) {
+        animationQueue = new ConcurrentLinkedQueue<>();
+        projectileQueue = new ConcurrentLinkedQueue<>();
+        actorQueue = new ConcurrentLinkedQueue<>();
         this.visibleRadius = vRadius;
         this.clientMailroom = clientMailroom;
         this.maxLogX = lXMax;
+        this.maxLogY = lYMax;
         frame = 0;
         setTimers();
     }
@@ -138,7 +143,7 @@ public class ClientEngine {
     // DOES NOT send projectiles or hitscans to own queue, waits for server to add those?? sure.
     // won't do logic for collisions here, let the server do that.
     // animations get started and are allowed to continue w/o interference from server
-    public void mouseClick(int x, int y) {
+    private void mouseClick(int x, int y) {
         switch (clickedButton) {
             case MouseEvent.BUTTON1: {
                 fireWeapon(0);
@@ -153,7 +158,7 @@ public class ClientEngine {
         }
     }
 
-    public void handleKeyboard() {
+    private void handleKeyboard() {
         // CURRENT: Move and declare, don't ask for permission.  potential position diffs between self and other players,
         // but we'll see... this way makes the client a less flaccid vessel
         // server might have to send forcible corrections, oh well, we'll see
@@ -225,7 +230,7 @@ public class ClientEngine {
         this.clickedButton = clickedButton;
     }
 
-    public void fireWeapon(int which) {
+    private void fireWeapon(int which) {
         Object attack = player.fireWeapon(which);
         if (attack == null)
             return;
@@ -248,23 +253,41 @@ public class ClientEngine {
         return (x < (maxLogX * 1.002) && x > 0 && y < (maxLogY * 1.002) && y > 0);
     }
 
-    private double getRads(double destX, double destY) {
-        double angle = Math.toDegrees(Math.atan2(destY - player.getY(), destX - player.getX()));
-
-        if (angle < 0) {
-            angle += 360;
-        }
-
-        return Math.toRadians(angle);
-    }
-
     public void setPlayer(Player a) {
         this.player = a;
     }
 
     private void handleMail(Iterable<Package> packages) {
         for (Package p : packages) {
-            switch(p.getType())
+            switch(p.getType()) {
+                case Package.WELCOME: {
+                    // TODO
+                } break;
+                case Package.HITSCAN: {
+                    HitScan hs = (HitScan) p.getPayload();
+                    if (hs.getShowLine())
+                        animationQueue.add(new HitScanLine(hs));
+                } break;
+
+                case Package.PROJECT: { // add new projectile to the queue, no collions client side
+                    Projectile proj = (Projectile) p.getPayload();
+                    projectileQueue.add(proj);
+                } break;
+
+                case Package.NEW_POS: {
+                    // TODO
+                } break;
+                case Package.ANIMATE: { // server says hey here's this cool new animation you should try it
+                    Animation a = (Animation) p.getPayload();
+                    animationQueue.add(a);
+                } break;
+                case Package.ACTOR: {
+                    Actor a = (Actor) p.getPayload();
+                    actorQueue.add(a);
+                } break;
+                case Package.HIT: break;
+                default: System.out.println("Unused package type: " + p.getType());
+            }
         }
     }
 

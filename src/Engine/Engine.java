@@ -181,8 +181,8 @@ public class Engine {
         switch (clickedButton) {
             case MouseEvent.BUTTON1: {
                 animationQueue.add(new SwingAnimation(player, 8, "sord.png", StdDraw.mouseX(), StdDraw.mouseY()));
-                HitScan hs = new HitScan(player, StdDraw.mouseX(), StdDraw.mouseY(), 200, 1, 80);
-                hs.setShowLine(false);
+                HitScan hs = new HitScan(player, StdDraw.mouseX(), StdDraw.mouseY(), 200, 1, 50);
+                hs.setShowLine(true);
                 fireHitScan(hs);
             } break;
             case MouseEvent.BUTTON3: {
@@ -232,7 +232,6 @@ public class Engine {
                 projectileQueue.remove(a);
 
             if (a instanceof Player) {
-                System.out.println(player.getX() + " : " + player.getY());
                 setPlayer(new Player("ME"));
             }
             return false;
@@ -276,7 +275,7 @@ public class Engine {
                 break;
         }
         if (hs.getShowLine())
-            animationQueue.add(new HitScanLine(hs.getSrcX(), hs.getSrcY(), currX, currY));
+            animationQueue.add(new HitScanLine(hs));
         return mobsHit;
     }
 

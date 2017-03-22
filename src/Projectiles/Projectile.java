@@ -71,6 +71,5 @@ public class Projectile extends Actor {
     public void draw() {
         //StdDraw.picture(x, y, "img/arrow.png", 40, 10, Math.toDegrees(rad));
         StdDraw.filledSquare(x, y, 5);
-        System.out.println(vel);
     }
 }

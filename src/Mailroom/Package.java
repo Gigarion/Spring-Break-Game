@@ -7,7 +7,6 @@ import java.io.Serializable;
  */
 public class Package implements Serializable {
     public static final char WELCOME = 0;
-    public static final char CLICK   = 1;
     public static final char HITSCAN = 2;
     public static final char PROJECT = 3;
     public static final char NEW_POS = 4;
@@ -16,6 +15,7 @@ public class Package implements Serializable {
     public static final char HIT     = 7;
     private Object payload;
     private char type;
+    private String extra;
 
     // the welcome package to the server to ID the user
     public Package(String userName) {
@@ -28,5 +28,12 @@ public class Package implements Serializable {
         this.type = type;
     }
 
+    public Package(Object payload, char type, String extra) {
+        this.payload = payload;
+        this.type = type;
+        this.extra = extra;
+    }
+
     public int getType() { return this.type; }
+    public Object getPayload() { return this.payload;}
 }

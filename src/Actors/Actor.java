@@ -11,12 +11,10 @@ public class Actor {
         this.r = r;
     }
 
-    public void update() {
-    }
-
-    public void draw() {
-
-    }
+    // all actors must be Real, be drawable, and have the ability to be shot (lol)
+    public void update() {}
+    public void draw() {}
+    public void hit(int damage) {}
 
     // circular collisions
     public boolean collides(Actor that) {

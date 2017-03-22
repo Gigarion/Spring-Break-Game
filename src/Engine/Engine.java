@@ -1,6 +1,5 @@
 package Engine;
 
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,8 +14,6 @@ import java.awt.event.KeyEvent;
 
 public class Engine {
     private static final double MOVEMENT_SIZE = 0.5;
-    private Timer logicTimer = new Timer("Logic Timer", true);
-    private Timer drawTimer = new Timer("Draw Timer", true);
     private ConcurrentLinkedQueue<Mob> mobQueue = new ConcurrentLinkedQueue<>();
     private ConcurrentLinkedQueue<Actor> actorQueue = new ConcurrentLinkedQueue<>();
     private ConcurrentLinkedQueue<Actor> projectileQueue = new ConcurrentLinkedQueue<>();
@@ -27,21 +24,25 @@ public class Engine {
     private int visibleRadius;
     private Player player;
     private int frame;
-    private int stopCount;
+
     private int clickedButton;
+
+    // for the lelz
+    private int killCount = 0;
 
     public Engine(int lXMax, int lYMax, int vRadius) {
         this.maxLogX = lXMax;
         this.maxLogY = lYMax;
         this.visibleRadius = vRadius;
         this.frame = 0;
-        this.stopCount = 0;
 
+        Timer drawTimer = new Timer("Draw Timer", true);
         drawTimer.schedule(new TimerTask() {
             public void run() {
                 drawTick();
             }
         }, 0, 16);
+        Timer logicTimer = new Timer("Logic Timer", true);
         logicTimer.schedule(new TimerTask() {
             public void run() {
                 logicTick();
@@ -59,17 +60,15 @@ public class Engine {
         if ((frame % 20 == 0) && StdDraw.mousePressed()) {
             mouseClick((int) StdDraw.mouseX(), (int) StdDraw.mouseY());
         }
+        frame = ((frame + 1) % 100000);
         handleKeyboard();
-        frame = ((frame + 1) % 10000);
-        if (stopCount > 0)
-            stopCount--;
     }
 
     // draw loop cycle
     private void drawTick() {
         StdDraw.clear();
         StdDraw.rectangle(450, 450, 300, 300);
-        StdDraw.line(getVisibleXMax(), 0, getVisibleXMax(),  maxLogY);
+        drawHUD();
 
         for (Animation hsl : animationQueue) {
             if (hsl.getTTL() <= 0)
@@ -80,6 +79,18 @@ public class Engine {
             actor.draw();
         }
         StdDraw.show();
+    }
+
+    private void drawHUD() {
+        double hudHeight = visibleRadius * 0.66;
+        double hudCenterX = getVisibleXMax() + 150;
+        double hudNameY = getVisibleYMin() + (hudHeight * 2/3);
+        double hudHealthY = getVisibleYMin() + (hudHeight * 1/3);
+        StdDraw.line(getVisibleXMax(), getVisibleYMin(), getVisibleXMax(),  getVisibleYMin() + hudHeight);
+        StdDraw.line(getVisibleXMax(), getVisibleYMin() + hudHeight, getVisibleXMax() + 300, getVisibleYMin() + hudHeight);
+        StdDraw.text(hudCenterX, hudNameY, player.getName());
+        StdDraw.text(hudCenterX, hudHealthY, player.getHP() + "/" + player.getMaxHP());
+        StdDraw.text(hudCenterX, hudHealthY - 50, "Kill Count: " + killCount);
     }
 
     private double getVisibleYMin() {
@@ -173,8 +184,6 @@ public class Engine {
             } break;
             default: break;
         }
-        //HitScan hs = new HitScan(player, StdDraw.mouseX(), StdDraw.mouseY(), 200, 0, 10000);
-        //fireHitScan(hs);
     }
 
     private boolean checkActor(Actor a) {
@@ -198,6 +207,7 @@ public class Engine {
                 mobQueue.remove(a);
                 int x = 10 + (int) (Math.random() * 580);
                 Mob mob = new Mob(x, 900, 10, 100);
+                killCount++;
                 addMob(mob);
             }
         }
@@ -215,7 +225,7 @@ public class Engine {
                 projectileQueue.remove(a);
 
             if (a instanceof Player) {
-                setPlayer(new Player());
+                setPlayer(new Player("ME"));
             }
             return false;
         }
@@ -230,7 +240,7 @@ public class Engine {
     public Iterable<Actor> fireHitScan(HitScan hs) {
 
         ConcurrentLinkedQueue<Actor> mobsHit = new ConcurrentLinkedQueue<>();
-        ConcurrentLinkedQueue<Mob> notHit = new ConcurrentLinkedQueue<>(mobQueue);
+        ConcurrentLinkedQueue<Actor> notHit = new ConcurrentLinkedQueue<>(actorQueue);
         double angle = getRads(hs.getDestX(), hs.getDestY());
         double currX = hs.getSrcX();
         double currY = hs.getSrcY();
@@ -242,9 +252,9 @@ public class Engine {
             dist = Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
             currX += (2 * Math.cos(angle));
             currY += (2 * Math.sin(angle));
-            Actor a = new Actor(currX, currY, 1);
+            Mob a = new Mob(currX, currY, 1, 0);
             int hits = 0;
-            for (Mob mob : notHit) {
+            for (Actor mob : notHit) {
                 if (mob.collides(a) && !mobsHit.contains(mob)) {
                     mob.hit(hs.getDamage());
                     mobsHit.add(mob);
@@ -274,6 +284,5 @@ public class Engine {
 
     public void setClickedButton(int clickedButton) {
         this.clickedButton = clickedButton;
-        System.out.println(clickedButton);
     }
 }

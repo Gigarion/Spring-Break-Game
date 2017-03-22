@@ -49,6 +49,8 @@ public class ClientEngine {
     private Player player;
     // which frame are we on
     private int frame;
+    // timer for checking mail, will block when it thinks it's finished and then get notified
+    private Timer mailTimer;
 
     // constructor
     public ClientEngine(int lXMax, int lYMax, int vRadius, ClientMailroom clientMailroom) {
@@ -73,6 +75,21 @@ public class ClientEngine {
                 logicTick();
             }
         }, 200, LOGIC_INTERVAL);
+
+        mailTimer = new Timer("Client Engine Mail Timer", true);
+        mailTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                while (true) {
+                    handleMail(clientMailroom.getMessages());
+                    try {
+                        wait(1);
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, 0);
     }
 
     // draw loop, called every DRAW_INTERVAL milliseconds
@@ -244,4 +261,11 @@ public class ClientEngine {
     public void setPlayer(Player a) {
         this.player = a;
     }
+
+    private void handleMail(Iterable<Package> packages) {
+        for (Package p : packages) {
+            switch(p.getType())
+        }
+    }
+
 }

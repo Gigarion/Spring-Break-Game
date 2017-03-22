@@ -127,27 +127,34 @@ public class Engine {
 
     private void handleKeyboard() {
         if (StdDraw.isKeyPressed(KeyEvent.VK_W)) {
-            player.moveY(MOVEMENT_SIZE);
-            if (getVisibleYMax() < maxLogY && getVisibleYMax() + MOVEMENT_SIZE < maxLogY) {
-                //System.out.println(getVisibleYMax() + " " + getVisibleYMin());
-                StdDraw.setYscale(getVisibleYMin() + MOVEMENT_SIZE, getVisibleYMax() + MOVEMENT_SIZE);
+            if (player.getY() + MOVEMENT_SIZE < maxLogY) {
+                player.moveY(MOVEMENT_SIZE);
+                if (getVisibleYMax() < maxLogY && getVisibleYMax() + MOVEMENT_SIZE < maxLogY) {
+                    StdDraw.setYscale(getVisibleYMin() + MOVEMENT_SIZE, getVisibleYMax() + MOVEMENT_SIZE);
+                }
             }
         }
         if (StdDraw.isKeyPressed(KeyEvent.VK_S)) {
-            player.moveY(-MOVEMENT_SIZE);
-            if (getVisibleYMin() > 0 && getVisibleYMin() - MOVEMENT_SIZE > 0)
-                StdDraw.setYscale(getVisibleYMin() - MOVEMENT_SIZE, getVisibleYMax() - MOVEMENT_SIZE);
+            if (player.getY() - MOVEMENT_SIZE > 0) {
+                player.moveY(-MOVEMENT_SIZE);
+                if (getVisibleYMin() > 0 && getVisibleYMin() - MOVEMENT_SIZE > 0)
+                    StdDraw.setYscale(getVisibleYMin() - MOVEMENT_SIZE, getVisibleYMax() - MOVEMENT_SIZE);
+            }
         }
         if (StdDraw.isKeyPressed(KeyEvent.VK_A)) {
-            if (getVisibleXMin() > 0 && getVisibleXMin() - MOVEMENT_SIZE > 0)
-                StdDraw.setXscale(getVisibleXMin() - MOVEMENT_SIZE, getVisibleXMax() - MOVEMENT_SIZE + 300);
-            player.moveX(-MOVEMENT_SIZE);
+            if (player.getX() - MOVEMENT_SIZE > 0) {
+                if (getVisibleXMin() > 0 && getVisibleXMin() - MOVEMENT_SIZE > 0)
+                    StdDraw.setXscale(getVisibleXMin() - MOVEMENT_SIZE, getVisibleXMax() - MOVEMENT_SIZE + 300);
+                player.moveX(-MOVEMENT_SIZE);
+            }
         }
         if (StdDraw.isKeyPressed(KeyEvent.VK_D)) {
-            if (getVisibleXMax() < maxLogX && getVisibleXMax() + MOVEMENT_SIZE < maxLogX) {
-                StdDraw.setXscale(getVisibleXMin() + MOVEMENT_SIZE, getVisibleXMax() + MOVEMENT_SIZE + 300);
+            if (player.getX() + MOVEMENT_SIZE < maxLogX) {
+                if (getVisibleXMax() < maxLogX && getVisibleXMax() + MOVEMENT_SIZE < maxLogX) {
+                    StdDraw.setXscale(getVisibleXMin() + MOVEMENT_SIZE, getVisibleXMax() + MOVEMENT_SIZE + 300);
+                }
+                player.moveX(MOVEMENT_SIZE);
             }
-            player.moveX(MOVEMENT_SIZE);
         }
     }
 
@@ -225,6 +232,7 @@ public class Engine {
                 projectileQueue.remove(a);
 
             if (a instanceof Player) {
+                System.out.println(player.getX() + " : " + player.getY());
                 setPlayer(new Player("ME"));
             }
             return false;
@@ -233,7 +241,7 @@ public class Engine {
     }
 
     private boolean inBounds(double x, double y) {
-        return (x < (maxLogX * 1.002) && x > 0 && y < (maxLogY * 1.002) && y > 0);
+        return (x < (maxLogX * 1.002) && x > -1 && y < (maxLogY * 1.002) && y > -1);
     }
 
     // fire a hitscan, currently ignores hitting (all?) players

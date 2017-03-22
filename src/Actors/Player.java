@@ -45,7 +45,7 @@ public class Player extends Actor {
     public Object fireWeapon(int which) {
         switch(which) {
             case 0: return new HitScan(this, StdDraw.mouseX(), StdDraw.mouseY(), 200, 1, 80);
-            case 1: return new Projectile(this, StdDraw.mouseX(), StdDraw.mouseY(), 5, 200, 2);
+            case 1: return new Projectile(this, StdDraw.mouseX(), StdDraw.mouseY(), 5, 200, .1);
             default: return null;
         }
     }

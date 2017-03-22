@@ -37,7 +37,9 @@ public class ServerClient {
     // hopefully it's fast enough..  lel
     public Package getMessage() {
         try {
-            return  (Package) inputStream.readObject();
+            Package p = (Package) inputStream.readObject();
+            p.setPort(socket.getLocalPort());
+            return  p;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

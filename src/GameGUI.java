@@ -51,7 +51,7 @@ public class GameGUI implements ActionListener{
         StdDraw.setYscale(0, 900);
         Engine engine = new Engine(10000, 300000, 450);
         engine.setPlayer(new Player("Player 1"));
-        engine.addMob(new Mob(300, 900, 10, 50));
+        engine.addMob(new Mob(-1, 300, 900, 10, 50));
         StdDraw.addEngine(engine);
     }
 

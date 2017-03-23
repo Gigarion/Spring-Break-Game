@@ -12,10 +12,18 @@ public class Player extends Actor {
     private int exp;
 
     public Player(String userName) {
-        super(300, 300, 10);
+        super(-1, 300, 300, 10);
         this.name = userName;
         this.maxHP = 100;
         this.hp = maxHP;
+    }
+
+    public void setID(int id) {
+        this.id = id;
+    }
+
+    public int getID() {
+        return this.id;
     }
 
     // fully heal player, return result hp

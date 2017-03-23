@@ -3,8 +3,8 @@ import Util.StdDraw;
 public class Mob extends Actor {
      int hp;
      double offset = 0.35;
-     public Mob(double x, double y, int r, int hp) {
-          super(x, y, r);
+     public Mob(int id, double x, double y, int r, int hp) {
+          super(id, x, y, r);
           this.hp = hp;
      }
 

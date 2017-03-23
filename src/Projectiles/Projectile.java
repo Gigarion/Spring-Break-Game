@@ -12,7 +12,7 @@ public class Projectile extends Actor {
     private double startX, startY;
 
     public Projectile(Actor src, double destX, double destY, int r, double range, double speed) {
-        super(src.getX(), src.getY(), r);
+        super(-1, src.getX(), src.getY(), r);
         this.src = src;
         this.startX = x;
         this.startY = y;
@@ -62,7 +62,6 @@ public class Projectile extends Actor {
         return Math.toRadians(angle);
     }
 
-    @Override
     public void update() {
         x += (vel * Math.cos(rad));
         y += (vel * Math.sin(rad));

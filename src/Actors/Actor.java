@@ -4,8 +4,10 @@ public class Actor {
     protected double x;
     protected double y;
     protected double r;
+    protected int id;
 
-    public Actor(double x, double y, int r) {
+    public Actor(int id, double x, double y, int r) {
+        this.id = id;
         this.x = x;
         this.y = y;
         this.r = r;

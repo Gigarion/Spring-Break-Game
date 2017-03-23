@@ -16,7 +16,7 @@ public class Engine {
     private static final double MOVEMENT_SIZE = 0.5;
     private ConcurrentLinkedQueue<Mob> mobQueue = new ConcurrentLinkedQueue<>();
     private ConcurrentLinkedQueue<Actor> actorQueue = new ConcurrentLinkedQueue<>();
-    private ConcurrentLinkedQueue<Actor> projectileQueue = new ConcurrentLinkedQueue<>();
+    private ConcurrentLinkedQueue<Projectile> projectileQueue = new ConcurrentLinkedQueue<>();
     private ConcurrentLinkedQueue<Animation> animationQueue = new ConcurrentLinkedQueue<>();
     // min always zero, visible is a square
     private int maxLogX, maxLogY;
@@ -213,7 +213,7 @@ public class Engine {
                 actorQueue.remove(a);
                 mobQueue.remove(a);
                 int x = 10 + (int) (Math.random() * 580);
-                Mob mob = new Mob(x, 900, 10, 100);
+                Mob mob = new Mob(-1, x, 900, 10, 100);
                 killCount++;
                 addMob(mob);
             }
@@ -225,7 +225,7 @@ public class Engine {
             if (a instanceof Mob) {
                 mobQueue.remove(a);
                 int x = 10 + (int) (Math.random() * 580);
-                Mob mob = new Mob(x, 900, 10, 100);
+                Mob mob = new Mob(-1, x, 900, 10, 100);
                 addMob(mob);
             }
             if (a instanceof Projectile)
@@ -259,7 +259,7 @@ public class Engine {
             dist = Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
             currX += (2 * Math.cos(angle));
             currY += (2 * Math.sin(angle));
-            Mob a = new Mob(currX, currY, 1, 0);
+            Mob a = new Mob(-1, currX, currY, 1, 0);
             int hits = 0;
             for (Actor mob : notHit) {
                 if (mob.collides(a) && !mobsHit.contains(mob)) {

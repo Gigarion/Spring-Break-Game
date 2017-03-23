@@ -259,7 +259,7 @@ public class Engine {
             dist = Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
             currX += (2 * Math.cos(angle));
             currY += (2 * Math.sin(angle));
-            Mob a = new Mob(-1, currX, currY, 1, 0);
+            Mob a = new Mob(15, currX, currY, 1, 0);
             int hits = 0;
             for (Actor mob : notHit) {
                 if (mob.collides(a) && !mobsHit.contains(mob)) {

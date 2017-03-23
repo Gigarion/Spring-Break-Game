@@ -7,13 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69d04400-34d6-49b7-820e-0bde14eb2f0f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/Actor.java" afterPath="$PROJECT_DIR$/src/Actors/Actor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/Mob.java" afterPath="$PROJECT_DIR$/src/Actors/Mob.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/Player.java" afterPath="$PROJECT_DIR$/src/Actors/Player.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/Engine.java" afterPath="$PROJECT_DIR$/src/Engine/Engine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GameGUI.java" afterPath="$PROJECT_DIR$/src/GameGUI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Projectiles/Projectile.java" afterPath="$PROJECT_DIR$/src/Projectiles/Projectile.java" />
     </list>
     <ignored path="Spring-Break-Game.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -54,7 +48,7 @@
             <entry file="file://$PROJECT_DIR$/src/Engine/Engine.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="323">
-                  <caret line="261" column="32" lean-forward="false" selection-start-line="261" selection-start-column="32" selection-end-line="261" selection-end-column="32" />
+                  <caret line="261" column="30" lean-forward="false" selection-start-line="261" selection-start-column="30" selection-end-line="261" selection-end-column="30" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="method#Engine#0;class#Engine#0" expanded="false" />
@@ -1354,7 +1348,7 @@
     <entry file="file://$PROJECT_DIR$/src/Engine/Engine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
-          <caret line="261" column="32" lean-forward="false" selection-start-line="261" selection-start-column="32" selection-end-line="261" selection-end-column="32" />
+          <caret line="261" column="30" lean-forward="false" selection-start-line="261" selection-start-column="30" selection-end-line="261" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#Engine#0;class#Engine#0" expanded="false" />

@@ -139,8 +139,10 @@ public class ClientEngine {
             mouseClick((int) StdDraw.mouseX(), (int) StdDraw.mouseY());
         }
         frame = ((frame + 1) % 100000);
-        for (Actor a : actorQueue)
-            a.update();
+        for (Actor a : actorQueue) {
+            if (checkActor(a))
+                a.update();
+        }
     }
 
     // handles logic associated with the user clicking the mouse

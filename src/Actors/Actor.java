@@ -35,13 +35,16 @@ public class Actor {
         }
         return false;
     }
-
     public synchronized double getX() {
         return x;
     }
-
     public synchronized double getY() {
         return y;
     }
+    public int getID() { return id; }
 
+    public synchronized void moveTo(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 }

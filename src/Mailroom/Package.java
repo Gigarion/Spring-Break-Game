@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Gig on 3/21/2017.
  */
+
 public class Package implements Serializable {
     public static final char WELCOME = 0;
     public static final char HITSCAN = 1;
@@ -38,8 +39,21 @@ public class Package implements Serializable {
         this.port = -1;
     }
 
+    public static String formCoords(double x, double y) {
+        return Double.toString(x) + "/" + Double.toString(y);
+    }
+
+    public static double[] extractCoords(String payload) {
+        String[] strVersion = payload.split("/");
+        double[] toReturn = new double[2];
+        toReturn[0] = Double.parseDouble(strVersion[0]);
+        toReturn[1] = Double.parseDouble(strVersion[1]);
+        return toReturn;
+    }
+
     public void setPort(int port) { this.port = port; }
     public String getPort(String port) { return port; }
     public int getType() { return this.type; }
     public Object getPayload() { return this.payload;}
+    public String getExtra() { return this.extra; }
 }

@@ -51,6 +51,7 @@ public class ServerEngine {
                 case Package.PROJECT: { // chill, ""
                     // TODO: add projectile logic
                     // TODO: verify projectiles before broadcast
+                    System.out.println("projectilie");
                     Projectile proj = (Projectile) p.getPayload();
                     projectileQueue.add(proj);
                     mailroom.sendPackage(p);

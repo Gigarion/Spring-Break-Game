@@ -1,6 +1,8 @@
 package Animations;
 
-public abstract class Animation {
+import java.io.Serializable;
+
+public abstract class Animation implements Serializable {
      protected double x;
      protected double y;
      protected int ttl;

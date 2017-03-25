@@ -1,7 +1,8 @@
 import Actors.Mob;
 import Actors.Player;
-import Engine.Engine;
+import Engine.*;
 import Util.StdDraw;
+import com.sun.deploy.util.SessionState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,11 +31,13 @@ public class GameGUI implements ActionListener{
 
         JTextField enterText = new JTextField(10);
         JButton startButton = new JButton("Start Game");
+        JButton serverButton = new JButton("Start Server");
+        serverButton.addActionListener(this);
         startButton.addActionListener(this);
 
         pane.add(enterText);
         pane.add(startButton);
-        pane.add(new JLabel("heyo"));
+        pane.add(serverButton);
         pane.add(new JLabel(("testing mmore")));
 
         frame.add(pane, BorderLayout.NORTH);
@@ -49,10 +52,13 @@ public class GameGUI implements ActionListener{
         StdDraw.enableDoubleBuffering();
         StdDraw.setXscale(0, 1200);
         StdDraw.setYscale(0, 900);
-        Engine engine = new Engine(10000, 300000, 450);
-        engine.setPlayer(new Player("Player 1"));
-        engine.addMob(new Mob(-1, 300, 900, 10, 50));
-        StdDraw.addEngine(engine);
+        ClientEngine ce = new ClientEngine(10000, 10000, 450);
+        ce.setPlayer(new Player("player 2"));
+        StdDraw.addEngine(ce);
+        //Engine engine = new Engine(10000, 300000, 450);
+        //engine.setPlayer(new Player("Player 1"));
+        //engine.addMob(new Mob(-1, 300, 900, 10, 50));
+        //StdDraw.addEngine(engine);
     }
 
     @Override
@@ -60,9 +66,15 @@ public class GameGUI implements ActionListener{
         if (!started) {
             if (e.getActionCommand().equals("Start Game")) {
                 started = true;
+
                 startGame();
                 frame.setVisible(false);
             }
+            if (e.getActionCommand().equals("Start Server")) {
+                started = true;
+                ServerEngine se = new ServerEngine();
+            }
+
         }
     }
 }

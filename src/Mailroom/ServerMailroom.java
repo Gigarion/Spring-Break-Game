@@ -17,6 +17,10 @@ public class ServerMailroom {
     private ConcurrentLinkedQueue<Package> mailForClients;
 
     public ServerMailroom(int maxClients) {
+        clients = new LinkedList<>();
+        mailForServer = new ConcurrentLinkedQueue<>();
+        mailForClients = new ConcurrentLinkedQueue<>();
+
         try {
             acceptSocket = new ServerSocket(3333);
 
@@ -25,7 +29,8 @@ public class ServerMailroom {
             while (clients.size() < maxClients) {
                 Socket clientSocket = acceptSocket.accept();
                 clients.add(new ServerClient(clientSocket));
-                wait(5);
+                Thread.yield();
+                System.out.println("trying");
             }
         } catch (Exception e) {
             e.printStackTrace();

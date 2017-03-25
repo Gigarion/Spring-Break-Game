@@ -54,12 +54,12 @@ public class ClientEngine {
     private Timer mailTimer;
 
     // constructor
-    public ClientEngine(int lXMax, int lYMax, int vRadius, ClientMailroom clientMailroom) {
+    public ClientEngine(int lXMax, int lYMax, int vRadius) {
         animationQueue = new ConcurrentLinkedQueue<>();
         projectileQueue = new ConcurrentLinkedQueue<>();
         actorQueue = new ConcurrentLinkedQueue<>();
         this.visibleRadius = vRadius;
-        this.clientMailroom = clientMailroom;
+        this.clientMailroom = new ClientMailroom();
         this.maxLogX = lXMax;
         this.maxLogY = lYMax;
         frame = 0;
@@ -88,7 +88,7 @@ public class ClientEngine {
                 while (true) {
                     handleMail(clientMailroom.getMessages());
                     try {
-                        wait(1);
+                        Thread.yield();
                     } catch(Exception e) {
                         e.printStackTrace();
                     }
@@ -167,20 +167,23 @@ public class ClientEngine {
             player.moveY(MOVEMENT_SIZE);
             if (getVisibleYMax() < maxLogY && getVisibleYMax() + MOVEMENT_SIZE < maxLogY) {
                 StdDraw.setYscale(getVisibleYMin() + MOVEMENT_SIZE, getVisibleYMax() + MOVEMENT_SIZE);
-                clientMailroom.sendMessage(new Package("UP", Package.NEW_POS));
+                Package newPos = new Package(player.getID(), Package.NEW_POS, Package.formCoords(player.getX(), player.getY()));
+                clientMailroom.sendMessage(newPos);
             }
         }
         if (StdDraw.isKeyPressed(DOWN)) {
             player.moveY(-MOVEMENT_SIZE);
             if (getVisibleYMin() > 0 && getVisibleYMin() - MOVEMENT_SIZE > 0) {
                 StdDraw.setYscale(getVisibleYMin() - MOVEMENT_SIZE, getVisibleYMax() - MOVEMENT_SIZE);
-                clientMailroom.sendMessage(new Package("DOWN", Package.NEW_POS));
+                Package newPos = new Package(player.getID(), Package.NEW_POS, Package.formCoords(player.getX(), player.getY()));
+                clientMailroom.sendMessage(newPos);
             }
         }
         if (StdDraw.isKeyPressed(LEFT)) {
             if (getVisibleXMin() > 0 && getVisibleXMin() - MOVEMENT_SIZE > 0) {
                 StdDraw.setXscale(getVisibleXMin() - MOVEMENT_SIZE, getVisibleXMax() - MOVEMENT_SIZE + 300);
-                clientMailroom.sendMessage(new Package("LEFT", Package.NEW_POS));
+                Package newPos = new Package(player.getID(), Package.NEW_POS, Package.formCoords(player.getX(), player.getY()));
+                clientMailroom.sendMessage(newPos);
             }
 
             player.moveX(-MOVEMENT_SIZE);
@@ -188,7 +191,8 @@ public class ClientEngine {
         if (StdDraw.isKeyPressed(RIGHT)) {
             if (getVisibleXMax() < maxLogX && getVisibleXMax() + MOVEMENT_SIZE < maxLogX) {
                 StdDraw.setXscale(getVisibleXMin() + MOVEMENT_SIZE, getVisibleXMax() + MOVEMENT_SIZE + 300);
-                clientMailroom.sendMessage(new Package("RIGHT", Package.NEW_POS));
+                Package newPos = new Package(player.getID(), Package.NEW_POS, Package.formCoords(player.getX(), player.getY()));
+                clientMailroom.sendMessage(newPos);
             }
             player.moveX(MOVEMENT_SIZE);
         }
@@ -232,8 +236,10 @@ public class ClientEngine {
 
     private void fireWeapon(int which) {
         Object attack = player.fireWeapon(which);
-        if (attack == null)
+        if (attack == null) {
+            System.out.println("null attack");
             return;
+        }
         if (attack instanceof HitScan) {
             // fire a hitscan to the server
             // adds to animation queue
@@ -255,13 +261,15 @@ public class ClientEngine {
 
     public void setPlayer(Player a) {
         this.player = a;
+        actorQueue.add(a);
     }
 
     private void handleMail(Iterable<Package> packages) {
         for (Package p : packages) {
             switch(p.getType()) {
                 case Package.WELCOME: {
-                    // TODO
+                    int id = Integer.parseInt(p.getExtra());
+                    player.setID(id);
                 } break;
                 case Package.HITSCAN: {
                     HitScan hs = (HitScan) p.getPayload();
@@ -275,6 +283,15 @@ public class ClientEngine {
                 } break;
 
                 case Package.NEW_POS: {
+                    int id = (Integer) (p.getPayload());
+                    for (Actor a : actorQueue) {
+                        if (a.getID() == id) {
+                            double[] coords = Package.extractCoords(p.getExtra());
+                            a.moveTo(coords[0], coords[1]);
+                            // update position
+                            break;
+                        }
+                    }
                     // TODO
                 } break;
                 case Package.ANIMATE: { // server says hey here's this cool new animation you should try it

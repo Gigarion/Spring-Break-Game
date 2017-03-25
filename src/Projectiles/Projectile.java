@@ -3,8 +3,9 @@ package Projectiles;
 import Actors.Actor;
 import Util.StdDraw;
 
-public class Projectile extends Actor {
-    private Actor src;
+import java.io.Serializable;
+
+public class Projectile extends Actor implements Serializable {
     private double destX, destY;
     private double vel, rad;
     private double range;
@@ -13,7 +14,6 @@ public class Projectile extends Actor {
 
     public Projectile(Actor src, double destX, double destY, int r, double range, double speed) {
         super(-1, src.getX(), src.getY(), r);
-        this.src = src;
         this.startX = x;
         this.startY = y;
         this.range = range;

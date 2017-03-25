@@ -72,7 +72,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import Engine.Engine;
+import Engine.ClientEngine;
 
 
 public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
@@ -155,7 +155,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     // set of key codes currently pressed down
     private static TreeSet<Integer> keysDown = new TreeSet<Integer>();
 
-    private static Engine engine = null;
+    private static ClientEngine clientEngine = null;
 
     // singleton pattern: client can't instantiate
     private StdDraw() {
@@ -1249,7 +1249,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-        engine.setClickedButton(e.getButton());
+        //engine.setClickedButton(e.getButton());
+        clientEngine.setClickedButton(e.getButton());
         // this body is intentionally left empty
     }
 
@@ -1275,7 +1276,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     @Override
     public void mousePressed(MouseEvent e) {
         synchronized (mouseLock) {
-            engine.setClickedButton(e.getButton());
+            //engine.setClickedButton(e.getButton());
+            clientEngine.setClickedButton(e.getButton());
             mouseX = StdDraw.userX(e.getX());
             mouseY = StdDraw.userY(e.getY());
             mousePressed = true;
@@ -1429,8 +1431,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         StdDraw.text(0.8, 0.8, "white text");
     }
 
-    public static void addEngine(Engine e) {
-        engine = e;
+    public static void addEngine(ClientEngine ce) {
+        clientEngine = ce;
     }
 
 }

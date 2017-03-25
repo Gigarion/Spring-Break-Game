@@ -28,6 +28,7 @@ public class ServerClient {
     public void sendMessage(Package pack) {
         try {
             outputStream.writeObject(pack);
+            System.out.println("sent");
         } catch (Exception e) {
             e.printStackTrace();
         }

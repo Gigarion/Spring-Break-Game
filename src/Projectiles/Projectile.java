@@ -68,7 +68,7 @@ public class Projectile extends Actor implements Serializable {
     }
 
     public void draw() {
-        //StdDraw.picture(x, y, "img/arrow.png", 40, 10, Math.toDegrees(rad));
-        StdDraw.filledSquare(x, y, 5);
+        StdDraw.picture(x, y, "img/arrow.png", 40, 10, Math.toDegrees(rad));
+        //StdDraw.filledSquare(x, y, 5);
     }
 }

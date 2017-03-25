@@ -20,6 +20,8 @@ public class ServerEngine {
     private ConcurrentLinkedQueue<Projectile> projectileQueue;
     public ServerEngine() {
         mailroom = new ServerMailroom(1);
+        this.actorQueue = new ConcurrentLinkedQueue<>();
+        this.projectileQueue = new ConcurrentLinkedQueue<>();
         setTimers();
     }
     private void setTimers() {
@@ -38,6 +40,7 @@ public class ServerEngine {
     // I should probs modularize this function
     private void handleMessages() {
         for (Package p : mailroom.getMessages()) {
+            System.out.println("handling packages");
             switch(p.getType()) {
                 case Package.WELCOME: { // requires port #'s
                     // TODO: think about handshakey game init protocols

@@ -1,6 +1,7 @@
 package Engine;
 
 import Actors.Actor;
+import Actors.Mob;
 import Actors.Player;
 import Animations.Animation;
 import Animations.HitScanLine;
@@ -34,9 +35,10 @@ public class ClientEngine {
     private static final int LOGIC_INTERVAL = 1;
     private static final int HUD_WIDTH = 300;
     // active animations
-    private ConcurrentLinkedQueue<Projectile> projectileQueue;
+    //private ConcurrentLinkedQueue<Projectile> projectileQueue;
     private ConcurrentLinkedQueue<Animation> animationQueue;
     private ConcurrentLinkedQueue<Actor> actorQueue;
+    private ConcurrentLinkedQueue<Mob> mobQueue;
     // my clientMailroom
     private ClientMailroom clientMailroom;
     //logical boundaries for game
@@ -56,7 +58,7 @@ public class ClientEngine {
     // constructor
     public ClientEngine(int lXMax, int lYMax, int vRadius) {
         animationQueue = new ConcurrentLinkedQueue<>();
-        projectileQueue = new ConcurrentLinkedQueue<>();
+        mobQueue = new ConcurrentLinkedQueue<>();
         actorQueue = new ConcurrentLinkedQueue<>();
         this.visibleRadius = vRadius;
         this.clientMailroom = new ClientMailroom();
@@ -131,11 +133,14 @@ public class ClientEngine {
     // a fairly obvious bug about which frame is here, no wonder draw was so confused.
     // though it's so ingrained at this point... feature.
     private void logicTick() {
-        handleKeyboard();
+        if ((frame % 5 == 0))
+            handleKeyboard();
         if ((frame % 20 == 0) && StdDraw.mousePressed()) {
             mouseClick((int) StdDraw.mouseX(), (int) StdDraw.mouseY());
         }
         frame = ((frame + 1) % 100000);
+        for (Actor a : actorQueue)
+            a.update();
     }
 
     // handles logic associated with the user clicking the mouse
@@ -163,38 +168,36 @@ public class ClientEngine {
         // but we'll see... this way makes the client a less flaccid vessel
         // server might have to send forcible corrections, oh well, we'll see
         // movement is going to need some more sophisticated packages if we develop a speed stat
+        double oldX, oldY;
+        oldX = player.getX();
+        oldY = player.getY();
         if (StdDraw.isKeyPressed(UP)) {
             player.moveY(MOVEMENT_SIZE);
             if (getVisibleYMax() < maxLogY && getVisibleYMax() + MOVEMENT_SIZE < maxLogY) {
                 StdDraw.setYscale(getVisibleYMin() + MOVEMENT_SIZE, getVisibleYMax() + MOVEMENT_SIZE);
-                Package newPos = new Package(player.getID(), Package.NEW_POS, Package.formCoords(player.getX(), player.getY()));
-                clientMailroom.sendMessage(newPos);
             }
         }
         if (StdDraw.isKeyPressed(DOWN)) {
             player.moveY(-MOVEMENT_SIZE);
             if (getVisibleYMin() > 0 && getVisibleYMin() - MOVEMENT_SIZE > 0) {
                 StdDraw.setYscale(getVisibleYMin() - MOVEMENT_SIZE, getVisibleYMax() - MOVEMENT_SIZE);
-                Package newPos = new Package(player.getID(), Package.NEW_POS, Package.formCoords(player.getX(), player.getY()));
-                clientMailroom.sendMessage(newPos);
             }
         }
         if (StdDraw.isKeyPressed(LEFT)) {
+            player.moveX(-MOVEMENT_SIZE);
             if (getVisibleXMin() > 0 && getVisibleXMin() - MOVEMENT_SIZE > 0) {
                 StdDraw.setXscale(getVisibleXMin() - MOVEMENT_SIZE, getVisibleXMax() - MOVEMENT_SIZE + 300);
-                Package newPos = new Package(player.getID(), Package.NEW_POS, Package.formCoords(player.getX(), player.getY()));
-                clientMailroom.sendMessage(newPos);
             }
-
-            player.moveX(-MOVEMENT_SIZE);
         }
         if (StdDraw.isKeyPressed(RIGHT)) {
+            player.moveX(MOVEMENT_SIZE);
             if (getVisibleXMax() < maxLogX && getVisibleXMax() + MOVEMENT_SIZE < maxLogX) {
                 StdDraw.setXscale(getVisibleXMin() + MOVEMENT_SIZE, getVisibleXMax() + MOVEMENT_SIZE + 300);
-                Package newPos = new Package(player.getID(), Package.NEW_POS, Package.formCoords(player.getX(), player.getY()));
-                clientMailroom.sendMessage(newPos);
             }
-            player.moveX(MOVEMENT_SIZE);
+        }
+        if (player.getX() != oldX || player.getY() != oldY) {
+            Package newPos = new Package(player.getID(), Package.NEW_POS, Package.formCoords(player.getX(), player.getY()));
+            clientMailroom.sendMessage(newPos);
         }
     }
 
@@ -237,14 +240,12 @@ public class ClientEngine {
     private void fireWeapon(int which) {
         Object attack = player.fireWeapon(which);
         if (attack == null) {
-            System.out.println("null attack");
             return;
         }
         if (attack instanceof HitScan) {
             // fire a hitscan to the server
             // adds to animation queue
             Animation a = new SwingAnimation(player, 8, "sord.png", StdDraw.mouseX(), StdDraw.mouseY());
-            animationQueue.add(a);
             clientMailroom.sendMessage(new Package(a, Package.ANIMATE));
             clientMailroom.sendMessage(new Package(attack, Package.HITSCAN));
         }
@@ -279,13 +280,13 @@ public class ClientEngine {
 
                 case Package.PROJECT: { // add new projectile to the queue, no collions client side
                     Projectile proj = (Projectile) p.getPayload();
-                    projectileQueue.add(proj);
+                    actorQueue.add(proj);
                 } break;
 
                 case Package.NEW_POS: {
                     int id = (Integer) (p.getPayload());
                     for (Actor a : actorQueue) {
-                        if (a.getID() == id) {
+                        if (a.getID() == id && id != player.getID()) {
                             double[] coords = Package.extractCoords(p.getExtra());
                             a.moveTo(coords[0], coords[1]);
                             // update position
@@ -306,6 +307,42 @@ public class ClientEngine {
                 default: System.out.println("Unused package type: " + p.getType());
             }
         }
+    }
+    private boolean checkActor(Actor a) {
+        if (a instanceof Projectile) {
+            Projectile p = (Projectile) a;
+            if (p.outOfRange()) {
+                actorQueue.remove(a);
+            }
+            for (Mob mob : mobQueue) {
+                if (mob.collides(a)) {
+                    mob.hit(20);
+                }
+            }
+        }
+
+        if (a instanceof Mob) {
+            Mob m = (Mob) a;
+            if (m.getHP() <= 0) {
+                actorQueue.remove(a);
+                mobQueue.remove(a);
+                int x = 10 + (int) (Math.random() * 580);
+            }
+        }
+
+        if (!inBounds(a.getX(), a.getY())) {
+            actorQueue.remove(a);
+
+            if (a instanceof Mob) {
+                mobQueue.remove(a);
+            }
+
+            if (a instanceof Player) {
+                setPlayer(new Player("ME"));
+            }
+            return false;
+        }
+        return true;
     }
 
 }

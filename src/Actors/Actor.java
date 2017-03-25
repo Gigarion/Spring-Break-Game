@@ -1,6 +1,8 @@
 package Actors;
 
-public class Actor {
+import java.io.Serializable;
+
+public class Actor implements Serializable {
     protected double x;
     protected double y;
     protected double r;

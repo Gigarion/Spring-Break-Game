@@ -16,10 +16,14 @@ public class ClientMailroom {
     private ObjectInputStream inputStream;
     private ConcurrentLinkedQueue<Package> inboundMail;
     private ConcurrentLinkedQueue<Package> outboundMail;
+    private Object inboundLock;
+    private Object outboundLock;
 
     public ClientMailroom() {
         outboundMail = new ConcurrentLinkedQueue<>();
+        outboundLock = new Object();
         inboundMail = new ConcurrentLinkedQueue<>();
+        inboundLock = new Object();
         connectAndBegin();
     }
 
@@ -41,49 +45,36 @@ public class ClientMailroom {
 
     // two daemon threads to check for packages to send and receive messages
     private void startTimers() {
-        new Timer("Send Timer", true).schedule(new TimerTask() {
-            @Override
-            public void run() {
-                synchronized (outboundMail) {
-                    while (outboundMail.size() > 0) {
-                        try {
-                            outputStream.writeObject(outboundMail.remove());
-                        } catch(Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        }, 0, 1);
         new Timer("Receive Timer", true).schedule(new TimerTask() {
             @Override
             public void run() {
-                synchronized (inboundMail) {
-                    for (int i = 0; i < 5; i++) {
-                        try {
-                            if (inputStream.available() > 0) {
-                                inboundMail.add((Package) inputStream.readObject());
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                while (true) {
+                    try {
+                        Package p = (Package) inputStream.readObject();
+                        synchronized (inboundLock) {
+                            inboundMail.add(p);
                         }
+                    } catch(Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
-        }, 0, 1);
+        }, 0);
     }
 
     public void sendMessage(Package pack) {
-        synchronized (outboundMail) {
-            if (!isGood())
-                throw new IllegalArgumentException("Connection not established, invalid send");
-            outboundMail.add(pack);
+        synchronized (outboundLock) {
+            try {
+                outputStream.writeObject(pack);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     // get the current stack of mail from this mailroom
     public Iterable<Package> getMessages() {
-        synchronized (inboundMail) {
+        synchronized (inboundLock) {
             ConcurrentLinkedQueue<Package> currentMessages = new ConcurrentLinkedQueue<>(inboundMail);
             inboundMail = new ConcurrentLinkedQueue<>();
             return currentMessages;

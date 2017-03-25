@@ -30,12 +30,15 @@ public class ServerMailroom {
                 Socket clientSocket = acceptSocket.accept();
                 clients.add(new ServerClient(clientSocket));
                 Thread.yield();
-                System.out.println("trying");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         setTimers();
+    }
+
+    public void init() {
+
     }
 
     private void setTimers() {
@@ -45,7 +48,11 @@ public class ServerMailroom {
                 @Override
                 public void run() {
                     while (!client.isClosed()) {
-                        mailForServer.add(client.getMessage());
+                        Package p = client.getMessage();
+                        synchronized (ServerMailroom.class) {
+                            mailForServer.add(p);
+                            System.out.println("testing consumption");
+                        }
                     }
                 }
             }, 0);
@@ -59,8 +66,14 @@ public class ServerMailroom {
     }
 
     public Iterable<Package> getMessages() {
-        ConcurrentLinkedQueue<Package> toReturn = new ConcurrentLinkedQueue<>(mailForServer);
-        mailForServer = new ConcurrentLinkedQueue<>();
-        return toReturn;
+        synchronized (ServerMailroom.class) {
+            if (mailForServer.size() > 0)
+                System.out.println("server bound : " + mailForServer.size());
+            ConcurrentLinkedQueue<Package> toReturn = new ConcurrentLinkedQueue<>(mailForServer);
+            mailForServer = new ConcurrentLinkedQueue<>();
+            if (toReturn.size() > 0)
+                System.out.println("Size : " + toReturn.size());
+            return toReturn;
+        }
     }
 }

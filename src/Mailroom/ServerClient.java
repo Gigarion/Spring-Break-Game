@@ -13,8 +13,10 @@ public class ServerClient {
     private Socket socket;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
-    public ServerClient(Socket socket) {
+    private int id;
+    public ServerClient(Socket socket, int id) {
         this.socket = socket;
+        this.id = id;
         try {
             this.inputStream = new ObjectInputStream(socket.getInputStream());
             this.outputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -36,7 +38,7 @@ public class ServerClient {
     public Package getMessage() {
         try {
             Package p = (Package) inputStream.readObject();
-            p.setPort(socket.getLocalPort());
+            p.setPort(id);
             return  p;
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +47,7 @@ public class ServerClient {
     }
 
     public int getPort() {
-        return socket.getLocalPort();
+        return this.id;
     }
 
     public boolean isClosed() {

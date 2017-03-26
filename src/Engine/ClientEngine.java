@@ -59,6 +59,20 @@ public class ClientEngine {
         this.maxLogX = lXMax;
         this.maxLogY = lYMax;
         frame = 0;
+        mailTimer = new Timer("Client Engine Mail Timer", true);
+        mailTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                while (true) {
+                    handleMail(clientMailroom.getMessages());
+                    try {
+                        Thread.yield();
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, 0);
     }
 
     // starts the engine loops
@@ -84,21 +98,6 @@ public class ClientEngine {
                 logicTick();
             }
         }, 200, LOGIC_INTERVAL);
-
-        mailTimer = new Timer("Client Engine Mail Timer", true);
-        mailTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                while (true) {
-                    handleMail(clientMailroom.getMessages());
-                    try {
-                        Thread.yield();
-                    } catch(Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }, 0);
     }
 
     // draw loop, called every DRAW_INTERVAL milliseconds
@@ -341,9 +340,9 @@ public class ClientEngine {
         for (Mob mob : mobQueue) {
             if (mob.getID() == id) {
                 mobQueue.remove(mob);
-                int x = 10 + (int) (Math.random() * 580);
-                Mob mob2 = new Mob(-1, x, 800, 12, 10);
-                clientMailroom.sendMessage(new Package(mob2, Package.ACTOR));
+//                int x = 10 + (int) (Math.random() * 580);
+//                Mob mob2 = new Mob(-1, x, 800, 12, 10);
+//                clientMailroom.sendMessage(new Package(mob2, Package.ACTOR));
             }
         }
     }
@@ -378,11 +377,11 @@ public class ClientEngine {
         if (!inBounds(a.getX(), a.getY())) {
             actorQueue.remove(a);
 
-            if (a instanceof Mob) {
-                mobQueue.remove(a);
-                Mob m = new Mob(-1, 800, 800, 12, 10);
-                clientMailroom.sendMessage(new Package(m, Package.ACTOR));
-            }
+//            if (a instanceof Mob) {
+//                mobQueue.remove(a);
+//                Mob m = new Mob(-1, 800, 800, 12, 10);
+//                clientMailroom.sendMessage(new Package(m, Package.ACTOR));
+//            }
 
             if (a instanceof Player) {
                 setPlayer(new Player("ME"));

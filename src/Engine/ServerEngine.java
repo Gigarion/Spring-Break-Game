@@ -63,11 +63,11 @@ public class ServerEngine {
 
     // get the current slew of messages and do stuff with them.
     // I should probs modularize this function
-    private void handleMessages() {
+    private synchronized void handleMessages() {
         for (Package p : mailroom.getMessages()) {
-            System.out.println("heyyy");
             switch (p.getType()) {
                 case Package.WELCOME: { // requires port #'s
+                    System.out.println("here");
                     // TODO: think about handshakey game init protocols
                     // TODO: think about engine orientation
                     // upon getting a welcome, send a return packet containing
@@ -76,8 +76,10 @@ public class ServerEngine {
                     Player newPlayer = (Player) p.getPayload();
                     newPlayer.setID(id);
                     actorMap.put(id, newPlayer);
+                    System.out.println(p.getPort());
                     mailroom.sendPackage(new Package(id, Package.WELCOME), p.getPort());
-                    Mob m = new Mob(getNextId(), 800, 800, 12, 10);
+                    int x = 10 + (int) (Math.random() * 580);
+                    Mob m = new Mob(getNextId(), x, 800, 12, 10);
                     actorMap.put(m.getID(), m);
                     mailroom.sendPackage(new Package(m, Package.ACTOR));
                 }
@@ -134,16 +136,17 @@ public class ServerEngine {
                 }
                 break; // doesn't occur
                 case Package.REMOVE: {
-                    System.out.println("heyyyy");
                     Actor actor = actorMap.get((Integer) p.getPayload());
                     if (actor != null) {
-                        actorMap.remove(actor);
+                        actorMap.remove(actor.getID());
                         if (actor instanceof Mob) {
+                            System.out.println((Integer) p.getPayload());
                             int x = 10 + (int) (Math.random() * 580);
-                            Mob mob = new Mob(-1, x, 800, 12, 10);
+                            int id = getNextId();
+                            Mob mob = new Mob(id, x, 800, 12, 10);
+                            actorMap.put(id, mob);
                             mailroom.sendPackage(new Package(mob, Package.ACTOR));
                         }
-                        System.out.println("gone");
                     }
                     mailroom.sendPackage(p);
                     break;

@@ -26,9 +26,10 @@ public class ServerMailroom {
 
             // yes, will loop until all clients hook in
             // fight me
+            int i = 0;
             while (clients.size() < maxClients) {
                 Socket clientSocket = acceptSocket.accept();
-                clients.add(new ServerClient(clientSocket));
+                clients.add(new ServerClient(clientSocket, i++));
                 Thread.yield();
             }
         } catch (Exception e) {

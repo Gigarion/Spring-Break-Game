@@ -7,13 +7,52 @@ import java.io.Serializable;
  */
 
 public class Package implements Serializable {
+    // Initial handshake to engine
+    // Client:: Payload: Player object, Extra: Player Name
+    // Server:: Payload: Integer id, Extra: n/a
     public static final char WELCOME = 0;
+
+    // Client request to fire a hitscan, server then does hitscan logic
+    // Client:: Payload: HitScan object, Extra: Source ID
+    // Server:: n/a
     public static final char HITSCAN = 1;
+
+    // Client requests a projectile be put on the field
+    // Client:: Payload: Projectile object, Extra: ID of spawning actor
+    // Server:: ""
     public static final char PROJECT = 2;
+
+    // Either client or Server demands a position update,
+    // mostly used to notify of new player positions
+    // Client:: Payload: Integer id, Extra: formatted coordinate string
+    // Server:: ""
     public static final char NEW_POS = 3;
+
+    // Either client or server asks to add an animation to the game
+    // Client: Payload: Animation object, Extra: ID of source player
+    // Server: ""
     public static final char ANIMATE = 4;
+
+    // Somebody requests an Actor be added to the game
+    // Client:: ?????
+    // Server:: Payload: new Actor, Extra: n/a
     public static final char ACTOR   = 5;
+
+    // Client or server notifies the field of a hit to an actor
+    // Client:: Payload: Integer damage, Extra: id of hit actor
     public static final char HIT     = 6;
+
+    // Signals the end of initialization information from the server
+    // Client:: n/a
+    // Server:: Payload: n/a, Extra: n/a
+    public static final char END_INIT = 7; // signals the end of engine initialization.
+
+    // remove an actor because it is no longer relevant
+    // Client:: Payload: Integer id of actor, Extra: n/a
+    // Server:: ""
+    public static final char REMOVE  = 8;
+
+
     private Object payload;
     private char type;
     private String extra;
@@ -52,7 +91,7 @@ public class Package implements Serializable {
     }
 
     public void setPort(int port) { this.port = port; }
-    public String getPort(String port) { return port; }
+    public int getPort() { return this.port; }
     public int getType() { return this.type; }
     public Object getPayload() { return this.payload;}
     public String getExtra() { return this.extra; }

@@ -51,6 +51,9 @@ public class Projectile extends Actor implements Serializable {
         return startY;
     }
 
+    // TODO: refactor projectiles to have malleable damage
+    public int getDamage() { return 20; }
+
     // thanks stackoverflow
     private double getAngle(double destX, double destY) {
         double angle = Math.toDegrees(Math.atan2(destY - y, destX - x));

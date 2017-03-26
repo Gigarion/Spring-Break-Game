@@ -44,6 +44,7 @@ public class Actor implements Serializable {
         return y;
     }
     public int getID() { return id; }
+    public void setID(int id) { this.id = id; }
 
     public synchronized void moveTo(double x, double y) {
         this.x = x;

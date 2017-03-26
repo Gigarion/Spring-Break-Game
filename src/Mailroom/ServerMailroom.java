@@ -51,7 +51,6 @@ public class ServerMailroom {
                         Package p = client.getMessage();
                         synchronized (ServerMailroom.class) {
                             mailForServer.add(p);
-                            System.out.println("testing consumption");
                         }
                     }
                 }
@@ -65,14 +64,18 @@ public class ServerMailroom {
         }
     }
 
+    public void sendPackage(Package p, int port) {
+        for (ServerClient client : clients) {
+            if (client.getPort() == port) {
+                client.sendMessage(p);
+            }
+        }
+    }
+
     public Iterable<Package> getMessages() {
         synchronized (ServerMailroom.class) {
-            if (mailForServer.size() > 0)
-                System.out.println("server bound : " + mailForServer.size());
             ConcurrentLinkedQueue<Package> toReturn = new ConcurrentLinkedQueue<>(mailForServer);
             mailForServer = new ConcurrentLinkedQueue<>();
-            if (toReturn.size() > 0)
-                System.out.println("Size : " + toReturn.size());
             return toReturn;
         }
     }

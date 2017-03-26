@@ -1,15 +1,14 @@
 package Actors;
 
-import Projectiles.HitScan;
-import Projectiles.Projectile;
 import Util.StdDraw;
 import Weapons.Bow;
+import Weapons.StabSword;
 import Weapons.Weapon;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class Player extends Actor {
-    private LinkedList<Weapon> weapons;
+    private ArrayList<Weapon> weapons;
     private String name;
     private int maxHP;
     private int hp;
@@ -21,8 +20,7 @@ public class Player extends Actor {
         this.name = userName;
         this.maxHP = 100;
         this.hp = maxHP;
-        this.weapons = new LinkedList<>();
-        weapons.add(new Bow());
+        this.weapons = new ArrayList<>();
     }
 
     public void setID(int id) {
@@ -31,6 +29,11 @@ public class Player extends Actor {
 
     public int getID() {
         return this.id;
+    }
+
+    public void giveWeapons() {
+        weapons.add(new StabSword());
+        weapons.add(new Bow());
     }
 
     // fully heal player, return result hp
@@ -55,12 +58,7 @@ public class Player extends Actor {
     // returns either a hitscan or a projectile to register as an attack
     // (or other later???)
     public Object fireWeapon(int which) {
-        switch(which) {
-            case 0: return new HitScan(this, StdDraw.mouseX(), StdDraw.mouseY(), 200, 1, 80);
-            case 1: return weapons.peek().fire(this, StdDraw.mouseX(), StdDraw.mouseY());
-            //case 1: return new Projectile(this, StdDraw.mouseX(), StdDraw.mouseY(), 5, 200, .1);
-            default: return null;
-        }
+        return weapons.get(which).fire(this, StdDraw.mouseX(), StdDraw.mouseY());
     }
 
     // shift the player's location by dist in the x direction

@@ -1,11 +1,9 @@
 package Mailroom;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
-import Projectiles.Projectile;
 
 /**
  * Created by Gig on 3/22/2017.
@@ -28,7 +26,6 @@ public class ServerClient {
     public void sendMessage(Package pack) {
         try {
             outputStream.writeObject(pack);
-            System.out.println("sent");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,6 +42,10 @@ public class ServerClient {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public int getPort() {
+        return socket.getLocalPort();
     }
 
     public boolean isClosed() {

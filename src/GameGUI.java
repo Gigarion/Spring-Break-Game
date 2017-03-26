@@ -55,6 +55,7 @@ public class GameGUI implements ActionListener{
         ClientEngine ce = new ClientEngine(10000, 10000, 450);
         ce.setPlayer(new Player("player 2"));
         StdDraw.addEngine(ce);
+        ce.begin();
     }
 
     @Override

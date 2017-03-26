@@ -6,9 +6,8 @@ import Util.StdDraw;
 public class HitScanLine extends Animation {
     private double destX;
     private double destY;
-
     public HitScanLine(HitScan hs) {
-        super(hs.getSrcX(), hs.getSrcY(), 2);
+        super(hs.getSrcX(), hs.getSrcY(), 3);
         double rads = getRads(hs.getDestX(), hs.getDestY());
         this.destX = x + (hs.getRange() * Math.cos(rads));
         this.destY = y + (hs.getRange() * Math.sin(rads));

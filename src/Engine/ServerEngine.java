@@ -27,7 +27,7 @@ public class ServerEngine {
     private AtomicInteger nextFreeId;
 
     public ServerEngine() {
-        mailroom = new ServerMailroom(1);
+        mailroom = new ServerMailroom(2);
         this.actorMap = new ConcurrentHashMap<>();
         this.projectileQueue = new ConcurrentLinkedQueue<>();
         setTimers();
@@ -65,6 +65,7 @@ public class ServerEngine {
     // I should probs modularize this function
     private void handleMessages() {
         for (Package p : mailroom.getMessages()) {
+            System.out.println("heyyy");
             switch (p.getType()) {
                 case Package.WELCOME: { // requires port #'s
                     // TODO: think about handshakey game init protocols
@@ -137,6 +138,11 @@ public class ServerEngine {
                     Actor actor = actorMap.get((Integer) p.getPayload());
                     if (actor != null) {
                         actorMap.remove(actor);
+                        if (actor instanceof Mob) {
+                            int x = 10 + (int) (Math.random() * 580);
+                            Mob mob = new Mob(-1, x, 800, 12, 10);
+                            mailroom.sendPackage(new Package(mob, Package.ACTOR));
+                        }
                         System.out.println("gone");
                     }
                     mailroom.sendPackage(p);

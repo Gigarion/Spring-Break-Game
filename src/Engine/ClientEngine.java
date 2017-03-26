@@ -126,10 +126,12 @@ public class ClientEngine {
         double hudCenterX = getVisibleXMax() + HUD_WIDTH/2;
         double hudNameY = getVisibleYMin() + (hudHeight * 2/3);
         double hudHealthY = getVisibleYMin() + (hudHeight * 1/3);
+        double hudIDY = getVisibleYMin() + (hudHeight * 1/6);
         StdDraw.line(getVisibleXMax(), getVisibleYMin(), getVisibleXMax(),  getVisibleYMin() + hudHeight);
         StdDraw.line(getVisibleXMax(), getVisibleYMin() + hudHeight, getVisibleXMax() + HUD_WIDTH, getVisibleYMin() + hudHeight);
         StdDraw.text(hudCenterX, hudNameY, player.getName());
         StdDraw.text(hudCenterX, hudHealthY, Integer.toString(player.getHP()) + "/" + Integer.toString(player.getMaxHP()));
+        StdDraw.text(hudCenterX, hudIDY, player.getID() + "");
     }
 
     // logic tick, calculates ttl's and stuff here.. not exactly sure what else tbh...
@@ -369,9 +371,6 @@ public class ClientEngine {
                 actorQueue.remove(a);
                 mobQueue.remove(a);
                 clientMailroom.sendMessage(new Package(m.getID(), Package.REMOVE));
-                int x = 10 + (int) (Math.random() * 580);
-                Mob mob = new Mob(-1, x, 800, 12, 10);
-                clientMailroom.sendMessage(new Package(mob, Package.ACTOR));
             }
         }
 

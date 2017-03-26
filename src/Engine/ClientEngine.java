@@ -282,6 +282,7 @@ public class ClientEngine {
     private void handleWelcome(Package p) {
         int id = (Integer) p.getPayload();
         player.setID(id);
+        begin();
     }
 
     private void handleHitscan(Package p) {

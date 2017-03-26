@@ -33,7 +33,7 @@ public class ClientMailroom {
 
     public boolean connectAndBegin() {
         try {
-            socket = new Socket("localhost", 3333);
+            socket = new Socket("10.9.246.42", 3333);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
             startTimers();

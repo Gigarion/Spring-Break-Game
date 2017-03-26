@@ -7,36 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69d04400-34d6-49b7-820e-0bde14eb2f0f" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ServerClient.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Actors/Mob.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Actors/Mob.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Actors/Player.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Actors/Player.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Animations/HitScanLine.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Animations/HitScanLine.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Animations/SwingAnimation.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Animations/SwingAnimation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ServerEngine$1.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ServerEngine$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ServerEngine.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ServerEngine.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/GameGUI.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/GameGUI.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/Package.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/Package.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ServerMailroom.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ServerMailroom.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Projectiles/Projectile.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Projectiles/Projectile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/Actor.java" afterPath="$PROJECT_DIR$/src/Actors/Actor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/Mob.java" afterPath="$PROJECT_DIR$/src/Actors/Mob.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/Player.java" afterPath="$PROJECT_DIR$/src/Actors/Player.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Animations/Animation.java" afterPath="$PROJECT_DIR$/src/Animations/Animation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Animations/HitScanLine.java" afterPath="$PROJECT_DIR$/src/Animations/HitScanLine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Animations/SwingAnimation.java" afterPath="$PROJECT_DIR$/src/Animations/SwingAnimation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/ClientEngine.java" afterPath="$PROJECT_DIR$/src/Engine/ClientEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/ServerEngine.java" afterPath="$PROJECT_DIR$/src/Engine/ServerEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GameGUI.java" afterPath="$PROJECT_DIR$/src/GameGUI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Mailroom/Package.java" afterPath="$PROJECT_DIR$/src/Mailroom/Package.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Mailroom/ServerClient.java" afterPath="$PROJECT_DIR$/src/Mailroom/ServerClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Mailroom/ServerMailroom.java" afterPath="$PROJECT_DIR$/src/Mailroom/ServerMailroom.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Projectiles/Projectile.java" afterPath="$PROJECT_DIR$/src/Projectiles/Projectile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Weapons/StabSword.java" afterPath="$PROJECT_DIR$/src/Weapons/StabSword.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Mailroom/ClientMailroom.java" afterPath="$PROJECT_DIR$/src/Mailroom/ClientMailroom.java" />
     </list>
     <ignored path="Spring-Break-Game.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -57,11 +28,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ServerClient.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ServerClient.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="27" column="43" lean-forward="false" selection-start-line="27" selection-start-column="43" selection-end-line="27" selection-end-column="43" />
+            <state relative-caret-position="990">
+              <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1245#1246#0" expanded="true" />
@@ -84,7 +55,7 @@
       <file leaf-file-name="ClientEngine.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Engine/ClientEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
+            <state relative-caret-position="51">
               <caret line="370" column="16" lean-forward="false" selection-start-line="370" selection-start-column="16" selection-end-line="370" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -162,15 +133,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SwingAnimation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Animations/SwingAnimation.java">
+      <file leaf-file-name="ClientMailroom.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Mailroom/ClientMailroom.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="33" column="9" lean-forward="true" selection-start-line="33" selection-start-column="9" selection-end-line="33" selection-end-column="9" />
+            <state relative-caret-position="310">
+              <caret line="35" column="53" lean-forward="true" selection-start-line="35" selection-start-column="53" selection-end-line="35" selection-end-column="53" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1327#1328#0" expanded="true" />
-                <element signature="e#1357#1358#0" expanded="true" />
+                <element signature="method#ClientMailroom#0;class#ClientMailroom#0" expanded="false" />
+                <element signature="method#startTimers#0;class#ClientMailroom#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -227,8 +197,8 @@
       <find>System.out.println</find>
       <find>umm</find>
       <find>actorQueue</find>
-      <find>&quot;hit</find>
       <find>actormap.valu</find>
+      <find>&quot;hit</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -251,7 +221,6 @@
         <option value="$PROJECT_DIR$/src/Weapons/Weapon.java" />
         <option value="$PROJECT_DIR$/src/Util/StdDraw.java" />
         <option value="$PROJECT_DIR$/src/Projectiles/HitScan.java" />
-        <option value="$PROJECT_DIR$/src/Mailroom/ClientMailroom.java" />
         <option value="$PROJECT_DIR$/src/Weapons/Bow.java" />
         <option value="$PROJECT_DIR$/src/Projectiles/Projectile.java" />
         <option value="$PROJECT_DIR$/src/GameGUI.java" />
@@ -267,6 +236,7 @@
         <option value="$PROJECT_DIR$/src/Mailroom/Package.java" />
         <option value="$PROJECT_DIR$/src/Engine/ClientEngine.java" />
         <option value="$PROJECT_DIR$/src/Engine/ServerEngine.java" />
+        <option value="$PROJECT_DIR$/src/Mailroom/ClientMailroom.java" />
       </list>
     </option>
   </component>
@@ -1166,18 +1136,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Mailroom/ClientMailroom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="62" column="5" lean-forward="false" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
-          <folding>
-            <element signature="method#ClientMailroom#0;class#ClientMailroom#0" expanded="false" />
-            <element signature="method#connectAndBegin#0;class#ClientMailroom#0" expanded="false" />
-            <element signature="method#startTimers#0;class#ClientMailroom#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Weapons/Bow.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -1321,39 +1279,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Engine/ClientEngine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="370" column="16" lean-forward="false" selection-start-line="370" selection-start-column="16" selection-end-line="370" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#setTimers#0;class#ClientEngine#0" expanded="false" />
-            <element signature="e#2556#2657#0" expanded="true" />
-            <element signature="e#2656#2657#0" expanded="true" />
-            <element signature="method#drawTick#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#drawHUD#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#logicTick#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#mouseClick#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#setClickedButton#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleKeyboard#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#fireWeapon#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#setPlayer#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleMail#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleNewPosition#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleHitscan#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleProjectile#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleAnimation#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleNewActor#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#inBounds#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#getVisibleYMin#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#getVisibleYMax#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#getVisibleXMin#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#getVisibleXMax#0;class#ClientEngine#0" expanded="false" />
-            <marker date="1490495195606" expanded="false" signature="10747:10823" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Actors/Mob.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-97">
@@ -1394,12 +1319,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="27" column="43" lean-forward="false" selection-start-line="27" selection-start-column="43" selection-end-line="27" selection-end-column="43" />
+        <state relative-caret-position="990">
+          <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1245#1246#0" expanded="true" />
             <element signature="e#1289#1290#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Engine/ClientEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="370" column="16" lean-forward="false" selection-start-line="370" selection-start-column="16" selection-end-line="370" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#setTimers#0;class#ClientEngine#0" expanded="false" />
+            <element signature="e#2556#2657#0" expanded="true" />
+            <element signature="e#2656#2657#0" expanded="true" />
+            <element signature="method#drawTick#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#drawHUD#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#logicTick#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#mouseClick#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#setClickedButton#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleKeyboard#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#fireWeapon#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#setPlayer#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleMail#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleNewPosition#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleHitscan#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleProjectile#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleAnimation#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleNewActor#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#inBounds#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#getVisibleYMin#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#getVisibleYMax#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#getVisibleXMin#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#getVisibleXMax#0;class#ClientEngine#0" expanded="false" />
+            <marker date="1490495195606" expanded="false" signature="10747:10823" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Mailroom/ClientMailroom.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="35" column="53" lean-forward="true" selection-start-line="35" selection-start-column="53" selection-end-line="35" selection-end-column="53" />
+          <folding>
+            <element signature="method#ClientMailroom#0;class#ClientMailroom#0" expanded="false" />
+            <element signature="method#startTimers#0;class#ClientMailroom#0" expanded="false" />
           </folding>
         </state>
       </provider>

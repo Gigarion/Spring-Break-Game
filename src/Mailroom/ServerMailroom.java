@@ -1,5 +1,7 @@
 package Mailroom;
 
+import Engine.ServerEngine;
+
 import java.net.*;
 import java.util.LinkedList;
 import java.util.Timer;
@@ -15,15 +17,15 @@ public class ServerMailroom {
     private LinkedList<ServerClient> clients;
     private ConcurrentLinkedQueue<Package> mailForServer;
     private ConcurrentLinkedQueue<Package> mailForClients;
+    private ServerEngine.MessageHandler handler;
 
-    public ServerMailroom(int maxClients) {
+    public ServerMailroom(int maxClients, ServerEngine.MessageHandler handler) {
         clients = new LinkedList<>();
         mailForServer = new ConcurrentLinkedQueue<>();
         mailForClients = new ConcurrentLinkedQueue<>();
-
+        this.handler = handler;
         try {
             acceptSocket = new ServerSocket(3333);
-
             // yes, will loop until all clients hook in
             // fight me
             int i = 0;
@@ -49,7 +51,9 @@ public class ServerMailroom {
                 @Override
                 public void run() {
                     while (!client.isClosed()) {
+                        // blocks
                         Package p = client.getMessage();
+                        handler.handleMail(p);
                         synchronized (ServerMailroom.class) {
                             mailForServer.add(p);
                         }
@@ -73,7 +77,7 @@ public class ServerMailroom {
         }
     }
 
-    public Iterable<Package> getMessages() {
+    public ConcurrentLinkedQueue<Package> getMessages() {
         synchronized (ServerMailroom.class) {
             ConcurrentLinkedQueue<Package> toReturn = new ConcurrentLinkedQueue<>(mailForServer);
             mailForServer = new ConcurrentLinkedQueue<>();

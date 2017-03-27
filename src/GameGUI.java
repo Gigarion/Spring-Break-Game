@@ -52,7 +52,7 @@ public class GameGUI implements ActionListener{
         StdDraw.enableDoubleBuffering();
         StdDraw.setXscale(0, 1200);
         StdDraw.setYscale(0, 900);
-        ClientEngine ce = new ClientEngine(10000, 10000, 450);
+        ClientEngine ce = new ClientEngine(1000, 1000, 450);
         ce.setPlayer(new Player("player 1"));
         StdDraw.addEngine(ce);
     }

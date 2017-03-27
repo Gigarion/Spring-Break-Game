@@ -30,7 +30,7 @@ public class ClientEngine {
     private static final int DOWN = KeyEvent.VK_S;
     private static final int LEFT = KeyEvent.VK_A;
     private static final int RIGHT = KeyEvent.VK_D;
-    private static final double MOVEMENT_SIZE = 0.8;
+    private static final double MOVEMENT_SIZE = 1.2;
     private static final int DRAW_INTERVAL = 16;
     private static final int LOGIC_INTERVAL = 1;
     private static final int HUD_WIDTH = 300;
@@ -47,6 +47,7 @@ public class ClientEngine {
     private Player player;          // player associated with this client
     private int frame;              // which frame are we on
     private Timer mailTimer;        // timer for checking mail
+    private long when;
 
 
     // constructor
@@ -76,8 +77,7 @@ public class ClientEngine {
     }
 
     // starts the engine loops
-    public void begin() {
-        setTimers();
+    public void begin(){ when = System.currentTimeMillis(); setTimers();
     }
 
     /******************************************************
@@ -95,9 +95,16 @@ public class ClientEngine {
         Timer logicTimer = new Timer("Logic Timer", true);
         logicTimer.schedule(new TimerTask() {
             public void run() {
-                logicTick();
+                while (true) {
+                    logicTick();
+                    try {
+                        Thread.sleep(LOGIC_INTERVAL);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        }, 200, LOGIC_INTERVAL);
+        }, 200);
     }
 
     // draw loop, called every DRAW_INTERVAL milliseconds
@@ -144,8 +151,7 @@ public class ClientEngine {
         }
         frame = ((frame + 1) % 100000);
         for (Actor a : actorQueue) {
-            if (checkActor(a))
-                a.update();
+            a.update();
         }
     }
 
@@ -320,12 +326,10 @@ public class ClientEngine {
     private void handleHit(Package p) {
         int damage = (Integer) p.getPayload();
         int id = Integer.parseInt(p.getExtra());
-        // TODO: figure out why hitscans sometimes hit twice......
         System.out.println(id + "hit " + Math.random());
         for (Actor a : actorQueue) {
             if (a.getID() == id) {
                 a.hit(damage);
-                checkActor(a);
             }
         }
     }
@@ -350,50 +354,6 @@ public class ClientEngine {
     /******************************************************
      *  Various utility functions
      ******************************************************/
-
-    private boolean checkActor(Actor a) {
-        if (a instanceof Projectile) {
-            Projectile p = (Projectile) a;
-            if (p.outOfRange()) {
-                actorQueue.remove(a);
-            }
-            for (Mob mob : mobQueue) {
-                if (mob.collides(a)) {
-                    mob.hit(p.getDamage());
-                }
-            }
-        }
-
-        if (a instanceof Mob) {
-            Mob m = (Mob) a;
-            if (m.getHP() <= 0) {
-                // dead mob
-                actorQueue.remove(a);
-                mobQueue.remove(a);
-                clientMailroom.sendMessage(new Package(m.getID(), Package.REMOVE));
-            }
-        }
-
-        if (!inBounds(a.getX(), a.getY())) {
-            actorQueue.remove(a);
-
-//            if (a instanceof Mob) {
-//                mobQueue.remove(a);
-//                Mob m = new Mob(-1, 800, 800, 12, 10);
-//                clientMailroom.sendMessage(new Package(m, Package.ACTOR));
-//            }
-
-            if (a instanceof Player) {
-                setPlayer(new Player("ME"));
-            }
-            return false;
-        }
-        return true;
-    }
-
-    private boolean inBounds(double x, double y) {
-        return (x < (maxLogX * 1.002) && x > 0 && y < (maxLogY * 1.002) && y > 0);
-    }
 
     private double getVisibleYMin() {
         if (player.getY() - visibleRadius <= 0)

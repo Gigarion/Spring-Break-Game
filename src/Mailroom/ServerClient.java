@@ -16,12 +16,14 @@ public class ServerClient {
     private ObjectOutputStream outputStream;
     private Object isDeadLock;
     private int id;
+    private boolean live;
 
     public ServerClient(Socket socket, int id) {
         System.out.println("HEY IM NEW" + id);
         isDeadLock = new Object();
         this.socket = socket;
         this.id = id;
+        this.live = true;
         try {
             this.inputStream = new ObjectInputStream(socket.getInputStream());
             this.outputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -33,7 +35,7 @@ public class ServerClient {
     public void sendMessage(Package pack) {
         try {
             synchronized (isDeadLock) {
-                if (id == -1)
+                if (!live)
                     return;
                 outputStream.writeObject(pack);
             }
@@ -49,7 +51,7 @@ public class ServerClient {
         Package p;
         try {
             synchronized (isDeadLock) {
-                if (id == -1)
+                if (!live)
                     return null;
             }
             p = (Package) inputStream.readObject();
@@ -57,11 +59,11 @@ public class ServerClient {
             return p;
         } catch (EOFException e) {
             System.out.println("WTF EOF Exception");
-            this.id = -1;
+            this.live = false;
             return null;
         } catch (Exception e) {
             System.out.println("*****************************");
-            this.id = -1;
+            this.live = false;
             e.printStackTrace();
             return null;
         }
@@ -71,7 +73,7 @@ public class ServerClient {
         return this.id;
     }
 
-    public boolean isClosed() {
-        return socket.isClosed();
+    public boolean isAlive() {
+        return this.live;
     }
 }

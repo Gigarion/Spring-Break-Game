@@ -17,13 +17,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ServerMailroom {
     private ServerSocket acceptSocket;
     private LinkedList<ServerClient> clients;
-    private ConcurrentLinkedQueue<Package> mailForServer;
     private ServerEngine.MessageHandler handler;
     private AtomicInteger nextId;
 
     public ServerMailroom(int maxClients, ServerEngine.MessageHandler handler) {
         clients = new LinkedList<>();
-        mailForServer = new ConcurrentLinkedQueue<>();
         this.handler = handler;
         this.nextId = new AtomicInteger();
         //mailTimer = new Timer("Server Mailroom Timer", true);
@@ -53,14 +51,11 @@ public class ServerMailroom {
                 while (true) {
                     // blocks
                     Package p = client.getMessage();
-                    if (client.getPort() == -1) {
+                    if (!client.isAlive()) {
                         handleLostClient(client);
                         break;
                     }
-                    handler.handleMail(p);
-                    synchronized (ServerMailroom.class) {
-                        mailForServer.add(p);
-                    }
+                    handler.handleMessage(p);
                 }
             }
         }, 100);
@@ -68,7 +63,7 @@ public class ServerMailroom {
 
     public void sendPackage(Package p) {
         for (ServerClient client : clients) {
-            if (client.getPort() == -1) {
+            if (!client.isAlive()) {
                 handleLostClient(client);
                 continue;
             }
@@ -83,6 +78,7 @@ public class ServerMailroom {
         }
         System.out.println("one died...");
         clients.remove(client);
+        handler.handleMessage(new Package(client.getPort(), Package.DISCONNECT));
         new Runnable() {
             @Override
             public void run() {
@@ -105,14 +101,6 @@ public class ServerMailroom {
             if (client.getPort() == port) {
                 client.sendMessage(p);
             }
-        }
-    }
-
-    public ConcurrentLinkedQueue<Package> getMessages() {
-        synchronized (ServerMailroom.class) {
-            ConcurrentLinkedQueue<Package> toReturn = new ConcurrentLinkedQueue<>(mailForServer);
-            mailForServer = new ConcurrentLinkedQueue<>();
-            return toReturn;
         }
     }
 

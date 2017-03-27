@@ -50,10 +50,15 @@ public class Package implements Serializable {
     // remove an actor because it is no longer relevant
     // Client:: Payload: Integer id of actor, Extra: n/a
     // Server:: ""
-    public static final char REMOVE  = 8;
+    public static final char REMOVE = 8;
 
     // informs clients of what state they are in.
     public static final char STATE = 9;
+
+    // informs server that a client disconnected and that player should get removed
+    // Client:: n/a
+    // Server:: Payload: Integer port number, Extra: n/a
+    public static final char DISCONNECT = 10;
 
     private Object payload;
     private char type;

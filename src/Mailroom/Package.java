@@ -52,6 +52,8 @@ public class Package implements Serializable {
     // Server:: ""
     public static final char REMOVE  = 8;
 
+    // informs clients of what state they are in.
+    public static final char STATE = 9;
 
     private Object payload;
     private char type;

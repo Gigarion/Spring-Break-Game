@@ -20,10 +20,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Big daddy server
  * handles some logic and spreading the news
  */
+
+
 public class ServerEngine {
     private ServerMailroom mailroom;
     private ConcurrentHashMap<Integer, Actor> actorMap;
     private AtomicInteger nextFreeId;
+    private enum State {
+        PRE_CONNECT, INIT, RUNNING
+    }
+    private State serverState;
 
     public interface MessageHandler {
         void handleMail(Package p);
@@ -31,10 +37,12 @@ public class ServerEngine {
 
     public ServerEngine() {
         System.out.println("server");
-        mailroom = new ServerMailroom(2, (Package p) -> handleMessage(p));
-        this.actorMap = new ConcurrentHashMap<>();
-        setTimers();
+        this.serverState = State.PRE_CONNECT;
         nextFreeId = new AtomicInteger(0);
+        this.serverState = State.INIT;
+        this.actorMap = new ConcurrentHashMap<>();
+        mailroom = new ServerMailroom(2, (Package p) -> handleMessage(p));
+        setTimers();
     }
 
     private void setTimers() {
@@ -66,8 +74,7 @@ public class ServerEngine {
     public synchronized void handleMessage(Package p) {
         switch (p.getType()) {
             case Package.WELCOME: { // requires port #'s
-                // TODO: think about handshakey game init protocols
-                // TODO: think about engine orientation
+                System.out.println("welcomed");
                 // upon getting a welcome, send a return packet containing
                 // the id the player should be assigned.
                 int id = getNextId();
@@ -75,6 +82,11 @@ public class ServerEngine {
                 newPlayer.setID(id);
                 actorMap.put(id, newPlayer);
                 mailroom.sendPackage(new Package(id, Package.WELCOME), p.getPort());
+
+                // handle onboarding
+                handleNewUser(newPlayer, p.getPort());
+
+                // for now, make a new mob whenever a player gets added
                 int x = 10 + (int) (Math.random() * 580);
                 Mob m = new Mob(getNextId(), x, 800, 12, 10);
                 actorMap.put(m.getID(), m);
@@ -150,6 +162,13 @@ public class ServerEngine {
         }
     }
 
+    public void handleNewUser(Actor newPlayer, int port) {
+        for (Actor actor : actorMap.values()) {
+            mailroom.sendPackage(new Package(actor, Package.ACTOR), port);
+        }
+        mailroom.sendPackage(new Package(newPlayer, Package.ACTOR));
+    }
+
     // fire a hitscan, currently ignores hitting the initiating player
     public Iterable<Actor> fireHitScan(HitScan hs, int id) {
         ConcurrentLinkedQueue<Actor> areHit = new ConcurrentLinkedQueue<>();
@@ -198,7 +217,6 @@ public class ServerEngine {
                     continue;
                 if (target.collides(p)) {
                     target.hit(p.getDamage());
-                    System.out.println("hit");
                 }
             }
         }

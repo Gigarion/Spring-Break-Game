@@ -7,20 +7,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69d04400-34d6-49b7-820e-0bde14eb2f0f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/Spring_Break_Game_jar/Spring-Break-Game.jar" afterPath="$PROJECT_DIR$/out/artifacts/Spring_Break_Game_jar/Spring-Break-Game.jar" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine$1.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine$3.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ServerEngine$1.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ServerEngine$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ServerEngine.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ServerEngine.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/GameGUI.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/GameGUI.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ClientMailroom$1.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ClientMailroom$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ClientMailroom.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ClientMailroom.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/Package.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/Package.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ServerClient.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ServerClient.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ServerMailroom$1.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ServerMailroom$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ServerMailroom.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ServerMailroom.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Util/StdDraw.class" afterPath="$PROJECT_DIR$/out/production/Spring-Break-Game/Util/StdDraw.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/ClientEngine.java" afterPath="$PROJECT_DIR$/src/Engine/ClientEngine.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/ServerEngine.java" afterPath="$PROJECT_DIR$/src/Engine/ServerEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GameGUI.java" afterPath="$PROJECT_DIR$/src/GameGUI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Mailroom/ClientMailroom.java" afterPath="$PROJECT_DIR$/src/Mailroom/ClientMailroom.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Mailroom/Package.java" afterPath="$PROJECT_DIR$/src/Mailroom/Package.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Mailroom/ServerClient.java" afterPath="$PROJECT_DIR$/src/Mailroom/ServerClient.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Mailroom/ServerMailroom.java" afterPath="$PROJECT_DIR$/src/Mailroom/ServerMailroom.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Util/StdDraw.java" afterPath="$PROJECT_DIR$/src/Util/StdDraw.java" />
     </list>
     <ignored path="Spring-Break-Game.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -58,81 +65,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ServerMailroom.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerMailroom.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="53" column="33" lean-forward="false" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#init#0;class#ServerMailroom#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ServerClient.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerClient.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-165">
-              <caret line="17" column="29" lean-forward="true" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClientEngine.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ClientEngine.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Engine/ClientEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="327" column="48" lean-forward="false" selection-start-line="327" selection-start-column="48" selection-end-line="327" selection-end-column="48" />
+            <state relative-caret-position="198">
+              <caret line="295" column="32" lean-forward="false" selection-start-line="295" selection-start-column="27" selection-end-line="295" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3294#3640#0" expanded="true" />
-                <element signature="e#3639#3640#0" expanded="true" />
-                <element signature="method#drawTick#0;class#ClientEngine#0" expanded="false" />
+                <element signature="method#ClientEngine#0;class#ClientEngine#0" expanded="false" />
+                <element signature="method#setTimers#0;class#ClientEngine#0" expanded="false" />
+                <element signature="e#3392#3738#0" expanded="true" />
+                <element signature="e#3737#3738#0" expanded="true" />
+                <element signature="method#drawHUD#0;class#ClientEngine#0" expanded="false" />
+                <element signature="method#logicTick#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#mouseClick#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#setClickedButton#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#handleKeyboard#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#fireWeapon#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#setPlayer#0;class#ClientEngine#0" expanded="false" />
-                <element signature="method#handleMail#0;class#ClientEngine#0" expanded="false" />
-                <element signature="method#handleNewPosition#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#handleWelcome#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#handleHitscan#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#handleProjectile#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#handleAnimation#0;class#ClientEngine#0" expanded="false" />
-                <element signature="method#handleNewActor#0;class#ClientEngine#0" expanded="false" />
+                <element signature="method#handleHit#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#handleRemove#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#getVisibleYMin#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#getVisibleYMax#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#getVisibleXMin#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#getVisibleXMax#0;class#ClientEngine#0" expanded="false" />
-                <marker date="1490583534870" expanded="false" signature="1851:2665" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StdDraw.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Util/StdDraw.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="12" column="4" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GameGUI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/GameGUI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="748">
-              <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#actionPerformed#0;class#GameGUI#0" expanded="false" />
-                <marker date="1490576825424" expanded="true" signature="1215:1328" ph="{...}" />
+                <element signature="e#14442#14443#0" expanded="true" />
+                <element signature="e#14479#14480#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -141,26 +103,9 @@
       <file leaf-file-name="ClientMailroom.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Mailroom/ClientMailroom.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1034">
-              <caret line="69" column="36" lean-forward="true" selection-start-line="69" selection-start-column="36" selection-end-line="69" selection-end-column="36" />
-              <folding>
-                <element signature="method#startTimers#0;class#ClientMailroom#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ServerEngine.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Engine/ServerEngine.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="29" column="5" lean-forward="false" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
-              <folding>
-                <element signature="docComment;class#ServerEngine#0" expanded="false" />
-                <element signature="method#setTimers#0;class#ServerEngine#0" expanded="false" />
-                <element signature="method#fireHitScan#0;class#ServerEngine#0" expanded="false" />
-                <element signature="method#getRads#0;class#ServerEngine#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="685">
+              <caret line="56" column="38" lean-forward="true" selection-start-line="56" selection-start-column="38" selection-end-line="56" selection-end-column="38" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -188,8 +133,8 @@
       <file leaf-file-name="Package.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Mailroom/Package.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="660">
-              <caret line="51" column="18" lean-forward="false" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="18" />
+            <state relative-caret-position="880">
+              <caret line="55" column="39" lean-forward="false" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -215,11 +160,21 @@
       <find>&quot;hit</find>
       <find>Mob</find>
       <find>Package.actor</find>
-      <find>actormap.remove</find>
       <find>System.out.println</find>
       <find>WELCOME</find>
       <find>sending&quot;</find>
       <find>projectileQueue</find>
+      <find>System.out.</find>
+      <find>System.out.println(</find>
+      <find>system.out.</find>
+      <find>windowlist</find>
+      <find>begin</find>
+      <find>actormap.remove</find>
+      <find>actormap.value</find>
+      <find>player.getID</find>
+      <find>contains</find>
+      <find>out.prin</find>
+      <find>out.p</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -251,7 +206,6 @@
         <option value="$PROJECT_DIR$/src/Mailroom/Mailroom.java" />
         <option value="$PROJECT_DIR$/src/Engine/Engine.java" />
         <option value="$PROJECT_DIR$/src/Weapons/Weapon.java" />
-        <option value="$PROJECT_DIR$/src/Util/StdDraw.java" />
         <option value="$PROJECT_DIR$/src/Projectiles/HitScan.java" />
         <option value="$PROJECT_DIR$/src/Weapons/Bow.java" />
         <option value="$PROJECT_DIR$/src/Projectiles/Projectile.java" />
@@ -262,11 +216,12 @@
         <option value="$PROJECT_DIR$/src/Animations/Animation.java" />
         <option value="$PROJECT_DIR$/src/Animations/SwingAnimation.java" />
         <option value="$PROJECT_DIR$/src/Actors/Player.java" />
-        <option value="$PROJECT_DIR$/src/Mailroom/Package.java" />
-        <option value="$PROJECT_DIR$/src/Mailroom/ClientMailroom.java" />
         <option value="$PROJECT_DIR$/src/GameGUI.java" />
+        <option value="$PROJECT_DIR$/src/Mailroom/ClientMailroom.java" />
+        <option value="$PROJECT_DIR$/src/Util/StdDraw.java" />
         <option value="$PROJECT_DIR$/src/Mailroom/ServerClient.java" />
         <option value="$PROJECT_DIR$/src/Mailroom/ServerMailroom.java" />
+        <option value="$PROJECT_DIR$/src/Mailroom/Package.java" />
         <option value="$PROJECT_DIR$/src/Engine/ClientEngine.java" />
         <option value="$PROJECT_DIR$/src/Engine/ServerEngine.java" />
       </list>
@@ -275,7 +230,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1924" />
+    <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
   <component name="ProjectView">
@@ -318,60 +273,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Projectiles" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Mailroom" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Actors" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -704,11 +605,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1924" height="1056" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32875264" sideWeight="0.49791667" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -716,15 +617,15 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.205074" sideWeight="0.5104167" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16173361" sideWeight="0.48958334" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26435536" sideWeight="0.48958334" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11740042" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3255814" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.116204694" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32502708" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -753,13 +654,13 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3498943" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32875264" sideWeight="0.49791667" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21247357" sideWeight="0.48958334" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16173361" sideWeight="0.48958334" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -782,18 +683,10 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Engine/ClientEngine.java</url>
-          <line>169</line>
-          <properties />
-          <option name="timeStamp" value="42" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="60" />
+      <option name="time" value="72" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1102,86 +995,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Mailroom/ClientMailroom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1034">
-          <caret line="69" column="36" lean-forward="true" selection-start-line="69" selection-start-column="36" selection-end-line="69" selection-end-column="36" />
-          <folding>
-            <element signature="method#startTimers#0;class#ClientMailroom#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Actors/Actor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="724">
           <caret line="46" column="46" lean-forward="false" selection-start-line="46" selection-start-column="46" selection-end-line="46" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerMailroom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="53" column="33" lean-forward="false" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#init#0;class#ServerMailroom#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-165">
-          <caret line="17" column="29" lean-forward="true" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Mailroom/Package.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="51" column="18" lean-forward="false" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Engine/ClientEngine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="327" column="48" lean-forward="false" selection-start-line="327" selection-start-column="48" selection-end-line="327" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3294#3640#0" expanded="true" />
-            <element signature="e#3639#3640#0" expanded="true" />
-            <element signature="method#drawTick#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#mouseClick#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#setClickedButton#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleKeyboard#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#fireWeapon#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#setPlayer#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleMail#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleNewPosition#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleWelcome#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleHitscan#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleProjectile#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleAnimation#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleNewActor#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleRemove#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#getVisibleYMin#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#getVisibleYMax#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#getVisibleXMin#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#getVisibleXMax#0;class#ClientEngine#0" expanded="false" />
-            <marker date="1490583534870" expanded="false" signature="1851:2665" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Util/StdDraw.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="12" column="4" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
           <folding />
         </state>
       </provider>
@@ -1194,15 +1011,103 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Mailroom/ClientMailroom.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="685">
+          <caret line="56" column="38" lean-forward="true" selection-start-line="56" selection-start-column="38" selection-end-line="56" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Mailroom/Package.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="880">
+          <caret line="55" column="39" lean-forward="false" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="59" column="12" lean-forward="false" selection-start-line="59" selection-start-column="12" selection-end-line="59" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerMailroom.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1007">
+          <caret line="56" column="18" lean-forward="true" selection-start-line="56" selection-start-column="18" selection-end-line="56" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1744#2293#0" expanded="true" />
+            <element signature="e#2292#2293#0" expanded="true" />
+            <element signature="e#3978#3979#0" expanded="true" />
+            <element signature="e#4025#4026#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Engine/ServerEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="29" column="5" lean-forward="false" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+        <state relative-caret-position="279">
+          <caret line="159" column="31" lean-forward="false" selection-start-line="159" selection-start-column="23" selection-end-line="159" selection-end-column="31" />
           <folding>
             <element signature="docComment;class#ServerEngine#0" expanded="false" />
+            <element signature="method#ServerEngine#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#setTimers#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#update#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#handleNewUser#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#fireHitScan#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#checkActor#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#inBounds#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#getRads#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#killMob#0;class#ServerEngine#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Util/StdDraw.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="228" column="31" lean-forward="true" selection-start-line="228" selection-start-column="31" selection-end-line="228" selection-end-column="31" />
+          <folding>
+            <element signature="e#7894#8131#0" expanded="true" />
+            <element signature="e#8130#8131#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Engine/ClientEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="295" column="32" lean-forward="false" selection-start-line="295" selection-start-column="27" selection-end-line="295" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#ClientEngine#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#setTimers#0;class#ClientEngine#0" expanded="false" />
+            <element signature="e#3392#3738#0" expanded="true" />
+            <element signature="e#3737#3738#0" expanded="true" />
+            <element signature="method#drawHUD#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#logicTick#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#mouseClick#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#setClickedButton#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleKeyboard#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#fireWeapon#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#setPlayer#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleWelcome#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleHitscan#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleProjectile#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleAnimation#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleHit#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleRemove#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#getVisibleYMin#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#getVisibleYMax#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#getVisibleXMin#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#getVisibleXMax#0;class#ClientEngine#0" expanded="false" />
+            <element signature="e#14442#14443#0" expanded="true" />
+            <element signature="e#14479#14480#0" expanded="true" />
           </folding>
         </state>
       </provider>

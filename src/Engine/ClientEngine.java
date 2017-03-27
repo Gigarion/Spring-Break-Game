@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -37,7 +38,7 @@ public class ClientEngine {
     // active animations
     //private ConcurrentLinkedQueue<Projectile> projectileQueue;
     private ConcurrentLinkedQueue<Animation> animationQueue;
-    private ConcurrentLinkedQueue<Actor> actorQueue;
+    private ConcurrentHashMap<Integer, Actor> actorMap;
     private ConcurrentLinkedQueue<Mob> mobQueue;
     private ClientMailroom clientMailroom;      // communications to server
     private int maxLogX;            //logical boundaries for game
@@ -47,20 +48,21 @@ public class ClientEngine {
     private Player player;          // player associated with this client
     private int frame;              // which frame are we on
     private Timer mailTimer;        // timer for checking mail
-    private long when;
+    private boolean init; // is the engine ready to start?
 
 
     // constructor
     public ClientEngine(int lXMax, int lYMax, int vRadius) {
         animationQueue = new ConcurrentLinkedQueue<>();
         mobQueue = new ConcurrentLinkedQueue<>();
-        actorQueue = new ConcurrentLinkedQueue<>();
+        actorMap = new ConcurrentHashMap<>();
         this.visibleRadius = vRadius;
         this.clientMailroom = new ClientMailroom();
         this.maxLogX = lXMax;
         this.maxLogY = lYMax;
         frame = 0;
         mailTimer = new Timer("Client Engine Mail Timer", true);
+        init = false;
         mailTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -68,7 +70,7 @@ public class ClientEngine {
                     handleMail(clientMailroom.getMessages());
                     try {
                         Thread.yield();
-                    } catch(Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -77,7 +79,9 @@ public class ClientEngine {
     }
 
     // starts the engine loops
-    public void begin(){ when = System.currentTimeMillis(); setTimers();
+    public void begin() {
+        init = true;
+        setTimers();
     }
 
     /******************************************************
@@ -118,7 +122,7 @@ public class ClientEngine {
                 animationQueue.remove(hsl);
             hsl.draw(frame);
         }
-        for (Actor actor : actorQueue) {
+        for (Actor actor : actorMap.values()) {
             actor.draw();
         }
         StdDraw.circle(StdDraw.mouseX(), StdDraw.mouseY(), 10);
@@ -129,11 +133,11 @@ public class ClientEngine {
     // helper function to draw the HUD on the screen
     private void drawHUD() {
         double hudHeight = visibleRadius * 0.66;
-        double hudCenterX = getVisibleXMax() + HUD_WIDTH/2;
-        double hudNameY = getVisibleYMin() + (hudHeight * 2/3);
-        double hudHealthY = getVisibleYMin() + (hudHeight * 1/3);
-        double hudIDY = getVisibleYMin() + (hudHeight * 1/6);
-        StdDraw.line(getVisibleXMax(), getVisibleYMin(), getVisibleXMax(),  getVisibleYMin() + hudHeight);
+        double hudCenterX = getVisibleXMax() + HUD_WIDTH / 2;
+        double hudNameY = getVisibleYMin() + (hudHeight * 2 / 3);
+        double hudHealthY = getVisibleYMin() + (hudHeight * 1 / 3);
+        double hudIDY = getVisibleYMin() + (hudHeight * 1 / 6);
+        StdDraw.line(getVisibleXMax(), getVisibleYMin(), getVisibleXMax(), getVisibleYMin() + hudHeight);
         StdDraw.line(getVisibleXMax(), getVisibleYMin() + hudHeight, getVisibleXMax() + HUD_WIDTH, getVisibleYMin() + hudHeight);
         StdDraw.text(hudCenterX, hudNameY, player.getName());
         StdDraw.text(hudCenterX, hudHealthY, Integer.toString(player.getHP()) + "/" + Integer.toString(player.getMaxHP()));
@@ -150,7 +154,7 @@ public class ClientEngine {
             mouseClick((int) StdDraw.mouseX(), (int) StdDraw.mouseY());
         }
         frame = ((frame + 1) % 100000);
-        for (Actor a : actorQueue) {
+        for (Actor a : actorMap.values()) {
             a.update();
         }
     }
@@ -160,6 +164,8 @@ public class ClientEngine {
      *******************************************************/
 
     private void mouseClick(int x, int y) {
+        if (!init)
+            return;
         switch (clickedButton) {
             case MouseEvent.BUTTON1: {
                 fireWeapon(0);
@@ -170,7 +176,8 @@ public class ClientEngine {
                 fireWeapon(1);
             }
             break;
-            default:  break;
+            default:
+                break;
         }
     }
 
@@ -180,6 +187,8 @@ public class ClientEngine {
     }
 
     private void handleKeyboard() {
+        if (!init)
+            return;
         // CURRENT: Move and declare, don't ask for permission.  potential position diffs between self and other players,
         // but we'll see... this way makes the client a less flaccid vessel
         // server might have to send forcible corrections, oh well, we'll see
@@ -244,11 +253,11 @@ public class ClientEngine {
         }
     }
 
-    public void setPlayer(Player a) {
-        this.player = a;
-        clientMailroom.sendMessage(new Package(a, Package.WELCOME));
-        a.giveWeapons();
-        actorQueue.add(a);
+    public void setPlayer(Player player) {
+        this.player = player;
+        clientMailroom.sendMessage(new Package(player, Package.WELCOME));
+        player.giveWeapons();
+        actorMap.put(-1, player);
     }
 
     /*******************************************************
@@ -258,35 +267,50 @@ public class ClientEngine {
     // given a set of mail, handle it appropriately, utilizes helper functions
     private void handleMail(Iterable<Package> packages) {
         for (Package p : packages) {
-            switch(p.getType()) {
-                case Package.WELCOME:   handleWelcome(p); break;
-                case Package.HITSCAN:   handleHitscan(p); break;
-                case Package.PROJECT:   handleProjectile(p); break;
-                case Package.NEW_POS:   handleNewPosition(p); break;
-                case Package.ANIMATE:   handleAnimation(p); break; // server gives new animation
-                case Package.ACTOR:     handleNewActor(p); break;
-                case Package.HIT:       handleHit(p); break;
-                case Package.REMOVE:    handleRemove(p); break;
-                default: System.out.println("Unused package type: " + p.getType());
+            switch (p.getType()) {
+                case Package.WELCOME:
+                    handleWelcome(p);
+                    break;
+                case Package.HITSCAN:
+                    handleHitscan(p);
+                    break;
+                case Package.PROJECT:
+                    handleProjectile(p);
+                    break;
+                case Package.NEW_POS:
+                    handleNewPosition(p);
+                    break;
+                case Package.ANIMATE:
+                    handleAnimation(p);
+                    break; // server gives new animation
+                case Package.ACTOR:
+                    handleNewActor(p);
+                    break;
+                case Package.HIT:
+                    handleHit(p);
+                    break;
+                case Package.REMOVE:
+                    handleRemove(p);
+                    break;
+                default:
+                    System.out.println("Unused package type: " + p.getType());
             }
         }
     }
 
     private void handleNewPosition(Package p) {
         int id = (Integer) (p.getPayload());
-        for (Actor a : actorQueue) {
-            if (a.getID() == id && id != player.getID()) {
-                double[] coords = Package.extractCoords(p.getExtra());
-                a.moveTo(coords[0], coords[1]);
-                // update position
-                break;
-            }
+        Actor a = actorMap.get(id);
+        if (a != null) {
+            double[] coords = Package.extractCoords(p.getExtra());
+            a.moveTo(coords[0], coords[1]);
         }
     }
 
     private void handleWelcome(Package p) {
         int id = (Integer) p.getPayload();
         player.setID(id);
+        actorMap.put(id, player);
         begin();
     }
 
@@ -298,7 +322,7 @@ public class ClientEngine {
 
     private void handleProjectile(Package p) {
         Projectile proj = (Projectile) p.getPayload();
-        actorQueue.add(proj);
+        actorMap.put(proj.getID(), proj);
     }
 
     private void handleAnimation(Package p) {
@@ -306,10 +330,9 @@ public class ClientEngine {
         if (a instanceof SwingAnimation) {
             int id = Integer.parseInt(p.getExtra());
             if (id >= 0) {
-                for (Actor act : actorQueue) {
-                    if (act.getID() == id) {
-                        ((SwingAnimation) a).setSrc(act);
-                    }
+                Actor act = actorMap.get(id);
+                if (act != null) {
+                    ((SwingAnimation) a).setSrc(act);
                 }
             }
         }
@@ -318,7 +341,8 @@ public class ClientEngine {
 
     private void handleNewActor(Package p) {
         Actor a = (Actor) p.getPayload();
-        actorQueue.add(a);
+        int id = a.getID();
+        actorMap.put(a.getID(), a);
         if (a instanceof Mob)
             mobQueue.add((Mob) a);
     }
@@ -326,27 +350,20 @@ public class ClientEngine {
     private void handleHit(Package p) {
         int damage = (Integer) p.getPayload();
         int id = Integer.parseInt(p.getExtra());
-        System.out.println(id + "hit " + Math.random());
-        for (Actor a : actorQueue) {
-            if (a.getID() == id) {
-                a.hit(damage);
-            }
-        }
+        Actor a = actorMap.get(id);
+        if (a != null)
+            a.hit(damage);
     }
 
     private void handleRemove(Package p) {
         int id = (Integer) p.getPayload();
-        for (Actor actor : actorQueue) {
-            if (actor.getID() == id) {
-                actorQueue.remove(actor);
-            }
-        }
+        Actor a = actorMap.get(id);
+        if (a != null)
+            actorMap.remove(id);
+
         for (Mob mob : mobQueue) {
             if (mob.getID() == id) {
                 mobQueue.remove(mob);
-//                int x = 10 + (int) (Math.random() * 580);
-//                Mob mob2 = new Mob(-1, x, 800, 12, 10);
-//                clientMailroom.sendMessage(new Package(mob2, Package.ACTOR));
             }
         }
     }
@@ -359,7 +376,7 @@ public class ClientEngine {
         if (player.getY() - visibleRadius <= 0)
             return 0;
         if (player.getY() + visibleRadius > maxLogY)
-            return maxLogY - 2*visibleRadius;
+            return maxLogY - 2 * visibleRadius;
         return player.getY() - visibleRadius;
     }
 
@@ -367,7 +384,7 @@ public class ClientEngine {
         if (player.getY() + visibleRadius >= maxLogY)
             return maxLogY;
         if (player.getY() - visibleRadius <= 0)
-            return 2*visibleRadius;
+            return 2 * visibleRadius;
         return player.getY() + visibleRadius;
     }
 
@@ -375,7 +392,7 @@ public class ClientEngine {
         if (player.getX() - visibleRadius <= 0)
             return 0;
         if (player.getX() + visibleRadius >= maxLogX)
-            return maxLogX - 2*visibleRadius;
+            return maxLogX - 2 * visibleRadius;
         return player.getX() - visibleRadius;
     }
 
@@ -383,8 +400,11 @@ public class ClientEngine {
         if (player.getX() + visibleRadius > maxLogX)
             return maxLogX;
         if (player.getX() - visibleRadius < 0)
-            return 2*visibleRadius;
+            return 2 * visibleRadius;
         return player.getX() + visibleRadius;
     }
 
+    public void exit() {
+        clientMailroom.exit();
+    }
 }

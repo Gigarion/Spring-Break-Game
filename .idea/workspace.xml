@@ -7,7 +7,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69d04400-34d6-49b7-820e-0bde14eb2f0f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/Spring_Break_Game_jar/Spring-Break-Game.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/Spring_Break_Game_jar/img/arrow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/Spring_Break_Game_jar/img/sord.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Actors/Actor.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Actors/Mob.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Actors/Player.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Animations/Animation.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Animations/HitScanLine.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Animations/Particle.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Animations/SwingAnimation.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ClientEngine.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/Engine$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/Engine$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/Engine.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ServerEngine$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Engine/ServerEngine.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/GameGUI.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/META-INF/MANIFEST.MF" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ClientMailroom$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ClientMailroom.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/Package.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ServerClient.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ServerMailroom$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Mailroom/ServerMailroom.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Projectiles/HitScan.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Projectiles/Projectile.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Util/StdDraw.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Spring-Break-Game/Weapons/Weapon.class" afterPath="" />
     </list>
     <ignored path="Spring-Break-Game.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -173,7 +205,7 @@
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="880">
+            <state relative-caret-position="676">
               <caret line="40" column="24" lean-forward="false" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
               <folding />
             </state>
@@ -269,10 +301,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="x" value="953" />
+    <option name="width" value="974" />
+    <option name="height" value="1047" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -290,6 +321,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -305,7 +337,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -632,7 +663,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="953" y="0" width="974" height="1047" extended-state="0" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -648,7 +679,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11940298" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24945295" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1120,7 +1151,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="880">
+        <state relative-caret-position="676">
           <caret line="40" column="24" lean-forward="false" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
           <folding />
         </state>

@@ -35,13 +35,7 @@ import java.awt.MediaTracker;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
@@ -64,13 +58,7 @@ import java.util.TreeSet;
 import java.util.NoSuchElementException;
 import javax.imageio.ImageIO;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 
 import Engine.ClientEngine;
 
@@ -232,6 +220,17 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         frame.addKeyListener(std);    // JLabel cannot get keyboard focus
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);            // closes all windows
+
+        WindowListener windowListener = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (clientEngine != null)
+                    clientEngine.exit();
+                System.exit(0);
+            }
+        };
+        frame.addWindowListener(windowListener);
+
         // frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);      // closes only current window
         frame.setTitle("Spring Break Defense");
         //frame.setJMenuBar(createMenuBar());

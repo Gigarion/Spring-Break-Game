@@ -49,8 +49,14 @@ public class ClientMailroom {
             @Override
             public void run() {
                 while (true) {
+
                     try {
-                        Package p = (Package) inputStream.readObject();
+                        Package p;
+                        synchronized (ClientMailroom.class) {
+                            if (socket.isClosed())
+                                break;
+                            p = (Package) inputStream.readObject();
+                        }
                         synchronized (inboundLock) {
                             inboundMail.add(p);
                         }
@@ -78,6 +84,18 @@ public class ClientMailroom {
             ConcurrentLinkedQueue<Package> currentMessages = new ConcurrentLinkedQueue<>(inboundMail);
             inboundMail = new ConcurrentLinkedQueue<>();
             return currentMessages;
+        }
+    }
+
+    public void exit() {
+        synchronized (ClientMailroom.class) {
+            try {
+                inputStream.close();
+                outputStream.close();
+                socket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

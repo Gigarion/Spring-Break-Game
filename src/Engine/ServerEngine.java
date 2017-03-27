@@ -20,142 +20,153 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Big daddy server
  * handles some logic and spreading the news
  */
+
+
 public class ServerEngine {
     private ServerMailroom mailroom;
     private ConcurrentHashMap<Integer, Actor> actorMap;
-    private ConcurrentLinkedQueue<Projectile> projectileQueue;
     private AtomicInteger nextFreeId;
+    private enum State {
+        PRE_CONNECT, INIT, RUNNING
+    }
+    private State serverState;
+
+    public interface MessageHandler {
+        void handleMail(Package p);
+    }
 
     public ServerEngine() {
-        mailroom = new ServerMailroom(2);
-        this.actorMap = new ConcurrentHashMap<>();
-        this.projectileQueue = new ConcurrentLinkedQueue<>();
-        setTimers();
+        System.out.println("server");
+        this.serverState = State.PRE_CONNECT;
         nextFreeId = new AtomicInteger(0);
+        this.serverState = State.INIT;
+        this.actorMap = new ConcurrentHashMap<>();
+        mailroom = new ServerMailroom(2, (Package p) -> handleMessage(p));
+        setTimers();
     }
 
     private void setTimers() {
-        // TODO: optimize by removing this timer, make it a direct call
-        // TODO: from the mail thread
-        Timer checkMailTimer = new Timer("Server Engine Mail Timer", true);
-        checkMailTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                while (true) {
-                    handleMessages();
-                }
-            }
-        }, 0);
         Timer updateTimer = new Timer("Server update timer", true);
         updateTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                update();
+                while (true) {
+                    update();
+                    try {
+                        Thread.sleep(1);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        }, 0, 1);
+        }, 0);
     }
 
     private void update() {
         for (Actor a : actorMap.values()) {
             a.update();
+            checkActor(a);
         }
     }
 
     // get the current slew of messages and do stuff with them.
     // I should probs modularize this function
-    private synchronized void handleMessages() {
-        for (Package p : mailroom.getMessages()) {
-            switch (p.getType()) {
-                case Package.WELCOME: { // requires port #'s
-                    System.out.println("here");
-                    // TODO: think about handshakey game init protocols
-                    // TODO: think about engine orientation
-                    // upon getting a welcome, send a return packet containing
-                    // the id the player should be assigned.
-                    int id = getNextId();
-                    Player newPlayer = (Player) p.getPayload();
-                    newPlayer.setID(id);
-                    actorMap.put(id, newPlayer);
-                    System.out.println(p.getPort());
-                    mailroom.sendPackage(new Package(id, Package.WELCOME), p.getPort());
-                    int x = 10 + (int) (Math.random() * 580);
-                    Mob m = new Mob(getNextId(), x, 800, 12, 10);
-                    actorMap.put(m.getID(), m);
-                    mailroom.sendPackage(new Package(m, Package.ACTOR));
-                }
-                break;
+    public synchronized void handleMessage(Package p) {
+        switch (p.getType()) {
+            case Package.WELCOME: { // requires port #'s
+                System.out.println("welcomed");
+                // upon getting a welcome, send a return packet containing
+                // the id the player should be assigned.
+                int id = getNextId();
+                Player newPlayer = (Player) p.getPayload();
+                newPlayer.setID(id);
+                actorMap.put(id, newPlayer);
+                mailroom.sendPackage(new Package(id, Package.WELCOME), p.getPort());
 
-                case Package.HITSCAN: { // chill, move engine logic to here
-                    // TODO: add fireHitscan method to this class
-                    // runs the hitscan, then asks whether
-                    HitScan hs = (HitScan) p.getPayload();
-                    int srcId = Integer.parseInt(p.getExtra());
-                    for (Actor hit : fireHitScan(hs, srcId)) {
-                        mailroom.sendPackage(new Package(hs.getDamage(), Package.HIT, Integer.toString(hit.getID())));
-                    }
-                    if (hs.getShowLine())
-                        mailroom.sendPackage(new Package(new HitScanLine(hs), Package.ANIMATE));
-                }
-                break;
+                // handle onboarding
+                handleNewUser(newPlayer, p.getPort());
 
-                case Package.PROJECT: { // chill, ""
-                    Projectile proj = (Projectile) p.getPayload();
-                    projectileQueue.add(proj);
-                    mailroom.sendPackage(p);
-                }
-                break;
-
-                case Package.NEW_POS: {
-                    int id = (Integer) p.getPayload();
-                    double[] coords = Package.extractCoords(p.getExtra());
-                    Actor a = actorMap.get(id);
-                    if (a != null)
-                        a.moveTo(coords[0], coords[1]);
-                    mailroom.sendPackage(p);
-                }
-                break; // requires actor/player IDS
-
-                case Package.ANIMATE: {
-                    mailroom.sendPackage(p);
-                }
-                break;
-
-                case Package.ACTOR: { // actually this one is less chill
-                    // add actor to my queue
-                    Actor a = (Actor) p.getPayload();
-                    if (a.getID() == -1)
-                        a.setID(getNextId());
-                    actorMap.put(a.getID(), a);
-                    // broadcast packet
-                    mailroom.sendPackage(p);
-                }
-                break;
-
-                case Package.HIT: {
-                    System.out.println("ERROR: hit package @ server");
-                }
-                break; // doesn't occur
-                case Package.REMOVE: {
-                    Actor actor = actorMap.get((Integer) p.getPayload());
-                    if (actor != null) {
-                        actorMap.remove(actor.getID());
-                        if (actor instanceof Mob) {
-                            System.out.println((Integer) p.getPayload());
-                            int x = 10 + (int) (Math.random() * 580);
-                            int id = getNextId();
-                            Mob mob = new Mob(id, x, 800, 12, 10);
-                            actorMap.put(id, mob);
-                            mailroom.sendPackage(new Package(mob, Package.ACTOR));
-                        }
-                    }
-                    mailroom.sendPackage(p);
-                    break;
-                }
-                default:
-                    System.out.println("unhandled package type: " + p.getType());
-                    break;
+                // for now, make a new mob whenever a player gets added
+                int x = 10 + (int) (Math.random() * 580);
+                Mob m = new Mob(getNextId(), x, 800, 12, 10);
+                actorMap.put(m.getID(), m);
+                mailroom.sendPackage(new Package(m, Package.ACTOR));
             }
+            break;
+
+            case Package.HITSCAN: {
+                // runs the hitscan, then asks whether
+                HitScan hs = (HitScan) p.getPayload();
+                int srcId = Integer.parseInt(p.getExtra());
+                for (Actor hit : fireHitScan(hs, srcId)) {
+                    mailroom.sendPackage(new Package(hs.getDamage(), Package.HIT, Integer.toString(hit.getID())));
+                }
+                if (hs.getShowLine())
+                    mailroom.sendPackage(new Package(new HitScanLine(hs), Package.ANIMATE));
+            }
+            break;
+
+            case Package.PROJECT: { // chill, ""
+                Projectile proj = (Projectile) p.getPayload();
+                int id = getNextId();
+                proj.setID(id);
+                actorMap.put(id, proj);
+                mailroom.sendPackage(p);
+            }
+            break;
+
+            case Package.NEW_POS: {
+                int id = (Integer) p.getPayload();
+                double[] coords = Package.extractCoords(p.getExtra());
+                Actor a = actorMap.get(id);
+                if (a != null)
+                    a.moveTo(coords[0], coords[1]);
+                mailroom.sendPackage(p);
+            }
+            break; // requires actor/player IDS
+
+            case Package.ANIMATE: {
+                mailroom.sendPackage(p);
+            }
+            break;
+
+            case Package.ACTOR: { // actually this one is less chill
+                // add actor to my queue
+                Actor a = (Actor) p.getPayload();
+                if (a.getID() == -1)
+                    a.setID(getNextId());
+                actorMap.put(a.getID(), a);
+                // broadcast packet
+                mailroom.sendPackage(p);
+            }
+            break;
+
+            case Package.HIT: {
+                System.out.println("ERROR: hit package @ server");
+            }
+            break; // doesn't occur
+            case Package.REMOVE: {
+                Actor actor = actorMap.get((Integer) p.getPayload());
+                if (actor != null) {
+                    actorMap.remove(actor.getID());
+                    if (actor instanceof Mob) {
+                       killMob(actor);
+                    }
+                }
+                mailroom.sendPackage(p);
+                break;
+            }
+            default:
+                System.out.println("unhandled package type: " + p.getType());
+                break;
         }
+    }
+
+    public void handleNewUser(Actor newPlayer, int port) {
+        for (Actor actor : actorMap.values()) {
+            mailroom.sendPackage(new Package(actor, Package.ACTOR), port);
+        }
+        mailroom.sendPackage(new Package(newPlayer, Package.ACTOR));
     }
 
     // fire a hitscan, currently ignores hitting the initiating player
@@ -176,11 +187,8 @@ public class ServerEngine {
             currY += (2 * Math.sin(angle));
             Mob a = new Mob(15, currX, currY, 5, 0);
             int hits = 0;
-            System.out.println("notHitSize " + notHit.size());
-            System.out.println("actormap size " + actorMap.size());
             for (Actor mob : notHit) {
                 if (mob.collides(a) && !areHit.contains(mob)) {
-                    System.out.println("hit");
                     mob.hit(hs.getDamage());
                     checkActor(mob);
                     areHit.add(mob);
@@ -196,13 +204,35 @@ public class ServerEngine {
         return areHit;
     }
 
-    private void checkActor(Actor a) {
-        if (a instanceof Mob) {
-            if (((Mob) a).getHP() <= 0) {
-                System.out.println("checked");
-                actorMap.remove(a.getID());
+    private synchronized void checkActor(Actor a) {
+        int id = a.getID();
+        if (a instanceof Projectile) {
+            Projectile p = (Projectile) a;
+            if (p.outOfRange()) {
+                actorMap.remove(id);
                 mailroom.sendPackage(new Package(a.getID(), Package.REMOVE));
             }
+            for (Actor target : actorMap.values()) {
+                if (target == p)
+                    continue;
+                if (target.collides(p)) {
+                    target.hit(p.getDamage());
+                }
+            }
+        }
+
+        if (a instanceof Mob) {
+            if (((Mob) a).getHP() <= 0) {
+                actorMap.remove(id);
+                killMob(a);
+            }
+        }
+
+        if (!inBounds(a.getX(), a.getY())) {
+            actorMap.remove(id);
+            mailroom.sendPackage(new Package(id, Package.REMOVE));
+            if (a instanceof Mob)
+                killMob(a);
         }
     }
 
@@ -223,5 +253,14 @@ public class ServerEngine {
 
     private int getNextId() {
         return nextFreeId.getAndIncrement();
+    }
+
+    private void killMob(Actor a) {
+        mailroom.sendPackage(new Package(a.getID(), Package.REMOVE));
+        int x = 10 + (int) (Math.random() * 580);
+        int id = getNextId();
+        Mob mob = new Mob(id, x, 800, 12, 10);
+        actorMap.put(id, mob);
+        mailroom.sendPackage(new Package(mob, Package.ACTOR));
     }
 }

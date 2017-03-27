@@ -30,7 +30,7 @@ public class Package implements Serializable {
 
     // Either client or server asks to add an animation to the game
     // Client: Payload: Animation object, Extra: ID of source player
-    // Server: ""
+    // Server: Echoes client packet
     public static final char ANIMATE = 4;
 
     // Somebody requests an Actor be added to the game
@@ -38,8 +38,9 @@ public class Package implements Serializable {
     // Server:: Payload: new Actor, Extra: n/a
     public static final char ACTOR   = 5;
 
-    // Client or server notifies the field of a hit to an actor
-    // Client:: Payload: Integer damage, Extra: id of hit actor
+    // Server notifies the field of a hit to an actor
+    // Client:: n/a
+    // Server:: Payload: Integer damage, Extra: id of hit actor
     public static final char HIT     = 6;
 
     // Signals the end of initialization information from the server
@@ -59,6 +60,11 @@ public class Package implements Serializable {
     // Client:: n/a
     // Server:: Payload: Integer port number, Extra: n/a
     public static final char DISCONNECT = 10;
+
+    // ping packet for connection checking and speed testing
+    // Client: Payload: Long milliseconds
+    // Server: Echoes client packet
+    public static final char PING = 11;
 
     private Object payload;
     private char type;

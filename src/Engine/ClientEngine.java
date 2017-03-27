@@ -49,6 +49,7 @@ public class ClientEngine {
     private int frame;              // which frame are we on
     private Timer mailTimer;        // timer for checking mail
     private boolean init; // is the engine ready to start?
+    private long ping; // the current round trip ping in milliseconds
 
 
     // constructor
@@ -67,21 +68,17 @@ public class ClientEngine {
             @Override
             public void run() {
                 while (true) {
-                    handleMail(clientMailroom.getMessages());
-                    try {
-                        Thread.yield();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    handleMail(clientMailroom.getMessage());
                 }
             }
         }, 0);
     }
 
     // starts the engine loops
-    public void begin() {
+    private void begin() {
         init = true;
         setTimers();
+        clientMailroom.sendMessage(new Package(System.currentTimeMillis(), Package.PING));
     }
 
     /******************************************************
@@ -141,7 +138,7 @@ public class ClientEngine {
         StdDraw.line(getVisibleXMax(), getVisibleYMin() + hudHeight, getVisibleXMax() + HUD_WIDTH, getVisibleYMin() + hudHeight);
         StdDraw.text(hudCenterX, hudNameY, player.getName());
         StdDraw.text(hudCenterX, hudHealthY, Integer.toString(player.getHP()) + "/" + Integer.toString(player.getMaxHP()));
-        StdDraw.text(hudCenterX, hudIDY, player.getID() + "");
+        StdDraw.text(hudCenterX, hudIDY, ping + "");
     }
 
     // logic tick, calculates ttl's and stuff here.. not exactly sure what else tbh...
@@ -265,36 +262,39 @@ public class ClientEngine {
      *******************************************************/
 
     // given a set of mail, handle it appropriately, utilizes helper functions
-    private void handleMail(Iterable<Package> packages) {
-        for (Package p : packages) {
-            switch (p.getType()) {
-                case Package.WELCOME:
-                    handleWelcome(p);
-                    break;
-                case Package.HITSCAN:
-                    handleHitscan(p);
-                    break;
-                case Package.PROJECT:
-                    handleProjectile(p);
-                    break;
-                case Package.NEW_POS:
-                    handleNewPosition(p);
-                    break;
-                case Package.ANIMATE:
-                    handleAnimation(p);
-                    break; // server gives new animation
-                case Package.ACTOR:
-                    handleNewActor(p);
-                    break;
-                case Package.HIT:
-                    handleHit(p);
-                    break;
-                case Package.REMOVE:
-                    handleRemove(p);
-                    break;
-                default:
-                    System.out.println("Unused package type: " + p.getType());
-            }
+    private synchronized void handleMail(Package p) {
+        if (p == null) return;
+        System.out.println(p.getType());
+        switch (p.getType()) {
+            case Package.WELCOME:
+                handleWelcome(p);
+                break;
+            case Package.HITSCAN:
+                handleHitscan(p);
+                break;
+            case Package.PROJECT:
+                handleProjectile(p);
+                break;
+            case Package.NEW_POS:
+                handleNewPosition(p);
+                break;
+            case Package.ANIMATE:
+                handleAnimation(p);
+                break; // server gives new animation
+            case Package.ACTOR:
+                handleNewActor(p);
+                break;
+            case Package.HIT:
+                handleHit(p);
+                break;
+            case Package.REMOVE:
+                handleRemove(p);
+                break;
+            case Package.PING:
+                handlePing(p);
+                break;
+            default:
+                System.out.println("Unused package type: " + p.getType());
         }
     }
 
@@ -326,7 +326,7 @@ public class ClientEngine {
     }
 
     private void handleAnimation(Package p) {
-        Animation a = (Animation) p.getPayload();
+        Animation a = (Animation) (p.getPayload());
         if (a instanceof SwingAnimation) {
             int id = Integer.parseInt(p.getExtra());
             if (id >= 0) {
@@ -366,6 +366,13 @@ public class ClientEngine {
                 mobQueue.remove(mob);
             }
         }
+    }
+
+    private void handlePing(Package p) {
+        long currentTime = System.currentTimeMillis();
+        long oldTime = (Long) p.getPayload();
+        ping = currentTime - oldTime;
+        clientMailroom.sendMessage(new Package(System.currentTimeMillis(), Package.PING));
     }
 
     /******************************************************

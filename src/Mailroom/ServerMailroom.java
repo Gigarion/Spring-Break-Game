@@ -1,10 +1,9 @@
 package Mailroom;
 
 import Engine.ServerEngine;
-import com.sun.security.ntlm.Server;
 
-import java.net.*;
-import java.util.LinkedList;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -16,12 +15,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ServerMailroom {
     private ServerSocket acceptSocket;
-    private LinkedList<ServerClient> clients;
+    private ConcurrentLinkedQueue<ServerClient> clients;
     private ServerEngine.MessageHandler handler;
     private AtomicInteger nextId;
 
     public ServerMailroom(int maxClients, ServerEngine.MessageHandler handler) {
-        clients = new LinkedList<>();
+        clients = new ConcurrentLinkedQueue<>();
         this.handler = handler;
         this.nextId = new AtomicInteger();
         //mailTimer = new Timer("Server Mailroom Timer", true);
@@ -79,21 +78,20 @@ public class ServerMailroom {
         System.out.println("one died...");
         clients.remove(client);
         handler.handleMessage(new Package(client.getPort(), Package.DISCONNECT));
-        new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    System.out.println("trying to get new client");
-                    Socket clientSocket = acceptSocket.accept();
-                    System.out.println("new client");
-                    ServerClient newClient = new ServerClient(clientSocket, getNextId());
-                    clients.add(newClient);
-                    setTimer(newClient);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
+        Runnable task2 = () -> {
+            try {
+                System.out.println("trying to get new client");
+                Socket clientSocket = acceptSocket.accept();
+                System.out.println("new client");
+                ServerClient newClient = new ServerClient(clientSocket, getNextId());
+                clients.add(newClient);
+                setTimer(newClient);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }.run();
+        };
+        task2.run();
     }
 
     public void sendPackage(Package p, int port) {

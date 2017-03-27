@@ -85,7 +85,8 @@ public class ServerEngine {
             case Package.ANIMATE: handleAnimation(p); break;
             case Package.ACTOR: handleActor(p); break;
             case Package.HIT: System.out.println("ERROR: hit package @ server");break; // doesn't occur
-            case Package.REMOVE: handleRemove(p);
+            case Package.REMOVE: handleRemove(p); break;
+            case Package.PING: handlePing(p); break;
             case Package.DISCONNECT: handleDisconnect(p); break;
             default:   System.out.println("unhandled package type: " + p.getType()); break;
         }
@@ -155,7 +156,7 @@ public class ServerEngine {
     }
 
     private void handleRemove(Package p) {
-        Actor actor = actorMap.get((Integer) p.getPayload());
+        Actor actor = actorMap.get(p.getPayload());
         if (actor != null) {
             actorMap.remove(actor.getID());
             if (actor instanceof Mob) {
@@ -169,6 +170,10 @@ public class ServerEngine {
         int actorId = portToPlayerMap.get(p.getPayload());
         actorMap.remove(actorId);
         mailroom.sendPackage(new Package(actorId, Package.REMOVE));
+    }
+
+    private void handlePing(Package p) {
+        mailroom.sendPackage(p, p.getPort());
     }
 
     // not technically mail but relevant, called from handleWelcome

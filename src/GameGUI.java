@@ -1,8 +1,7 @@
-import Actors.Mob;
 import Actors.Player;
-import Engine.*;
+import Engine.ClientEngine;
+import Engine.ServerEngine;
 import Util.StdDraw;
-import com.sun.deploy.util.SessionState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,11 +13,13 @@ public class GameGUI implements ActionListener{
     private boolean started;
     private JFrame frame;
     public static void main(String[] args) {
+        MainMenu menu = new MainMenu();
         GameGUI gui = new GameGUI();
         //startGame();
     }
 
     private GameGUI() {
+
         started = false;
         frame = new JFrame("Spring Break Game");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

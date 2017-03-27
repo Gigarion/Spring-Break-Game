@@ -252,6 +252,7 @@ public class ClientEngine {
 
     public void setPlayer(Player player) {
         this.player = player;
+        while (!clientMailroom.isAlive()) {Thread.yield();}
         clientMailroom.sendMessage(new Package(player, Package.WELCOME));
         player.giveWeapons();
         actorMap.put(-1, player);

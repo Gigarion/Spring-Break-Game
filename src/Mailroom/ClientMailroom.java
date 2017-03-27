@@ -2,6 +2,7 @@ package Mailroom;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 
 /**
@@ -12,12 +13,21 @@ public class ClientMailroom {
     private Socket socket;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
+    private boolean alive;
 
     public ClientMailroom() {
+        beginAndConnect();
+    }
+
+    public void beginAndConnect() {
         try {
             socket = new Socket("localhost", 3333);
+            System.out.println(socket);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
+            alive = true;
+        } catch (ConnectException e) {
+            beginAndConnect();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,6 +53,10 @@ public class ClientMailroom {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 
     public void exit() {

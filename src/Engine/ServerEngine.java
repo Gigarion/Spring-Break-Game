@@ -43,7 +43,7 @@ public class ServerEngine {
         this.serverState = State.INIT;
         this.actorMap = new ConcurrentHashMap<>();
         this.portToPlayerMap = new ConcurrentHashMap<>();
-        this.mailroom = new ServerMailroom(2, (Package p) -> handleMessage(p));
+        this.mailroom = new ServerMailroom(1, (Package p) -> handleMessage(p));
         setTimers();
     }
 
@@ -104,7 +104,7 @@ public class ServerEngine {
         mailroom.sendPackage(new Package(id, Package.WELCOME), p.getPort());
 
         // handle onboarding
-        handleNewUser(newPlayer, p.getPort());
+        setupNewUser(newPlayer, p.getPort());
 
         // for now, make a new mob whenever a player gets added
         int x = 10 + (int) (Math.random() * 580);
@@ -177,7 +177,9 @@ public class ServerEngine {
     }
 
     // not technically mail but relevant, called from handleWelcome
-    private void handleNewUser(Actor newPlayer, int port) {
+    private void setupNewUser(Actor newPlayer, int port) {
+        String sizeString = Package.formCoords(10000, 10000);
+        mailroom.sendPackage(new Package(sizeString, Package.SCR_SIZE));
         for (Actor actor : actorMap.values()) {
             mailroom.sendPackage(new Package(actor, Package.ACTOR), port);
         }

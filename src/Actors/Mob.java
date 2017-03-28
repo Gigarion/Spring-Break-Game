@@ -12,6 +12,7 @@ public class Mob extends Actor implements Serializable {
 
     public Mob(int id, double x, double y, int r, int hp) {
         super(id, x, y, r);
+        setInteractable(true);
         this.hp = hp;
         step = 100;
     }
@@ -23,31 +24,16 @@ public class Mob extends Actor implements Serializable {
     @Override
     public void update() {
         y -= 0.1;
-//        if (step == 0) {
-//            direction = (int) (Math.random() * 4);
-//            step = 100;
-//        }
-//        switch (direction) {
-//            case 0:
-//                y += offset;
-//                break;
-//            case 1:
-//                x += offset;
-//                break;
-//            case 2:
-//                y -= offset;
-//                break;
-//            case 3:
-//                x -= offset;
-//                break;
-//            default:
-//                break;
-//        }
-//        step--;
     }
-
     @Override
-    public void draw() {
+
+    public void draw(boolean selected) {
+
+        if (selected) {
+            StdDraw.setPenColor(StdDraw.RED);
+            StdDraw.filledSquare(x, y, 10);
+            StdDraw.setPenColor();
+        }
         StdDraw.filledCircle(x, y, 10);
     }
 

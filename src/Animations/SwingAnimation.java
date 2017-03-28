@@ -32,9 +32,9 @@ public class SwingAnimation extends Animation implements Serializable {
             srcX = src.getX();
             srcY = src.getY();
         }
-        double newX = srcX + (6 * Math.sin(rad)) + ((relFrame / 4) * Math.cos(rad));
+        double newX = srcX + (6 * Math.sin(rad)) + ((relFrame) * Math.cos(rad));
         //(10 + Math.sin(rad)) +
-        double newY = srcY - (6 * Math.cos(rad)) + (Math.sin(rad) * relFrame / 4);
+        double newY = srcY - (6 * Math.cos(rad)) + (Math.sin(rad) * relFrame);
         StdDraw.picture(newX, newY, imgLoc, 20, 80, deg - 90);
         ttl--;
     }

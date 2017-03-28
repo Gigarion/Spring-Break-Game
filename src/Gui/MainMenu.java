@@ -1,3 +1,5 @@
+package Gui;
+
 import Actors.Player;
 import Engine.ClientEngine;
 import Engine.ServerEngine;
@@ -13,7 +15,7 @@ public class MainMenu extends JFrame {
     private JTabbedPane tabPanel;
     private JPanel mainMenuPanel;
     private JButton startServerButton;
-    private JTextField textField1;
+    private JTextField localhostTextField;
     private JButton enterGameButton;
     private JPanel clientTab;
     private JPanel serverTab;
@@ -37,13 +39,14 @@ public class MainMenu extends JFrame {
         StdDraw.setYscale(0, 900);
         StdDraw.text(600, 450, "Loading");
 
-        ClientEngine ce = new ClientEngine(1000, 1000, 450);
+        ClientEngine ce = new ClientEngine();
 
         String name = playerNameField.getText();
         if (name.equals(""))
             name = "new player";
         ce.setPlayer(new Player(name));
-        StdDraw.addEngine(ce);
+       //StdDraw.addEngine(ce);
+        setVisible(false);
     }
 
     private void setListeners() {
@@ -54,5 +57,9 @@ public class MainMenu extends JFrame {
         enterGameButton.addActionListener((ActionEvent e) -> {
             startGame();
         });
+    }
+
+    public static void main(String[] args) {
+        MainMenu mainMenu = new MainMenu();
     }
 }

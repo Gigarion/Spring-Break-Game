@@ -58,7 +58,7 @@ public class ServerClient {
             p.setPort(id);
             return p;
         } catch (EOFException e) {
-            System.out.println("WTF EOF Exception");
+            System.out.println("Client closed");
             this.live = false;
             return null;
         } catch (Exception e) {

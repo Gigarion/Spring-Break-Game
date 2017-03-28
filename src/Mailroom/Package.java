@@ -66,6 +66,11 @@ public class Package implements Serializable {
     // Server: Echoes client packet
     public static final char PING = 11;
 
+    // orientation packet, sets logical max and min for client
+    // Client:: n/a
+    // Server:: Payload: formatted coordinate string, Extra: n/a
+    public static final char SCR_SIZE = 12;
+
     private Object payload;
     private char type;
     private String extra;

@@ -14,11 +14,16 @@ public class Bow extends Weapon {
     private static final int FIRERATE = 200;
 
     public Bow() {
-        super(DAMAGE, RELOAD, TYPE, CLIP, FIRERATE);
+        super(DAMAGE, RELOAD, CLIP, FIRERATE);
     }
     @Override
     public Object fire(Actor src, double destX, double destY) {
-        if (fire()) return new Projectile(src, destX, destY, 5, 300, 2);
+        if (fire()) return new Projectile(src, destX, destY, 5, 300, 2, 200);
         return null;
+    }
+
+    @Override
+    public void addAmmo(int count) {
+
     }
 }

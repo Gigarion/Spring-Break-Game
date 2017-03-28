@@ -9,7 +9,5 @@ import java.nio.file.Paths;
 public class MapLoader {
     private String path = "";
     public MapLoader(String filename) {
-        Path currentPath = Paths.get(path);
-        System.out.println(currentPath.toAbsolutePath().toString());
     }
 }

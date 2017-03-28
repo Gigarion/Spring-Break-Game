@@ -3,6 +3,7 @@ package Engine;
 import Actors.Actor;
 import Actors.Mob;
 import Actors.Player;
+import Actors.Rock;
 import Animations.HitScanLine;
 import Mailroom.Package;
 import Mailroom.ServerMailroom;
@@ -44,6 +45,8 @@ public class ServerEngine {
         this.actorMap = new ConcurrentHashMap<>();
         this.portToPlayerMap = new ConcurrentHashMap<>();
         this.mailroom = new ServerMailroom(1, (Package p) -> handleMessage(p));
+        for (int i = 0; i < 50; i++)
+            makeRocks();
         setTimers();
     }
 
@@ -285,8 +288,14 @@ public class ServerEngine {
         mailroom.sendPackage(new Package(a.getID(), Package.REMOVE));
         int x = 10 + (int) (Math.random() * 580);
         int id = getNextId();
-        Mob mob = new Mob(id, x, 800, 12, 10);
+        Mob mob = new Mob(id, x, 800, 12, 80);
         actorMap.put(id, mob);
         mailroom.sendPackage(new Package(mob, Package.ACTOR));
+    }
+
+    private void makeRocks() {
+        int x = 10 + (int) (Math.random() * 580);
+        int id = getNextId();
+        actorMap.put(id, new Rock(id, x, 500));
     }
 }

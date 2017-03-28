@@ -186,7 +186,7 @@ public class Engine {
                 fireHitScan(hs);
             } break;
             case MouseEvent.BUTTON3: {
-                Projectile proj = new Projectile(player, StdDraw.mouseX(), StdDraw.mouseY(), 5, 200, 2);
+                Projectile proj = new Projectile(player, StdDraw.mouseX(), StdDraw.mouseY(), 5, 200, 2, 5);
                 fireProjectile(proj);
             } break;
             default: break;

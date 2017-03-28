@@ -1,7 +1,9 @@
 package Engine;
 
 import Actors.Actor;
+import Actors.Interactable;
 import Actors.Player;
+import Actors.Rock;
 import Animations.Animation;
 import Animations.HitScanLine;
 import Animations.SwingAnimation;
@@ -177,6 +179,14 @@ public class ClientEngine {
     private void keyPressed(KeyEvent e) {
         if (e.getKeyChar() == WPN_SWAP)
             player.swapWeapon();
+        if (e.getKeyChar() == 'r') {
+            Actor a = actorMap.get(selectedID);
+            if (a != null && a instanceof Interactable)
+                ((Interactable) a).interact(player);
+            if (a instanceof Rock) {
+                clientMailroom.sendMessage(new Package(selectedID, Package.REMOVE));
+            }
+        }
     }           // individual key press
     private void exit() {
         clientMailroom.exit();

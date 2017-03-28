@@ -15,7 +15,7 @@ public class StabSword extends Weapon {
     private static final int FIRERATE = 200;
 
     public StabSword() {
-        super(DAMAGE, RELOAD, TYPE, CLIP, FIRERATE);
+        super(DAMAGE, RELOAD, CLIP, FIRERATE);
     }
     @Override
     public Object fire(Actor src, double destX, double destY) {
@@ -23,5 +23,11 @@ public class StabSword extends Weapon {
         hs.setShowLine(true);
         if (fire()) return  hs;
         return null;
+    }
+
+    // lel melee
+    @Override
+    public void addAmmo(int count) {
+
     }
 }

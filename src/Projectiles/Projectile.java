@@ -10,16 +10,17 @@ public class Projectile extends Actor implements Serializable {
     private double destX, destY;
     private double vel, rad;
     private double range;
-
+    private int damage;
     private double startX, startY;
 
-    public Projectile(Actor src, double destX, double destY, int r, double range, double speed) {
+    public Projectile(Actor src, double destX, double destY, int r, double range, double speed, int damage) {
         super(-1, src.getX(), src.getY(), r);
         this.startX = x;
         this.startY = y;
         this.range = range;
         this.vel = speed;
         this.rad = getAngle(destX, destY);
+        this.damage = damage;
     }
 
     public double getDestX() {
@@ -73,7 +74,6 @@ public class Projectile extends Actor implements Serializable {
 
     @Override
     public void draw(boolean selected) {
-        System.out.println(Paths.get("").toAbsolutePath().toString());
         try {
             StdDraw.picture(x, y, "src/img/arrow.png", 40, 10, Math.toDegrees(rad));
         } catch (Exception e) {

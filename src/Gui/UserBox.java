@@ -3,6 +3,7 @@ package Gui;
 import Actors.Actor;
 import Actors.Player;
 import Animations.Animation;
+import Util.MapLoader;
 import Util.StdDraw;
 
 import java.awt.event.KeyEvent;
@@ -18,6 +19,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * ClientEngine from StdDraw to improve modularity
  *
  * Mostly cause imma hack StdDraw to pieces eventually.
+ *
+ * I'm rather happy with how this module went, actually
  */
 
 public class UserBox {
@@ -65,6 +68,7 @@ public class UserBox {
         this.animationQueue = animationQueue;
         this.visibleRadius = VIS_RADIUS;
         StdDraw.attachUserBox(this);
+        new MapLoader("FUKKKK");
     }
 
     public void begin() {
@@ -79,6 +83,10 @@ public class UserBox {
     public void setVisibleBounds(int maxLogX, int maxLogY) {
         this.maxLogX = maxLogX;
         this.maxLogY = maxLogY;
+    }
+    public boolean inVisibleRange(double x, double y) {
+        return (x > getVisibleXMin() && x < getVisibleXMax() + HUD_WIDTH
+                && y > getVisibleYMin() && y < getVisibleYMax());
     }
 
     // request to move the screen in the given direction, only does so

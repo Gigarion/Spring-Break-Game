@@ -52,11 +52,14 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.TreeSet;
 import java.util.NoSuchElementException;
 import javax.imageio.ImageIO;
 
+import javax.print.attribute.standard.Media;
 import javax.swing.*;
 
 import Engine.ClientEngine;
@@ -798,8 +801,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
      ***************************************************************************/
     // get an image from the given filename
     private static Image getImage(String filename) {
-        if (filename == null) throw new IllegalArgumentException();
-
         // to read from file
         ImageIcon icon = new ImageIcon(filename);
 
@@ -820,13 +821,19 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
                 icon = new ImageIcon(url);
         }
 
+        // in case file is inside a .jar (classpath relative to Util.StdDraw)
+        if ((icon == null) || (icon.getImageLoadStatus() != MediaTracker.COMPLETE)) {
+            URL url = StdDraw.class.getClassLoader().getResource(filename);
+            if (url != null)
+                icon = new ImageIcon(url);
+        }
+
         // in case file is inside a .jar (classpath relative to root of jar)
         if ((icon == null) || (icon.getImageLoadStatus() != MediaTracker.COMPLETE)) {
             URL url = StdDraw.class.getResource("/" + filename);
             if (url == null) throw new IllegalArgumentException("image " + filename + " not found");
             icon = new ImageIcon(url);
         }
-
         return icon.getImage();
     }
 

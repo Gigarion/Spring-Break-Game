@@ -31,11 +31,10 @@ public class ClientEngine {
     private static final int LEFT = KeyEvent.VK_A;
     private static final int RIGHT = KeyEvent.VK_D;
     private static final char WPN_SWAP = 'e';
-    private static final double MOVEMENT_SIZE = 0.8;
-
+    private static final double MOVEMENT_SIZE = 0.8; // TODO: player speeds/stats
     private static final int LOGIC_INTERVAL = 1;
-    // active animations
-    private ConcurrentLinkedQueue<Animation> animationQueue;
+
+    private ConcurrentLinkedQueue<Animation> animationQueue;     // active animations
     private ConcurrentHashMap<Integer, Actor> actorMap;
     private ClientMailroom clientMailroom;      // communications to server
     private int maxLogX;            //logical boundaries for game
@@ -75,7 +74,7 @@ public class ClientEngine {
         logicFrame = 0;
     }
 
-    // starts the engine loops
+    // starts the engine loops, userbox initialization
     private void begin() {
         init = true;
         userBox.begin();
@@ -96,12 +95,9 @@ public class ClientEngine {
     }
 
     /******************************************************
-     * Logic and drawing
+     * Logic and logic helpers
      ******************************************************/
 
-    // logic tick, calculates ttl's and stuff here.. not exactly sure what else tbh...
-    // a fairly obvious bug about which logicFrame is here, no wonder draw was so confused.
-    // though it's so ingrained at this point... feature.
     private void logicTick() {
         if ((logicFrame % 5 == 0))
             handleKeyboard();
@@ -112,15 +108,39 @@ public class ClientEngine {
         for (Actor a : actorMap.values()) {
             a.update();
         }
+        Actor selected = actorMap.get(selectedID);
+        if (selected != null && !userBox.inVisibleRange(selected.getX(), selected.getY())) {
+            selectedID = -1;
+            selectedLock = false;
+        }
+
         if (selectedLock) return;
         int nearestID = findNearestActor();
         selectedID = nearestID;
         userBox.setSelectedActor(nearestID);
     }
 
-    /*******************************************************
-     *  UI interactions
-     *******************************************************/
+    private int findNearestActor() {
+        double range = player.getInteractRange();
+        double smallestDist = Double.POSITIVE_INFINITY;
+        int closest = -1;
+        for (Actor a : actorMap.values()) {
+            if (!a.isInteractable() || a.getID() == player.getID())
+                continue;
+            double dist = player.distanceTo(a);
+            if (dist < range && dist < smallestDist) {
+                closest = a.getID();
+                smallestDist = dist;
+            }
+        }
+        return closest;
+    }
+
+    /***********************************************
+     * UI interactions
+     * Keyboard, mouse, exit handler functions,
+     * and the loop based keyboard handler
+     ***********************************************/
 
     private void mouseClick(double x, double y) {
         if (!init)
@@ -153,13 +173,14 @@ public class ClientEngine {
             default:
                 break;
         }
-    }
-
-    // handle individual key press events if necessary
+    }   // individual click
     private void keyPressed(KeyEvent e) {
         if (e.getKeyChar() == WPN_SWAP)
             player.swapWeapon();
-    }
+    }           // individual key press
+    private void exit() {
+        clientMailroom.exit();
+    }      // exit call
 
     // check keyboard on a loop to facilitate my current movement protocol
     // nice and snappy responsiveness this way
@@ -202,32 +223,6 @@ public class ClientEngine {
             Package newPos = new Package(player.getID(), Package.NEW_POS, Package.formCoords(player.getX(), player.getY()));
             clientMailroom.sendMessage(newPos);
         }
-    }
-
-    private void fireWeapon() {
-        Object attack = player.fireWeapon();
-        if (attack == null) {
-            return;
-        }
-        if (attack instanceof HitScan) {
-            // fire a hitscan to the server
-            // adds to animation queue
-            Animation a = new SwingAnimation(player, 10, "sord.png", userBox.getMouseX(), userBox.getMouseY());
-            clientMailroom.sendMessage(new Package(a, Package.ANIMATE, Integer.toString(player.getID())));
-            clientMailroom.sendMessage(new Package(attack, Package.HITSCAN, Integer.toString(player.getID())));
-        }
-        if (attack instanceof Projectile) {
-            // fire a projectile to the server
-            // adds to animation queue cause that happens already which is probs bad
-            clientMailroom.sendMessage(new Package(attack, Package.PROJECT));
-        }
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-        while (!clientMailroom.isAlive()) {Thread.yield();}
-        clientMailroom.sendMessage(new Package(player, Package.WELCOME));
-        player.giveWeapons();
     }
 
     /*******************************************************
@@ -295,7 +290,6 @@ public class ClientEngine {
     }
 
     private void handleNewActor(Package p) {
-        System.out.println("added");
         Actor a = (Actor) p.getPayload();
         int id = a.getID();
         actorMap.put(id, a);
@@ -338,26 +332,32 @@ public class ClientEngine {
     }
 
     /******************************************************
-     *  Various utility functions
+     *  Miscellaneous
      ******************************************************/
 
-    private int findNearestActor() {
-        double range = player.getInteractRange();
-        double smallestDist = Double.POSITIVE_INFINITY;
-        int closest = -1;
-        for (Actor a : actorMap.values()) {
-            if (!a.isInteractable() || a.getID() == player.getID())
-                continue;
-            double dist = player.distanceTo(a);
-            if (dist < range && dist < smallestDist) {
-                closest = a.getID();
-                smallestDist = dist;
-            }
+    private void fireWeapon() {
+        Object attack = player.fireWeapon();
+        if (attack == null) {
+            return;
         }
-        return closest;
+        if (attack instanceof HitScan) {
+            // fire a hitscan to the server
+            // adds to animation queue
+            Animation a = new SwingAnimation(player, 10, "sord.png", userBox.getMouseX(), userBox.getMouseY());
+            clientMailroom.sendMessage(new Package(a, Package.ANIMATE, Integer.toString(player.getID())));
+            clientMailroom.sendMessage(new Package(attack, Package.HITSCAN, Integer.toString(player.getID())));
+        }
+        if (attack instanceof Projectile) {
+            // fire a projectile to the server
+            // adds to animation queue cause that happens already which is probs bad
+            clientMailroom.sendMessage(new Package(attack, Package.PROJECT));
+        }
     }
 
-    private void exit() {
-        clientMailroom.exit();
+    public void setPlayer(Player player) {
+        this.player = player;
+        while (!clientMailroom.isAlive()) {Thread.yield();}
+        clientMailroom.sendMessage(new Package(player, Package.WELCOME));
+        player.giveWeapons();
     }
 }

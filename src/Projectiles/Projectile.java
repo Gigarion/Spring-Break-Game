@@ -4,6 +4,7 @@ import Actors.Actor;
 import Util.StdDraw;
 
 import java.io.Serializable;
+import java.nio.file.Paths;
 
 public class Projectile extends Actor implements Serializable {
     private double destX, destY;
@@ -72,7 +73,12 @@ public class Projectile extends Actor implements Serializable {
 
     @Override
     public void draw(boolean selected) {
-        StdDraw.picture(x, y, "img/arrow.png", 40, 10, Math.toDegrees(rad));
+        System.out.println(Paths.get("").toAbsolutePath().toString());
+        try {
+            StdDraw.picture(x, y, "src/img/arrow.png", 40, 10, Math.toDegrees(rad));
+        } catch (Exception e) {
+            StdDraw.picture(x, y, "img/arrow.png", 40, 10, Math.toDegrees(rad));
+        }
         StdDraw.circle(x, y, r);
     }
 

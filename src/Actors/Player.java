@@ -6,12 +6,16 @@ import Weapons.StabSword;
 import Weapons.Weapon;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Player extends Actor {
-    private ArrayList<Weapon> weapons;
+    private static final int INTERACT_RANGE = 30;
+    private LinkedList<Weapon> weapons;
+    private Weapon equipped;
     private String name;
     private int maxHP;
     private int hp;
+    private double interactRange;
     private int level;
     private int exp;
 
@@ -20,7 +24,9 @@ public class Player extends Actor {
         this.name = userName;
         this.maxHP = 100;
         this.hp = maxHP;
-        this.weapons = new ArrayList<>();
+        this.weapons = new LinkedList<>();
+        this.interactRange = INTERACT_RANGE;
+        equipped = null;
     }
 
     public void setID(int id) {
@@ -34,6 +40,12 @@ public class Player extends Actor {
     public void giveWeapons() {
         weapons.add(new StabSword());
         weapons.add(new Bow());
+        equipped = weapons.removeFirst();
+    }
+
+    public void swapWeapon() {
+        weapons.add(equipped);
+        equipped = weapons.removeFirst();
     }
 
     // fully heal player, return result hp
@@ -57,8 +69,9 @@ public class Player extends Actor {
 
     // returns either a hitscan or a projectile to register as an attack
     // (or other later???)
-    public Object fireWeapon(int which) {
-        return weapons.get(which).fire(this, StdDraw.mouseX(), StdDraw.mouseY());
+    public Object fireWeapon() {
+        if (equipped == null) return null;
+        return equipped.fire(this, StdDraw.mouseX(), StdDraw.mouseY());
     }
 
     // shift the player's location by dist in the x direction
@@ -72,10 +85,18 @@ public class Player extends Actor {
         this.y += dist;
     }
     public void update() {}
-    public void draw() {
+
+    @Override
+    public void draw(boolean selected) {
         StdDraw.filledCircle(x, y, 10);
+        StdDraw.circle(x, y, interactRange);
     }
+
+    @Override
+    public void hit(int damage) {}
+
     public String getName() { return this.name; }
     public int getHP() {return hp;}
     public int getMaxHP() {return maxHP;}
+    public double getInteractRange() { return interactRange; }
 }

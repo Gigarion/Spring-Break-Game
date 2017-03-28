@@ -10,7 +10,6 @@ package Util;
  *  allows you to create drawings consisting of points, lines, and curves
  *  in a window on your computer and to save the drawings to a file.
  *
- *  Todo
  *  ----
  *    -  Add support for gradient fill, etc.
  *    -  Fix setCanvasSize() so that it can only be called once.
@@ -61,6 +60,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Engine.ClientEngine;
+import Gui.UserBox;
 
 
 public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
@@ -143,7 +143,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     // set of key codes currently pressed down
     private static TreeSet<Integer> keysDown = new TreeSet<Integer>();
 
-    private static ClientEngine clientEngine = null;
+   // private static ClientEngine clientEngine = null;
+    private static UserBox userBox = null;
 
     // singleton pattern: client can't instantiate
     private StdDraw() {
@@ -224,8 +225,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         WindowListener windowListener = new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (clientEngine != null)
-                    clientEngine.exit();
+                userBox.exit();
                 System.exit(0);
             }
         };
@@ -1248,8 +1248,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-        //engine.setClickedButton(e.getButton());
-        clientEngine.setClickedButton(e.getButton());
+        userBox.setClickedButton(e.getButton());
         // this body is intentionally left empty
     }
 
@@ -1275,11 +1274,11 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     @Override
     public void mousePressed(MouseEvent e) {
         synchronized (mouseLock) {
-            //engine.setClickedButton(e.getButton());
-            clientEngine.setClickedButton(e.getButton());
             mouseX = StdDraw.userX(e.getX());
             mouseY = StdDraw.userY(e.getY());
             mousePressed = true;
+
+            userBox.click(e);
         }
     }
 
@@ -1379,6 +1378,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     public void keyTyped(KeyEvent e) {
         synchronized (keyLock) {
             keysTyped.addFirst(e.getKeyChar());
+            userBox.keyPressed(e);
+            System.out.println("typed");
         }
     }
 
@@ -1430,8 +1431,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         StdDraw.text(0.8, 0.8, "white text");
     }
 
-    public static void addEngine(ClientEngine ce) {
-        clientEngine = ce;
+    public static void attachUserBox(UserBox ub) {
+        userBox = ub;
     }
 
 }

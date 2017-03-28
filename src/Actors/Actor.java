@@ -2,23 +2,25 @@ package Actors;
 
 import java.io.Serializable;
 
-public class Actor implements Serializable {
+public abstract class Actor implements Serializable {
     protected double x;
     protected double y;
     protected double r;
     protected int id;
+    protected boolean interactable;
 
     public Actor(int id, double x, double y, int r) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.r = r;
+        this.interactable = false;
     }
 
     // all actors must be Real, be drawable, and have the ability to be shot (lol)
-    public void update() {}
-    public void draw() {}
-    public void hit(int damage) {}
+    public abstract void update();
+    public abstract void draw(boolean selected);
+    public abstract void hit(int damage);
 
     // circular collisions
     public boolean collides(Actor that) {
@@ -37,6 +39,19 @@ public class Actor implements Serializable {
         }
         return false;
     }
+
+    public double distanceTo(Actor a) {
+        return distanceTo(a.getX(), a.getY());
+    }
+
+    // distance to the center of the object
+    public double distanceTo(double x, double y) {
+        double xDiff, yDiff;
+        xDiff = this.x - x;
+        yDiff = this.y - y;
+        return Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
+    }
+
     public synchronized double getX() {
         return x;
     }
@@ -49,5 +64,13 @@ public class Actor implements Serializable {
     public synchronized void moveTo(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void setInteractable(boolean tf) {
+        this.interactable = tf;
+    }
+
+    public boolean isInteractable() {
+        return this.interactable;
     }
 }

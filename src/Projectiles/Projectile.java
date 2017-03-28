@@ -70,8 +70,12 @@ public class Projectile extends Actor implements Serializable {
         y += (vel * Math.sin(rad));
     }
 
-    public void draw() {
+    @Override
+    public void draw(boolean selected) {
         StdDraw.picture(x, y, "img/arrow.png", 40, 10, Math.toDegrees(rad));
-        //StdDraw.filledSquare(x, y, 5);
+        StdDraw.circle(x, y, r);
     }
+
+    @Override
+    public void hit(int damage) {}
 }

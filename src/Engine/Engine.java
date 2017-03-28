@@ -76,7 +76,7 @@ public class Engine {
             hsl.draw(frame);
         }
         for (Actor actor : actorQueue) {
-            actor.draw();
+            actor.draw(false);
         }
         StdDraw.show();
     }

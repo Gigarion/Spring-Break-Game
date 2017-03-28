@@ -1,16 +1,15 @@
 package Engine;
 
 import Actors.Actor;
-import Actors.Mob;
 import Actors.Player;
 import Animations.Animation;
 import Animations.HitScanLine;
 import Animations.SwingAnimation;
+import Gui.UserBox;
 import Mailroom.ClientMailroom;
 import Mailroom.Package;
 import Projectiles.HitScan;
 import Projectiles.Projectile;
-import Util.StdDraw;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -31,38 +30,39 @@ public class ClientEngine {
     private static final int DOWN = KeyEvent.VK_S;
     private static final int LEFT = KeyEvent.VK_A;
     private static final int RIGHT = KeyEvent.VK_D;
-    private static final double MOVEMENT_SIZE = 1.2;
-    private static final int DRAW_INTERVAL = 16;
+    private static final char WPN_SWAP = 'e';
+    private static final double MOVEMENT_SIZE = 0.8;
+
     private static final int LOGIC_INTERVAL = 1;
-    private static final int HUD_WIDTH = 300;
     // active animations
-    //private ConcurrentLinkedQueue<Projectile> projectileQueue;
     private ConcurrentLinkedQueue<Animation> animationQueue;
     private ConcurrentHashMap<Integer, Actor> actorMap;
-    private ConcurrentLinkedQueue<Mob> mobQueue;
     private ClientMailroom clientMailroom;      // communications to server
     private int maxLogX;            //logical boundaries for game
     private int maxLogY;
-    private int visibleRadius;      // sightline size
-    private int clickedButton;      // which button is now clicked?
     private Player player;          // player associated with this client
-    private int frame;              // which frame are we on
-    private Timer mailTimer;        // timer for checking mail
-    private boolean init; // is the engine ready to start?
-    private long ping; // the current round trip ping in milliseconds
+    private int logicFrame;         // which logicFrame are we on
+    private boolean init;           // is the engine ready to start?
+    private UserBox userBox;
 
+    private int selectedID;         // currently  selected actor
+    private boolean selectedLock;   // a boolean to lock selections the user clicks on
 
-    // constructor
-    public ClientEngine(int lXMax, int lYMax, int vRadius) {
+    // constructor, takes logical maxes and visual radius for userbox
+    public ClientEngine() {
         animationQueue = new ConcurrentLinkedQueue<>();
-        mobQueue = new ConcurrentLinkedQueue<>();
         actorMap = new ConcurrentHashMap<>();
-        this.visibleRadius = vRadius;
         this.clientMailroom = new ClientMailroom();
-        this.maxLogX = lXMax;
-        this.maxLogY = lYMax;
-        frame = 0;
-        mailTimer = new Timer("Client Engine Mail Timer", true);
+
+        // set up user interface
+        userBox = new UserBox(actorMap, animationQueue);
+        userBox.setVisibleBounds(maxLogX, maxLogY);
+        userBox.setExitHandler(()-> exit());
+        userBox.setKeyboardHandler((e) -> keyPressed(e));
+        userBox.setMouseHandler((x, y)-> mouseClick(x, y));
+
+        // gotta start mail thread here
+        Timer mailTimer = new Timer("Client Engine Mail Timer", true);
         init = false;
         mailTimer.schedule(new TimerTask() {
             @Override
@@ -72,27 +72,13 @@ public class ClientEngine {
                 }
             }
         }, 0);
+        logicFrame = 0;
     }
 
     // starts the engine loops
     private void begin() {
         init = true;
-        setTimers();
-        clientMailroom.sendMessage(new Package(System.currentTimeMillis(), Package.PING));
-    }
-
-    /******************************************************
-     * Logic and drawing
-     ******************************************************/
-
-    // sets the draw and logic timer threads
-    private void setTimers() {
-        Timer drawTimer = new Timer("Draw Timer", true);
-        drawTimer.schedule(new TimerTask() {
-            public void run() {
-                drawTick();
-            }
-        }, 0, DRAW_INTERVAL);
+        userBox.begin();
         Timer logicTimer = new Timer("Logic Timer", true);
         logicTimer.schedule(new TimerTask() {
             public void run() {
@@ -106,71 +92,62 @@ public class ClientEngine {
                 }
             }
         }, 200);
+        clientMailroom.sendMessage(new Package(System.currentTimeMillis(), Package.PING));
     }
 
-    // draw loop, called every DRAW_INTERVAL milliseconds
-    private void drawTick() {
-        StdDraw.clear();
-        StdDraw.rectangle(450, 450, 300, 300);
-        drawHUD();
-
-        for (Animation hsl : animationQueue) {
-            if (hsl.getTTL() <= 0)
-                animationQueue.remove(hsl);
-            hsl.draw(frame);
-        }
-        for (Actor actor : actorMap.values()) {
-            actor.draw();
-        }
-        StdDraw.circle(StdDraw.mouseX(), StdDraw.mouseY(), 10);
-        StdDraw.show();
-
-    }
-
-    // helper function to draw the HUD on the screen
-    private void drawHUD() {
-        double hudHeight = visibleRadius * 0.66;
-        double hudCenterX = getVisibleXMax() + HUD_WIDTH / 2;
-        double hudNameY = getVisibleYMin() + (hudHeight * 2 / 3);
-        double hudHealthY = getVisibleYMin() + (hudHeight * 1 / 3);
-        double hudIDY = getVisibleYMin() + (hudHeight * 1 / 6);
-        StdDraw.line(getVisibleXMax(), getVisibleYMin(), getVisibleXMax(), getVisibleYMin() + hudHeight);
-        StdDraw.line(getVisibleXMax(), getVisibleYMin() + hudHeight, getVisibleXMax() + HUD_WIDTH, getVisibleYMin() + hudHeight);
-        StdDraw.text(hudCenterX, hudNameY, player.getName());
-        StdDraw.text(hudCenterX, hudHealthY, Integer.toString(player.getHP()) + "/" + Integer.toString(player.getMaxHP()));
-        StdDraw.text(hudCenterX, hudIDY, ping + "");
-    }
+    /******************************************************
+     * Logic and drawing
+     ******************************************************/
 
     // logic tick, calculates ttl's and stuff here.. not exactly sure what else tbh...
-    // a fairly obvious bug about which frame is here, no wonder draw was so confused.
+    // a fairly obvious bug about which logicFrame is here, no wonder draw was so confused.
     // though it's so ingrained at this point... feature.
     private void logicTick() {
-        if ((frame % 5 == 0))
+        if ((logicFrame % 5 == 0))
             handleKeyboard();
-        if ((frame % 20 == 0) && StdDraw.mousePressed()) {
-            mouseClick((int) StdDraw.mouseX(), (int) StdDraw.mouseY());
+        if ((logicFrame % 20 == 0) && userBox.isMousePressed()) {
+            mouseClick(userBox.getMouseX(), userBox.getMouseY());
         }
-        frame = ((frame + 1) % 100000);
+        logicFrame = ((logicFrame + 1) % 100000);
         for (Actor a : actorMap.values()) {
             a.update();
         }
+        if (selectedLock) return;
+        int nearestID = findNearestActor();
+        selectedID = nearestID;
+        userBox.setSelectedActor(nearestID);
     }
 
     /*******************************************************
      *  UI interactions
      *******************************************************/
 
-    private void mouseClick(int x, int y) {
+    private void mouseClick(double x, double y) {
         if (!init)
             return;
-        switch (clickedButton) {
+        switch (userBox.getClickedButton()) {
             case MouseEvent.BUTTON1: {
-                fireWeapon(0);
+                boolean choose = false;
+                for (Actor actor : actorMap.values()) {
+                    if (actor instanceof Projectile)
+                        continue;
+                    if (actor.contains(x, y)) {
+                        selectedLock = true;
+                        selectedID = actor.getID();
+                        choose = true;
+                    }
+                }
+                if (!choose) {
+                    selectedID = -1;
+                    selectedLock = false;
+                }
+                userBox.setSelectedActor(selectedID);
+                //fireWeapon();
                 // swing animation packet
             }
             break;
             case MouseEvent.BUTTON3: {
-                fireWeapon(1);
+                fireWeapon();
             }
             break;
             default:
@@ -178,11 +155,14 @@ public class ClientEngine {
         }
     }
 
-    public void setClickedButton(int clickedButton) {
-
-        this.clickedButton = clickedButton;
+    // handle individual key press events if necessary
+    private void keyPressed(KeyEvent e) {
+        if (e.getKeyChar() == WPN_SWAP)
+            player.swapWeapon();
     }
 
+    // check keyboard on a loop to facilitate my current movement protocol
+    // nice and snappy responsiveness this way
     private void handleKeyboard() {
         if (!init)
             return;
@@ -193,36 +173,29 @@ public class ClientEngine {
         double oldX, oldY;
         oldX = player.getX();
         oldY = player.getY();
-        if (StdDraw.isKeyPressed(UP)) {
+
+        if (userBox.isKeyPressed(UP)) {
             if (player.getY() + MOVEMENT_SIZE < maxLogY) {
                 player.moveY(MOVEMENT_SIZE);
-                if (getVisibleYMax() < maxLogY && getVisibleYMax() + MOVEMENT_SIZE < maxLogY) {
-                    StdDraw.setYscale(getVisibleYMin() + MOVEMENT_SIZE, getVisibleYMax() + MOVEMENT_SIZE);
-                }
+                userBox.moveScreen(UP, MOVEMENT_SIZE);
             }
         }
-        if (StdDraw.isKeyPressed(DOWN)) {
+        if (userBox.isKeyPressed(DOWN)) {
             if (player.getY() - MOVEMENT_SIZE > 0) {
                 player.moveY(-MOVEMENT_SIZE);
-                if (getVisibleYMin() > 0 && getVisibleYMin() - MOVEMENT_SIZE > 0) {
-                    StdDraw.setYscale(getVisibleYMin() - MOVEMENT_SIZE, getVisibleYMax() - MOVEMENT_SIZE);
-                }
+                userBox.moveScreen(DOWN, MOVEMENT_SIZE);
             }
         }
-        if (StdDraw.isKeyPressed(LEFT)) {
+        if (userBox.isKeyPressed(LEFT)) {
             if (player.getX() - MOVEMENT_SIZE > 0) {
                 player.moveX(-MOVEMENT_SIZE);
-                if (getVisibleXMin() > 0 && getVisibleXMin() - MOVEMENT_SIZE > 0) {
-                    StdDraw.setXscale(getVisibleXMin() - MOVEMENT_SIZE, getVisibleXMax() - MOVEMENT_SIZE + 300);
-                }
+                userBox.moveScreen(LEFT, MOVEMENT_SIZE);
             }
         }
-        if (StdDraw.isKeyPressed(RIGHT)) {
+        if (userBox.isKeyPressed(RIGHT)) {
             if (player.getX() + MOVEMENT_SIZE < maxLogX) {
                 player.moveX(MOVEMENT_SIZE);
-                if (getVisibleXMax() < maxLogX && getVisibleXMax() + MOVEMENT_SIZE < maxLogX) {
-                    StdDraw.setXscale(getVisibleXMin() + MOVEMENT_SIZE, getVisibleXMax() + MOVEMENT_SIZE + 300);
-                }
+                userBox.moveScreen(RIGHT, MOVEMENT_SIZE);
             }
         }
         if (player.getX() != oldX || player.getY() != oldY) {
@@ -231,15 +204,15 @@ public class ClientEngine {
         }
     }
 
-    private void fireWeapon(int which) {
-        Object attack = player.fireWeapon(which);
+    private void fireWeapon() {
+        Object attack = player.fireWeapon();
         if (attack == null) {
             return;
         }
         if (attack instanceof HitScan) {
             // fire a hitscan to the server
             // adds to animation queue
-            Animation a = new SwingAnimation(player, 5, "sord.png", StdDraw.mouseX(), StdDraw.mouseY());
+            Animation a = new SwingAnimation(player, 10, "sord.png", userBox.getMouseX(), userBox.getMouseY());
             clientMailroom.sendMessage(new Package(a, Package.ANIMATE, Integer.toString(player.getID())));
             clientMailroom.sendMessage(new Package(attack, Package.HITSCAN, Integer.toString(player.getID())));
         }
@@ -252,9 +225,9 @@ public class ClientEngine {
 
     public void setPlayer(Player player) {
         this.player = player;
+        while (!clientMailroom.isAlive()) {Thread.yield();}
         clientMailroom.sendMessage(new Package(player, Package.WELCOME));
         player.giveWeapons();
-        actorMap.put(-1, player);
     }
 
     /*******************************************************
@@ -264,37 +237,18 @@ public class ClientEngine {
     // given a set of mail, handle it appropriately, utilizes helper functions
     private synchronized void handleMail(Package p) {
         if (p == null) return;
-        System.out.println(p.getType());
-        switch (p.getType()) {
-            case Package.WELCOME:
-                handleWelcome(p);
-                break;
-            case Package.HITSCAN:
-                handleHitscan(p);
-                break;
-            case Package.PROJECT:
-                handleProjectile(p);
-                break;
-            case Package.NEW_POS:
-                handleNewPosition(p);
-                break;
-            case Package.ANIMATE:
-                handleAnimation(p);
-                break; // server gives new animation
-            case Package.ACTOR:
-                handleNewActor(p);
-                break;
-            case Package.HIT:
-                handleHit(p);
-                break;
-            case Package.REMOVE:
-                handleRemove(p);
-                break;
-            case Package.PING:
-                handlePing(p);
-                break;
-            default:
-                System.out.println("Unused package type: " + p.getType());
+        switch (p.getType()){
+            case Package.WELCOME:   handleWelcome(p);       break;
+            case Package.HITSCAN:   handleHitscan(p);       break;
+            case Package.PROJECT:   handleProjectile(p);    break;
+            case Package.NEW_POS:   handleNewPosition(p);   break;
+            case Package.ANIMATE:   handleAnimation(p);     break;
+            case Package.ACTOR:     handleNewActor(p);      break;
+            case Package.HIT:       handleHit(p);           break;
+            case Package.REMOVE:    handleRemove(p);        break;
+            case Package.PING:      handlePing(p);          break;
+            case Package.SCR_SIZE:  handleScreenSize(p);    break;
+            default: System.out.println("Unused package type: " + p.getType());
         }
     }
 
@@ -311,6 +265,7 @@ public class ClientEngine {
         int id = (Integer) p.getPayload();
         player.setID(id);
         actorMap.put(id, player);
+        userBox.setPlayer(id);
         begin();
     }
 
@@ -336,15 +291,14 @@ public class ClientEngine {
                 }
             }
         }
-        animationQueue.add(a);
+        userBox.addAnimation(a);
     }
 
     private void handleNewActor(Package p) {
+        System.out.println("added");
         Actor a = (Actor) p.getPayload();
         int id = a.getID();
-        actorMap.put(a.getID(), a);
-        if (a instanceof Mob)
-            mobQueue.add((Mob) a);
+        actorMap.put(id, a);
     }
 
     private void handleHit(Package p) {
@@ -358,12 +312,11 @@ public class ClientEngine {
     private void handleRemove(Package p) {
         int id = (Integer) p.getPayload();
         Actor a = actorMap.get(id);
-        if (a != null)
+        if (a != null) {
             actorMap.remove(id);
-
-        for (Mob mob : mobQueue) {
-            if (mob.getID() == id) {
-                mobQueue.remove(mob);
+            if (id == selectedID) {
+                selectedLock = false;
+                selectedID = -1;
             }
         }
     }
@@ -371,47 +324,40 @@ public class ClientEngine {
     private void handlePing(Package p) {
         long currentTime = System.currentTimeMillis();
         long oldTime = (Long) p.getPayload();
-        ping = currentTime - oldTime;
+        long ping = currentTime - oldTime;
+        userBox.updatePing(ping);
         clientMailroom.sendMessage(new Package(System.currentTimeMillis(), Package.PING));
+    }
+
+    private void handleScreenSize(Package p) {
+        String sizeString = (String) p.getPayload();
+        double[] sizes = Package.extractCoords(sizeString);
+        maxLogX = (int) sizes[0];
+        maxLogY = (int) sizes[1];
+        userBox.setVisibleBounds(maxLogX, maxLogY);
     }
 
     /******************************************************
      *  Various utility functions
      ******************************************************/
 
-    private double getVisibleYMin() {
-        if (player.getY() - visibleRadius <= 0)
-            return 0;
-        if (player.getY() + visibleRadius > maxLogY)
-            return maxLogY - 2 * visibleRadius;
-        return player.getY() - visibleRadius;
+    private int findNearestActor() {
+        double range = player.getInteractRange();
+        double smallestDist = Double.POSITIVE_INFINITY;
+        int closest = -1;
+        for (Actor a : actorMap.values()) {
+            if (!a.isInteractable() || a.getID() == player.getID())
+                continue;
+            double dist = player.distanceTo(a);
+            if (dist < range && dist < smallestDist) {
+                closest = a.getID();
+                smallestDist = dist;
+            }
+        }
+        return closest;
     }
 
-    private double getVisibleYMax() {
-        if (player.getY() + visibleRadius >= maxLogY)
-            return maxLogY;
-        if (player.getY() - visibleRadius <= 0)
-            return 2 * visibleRadius;
-        return player.getY() + visibleRadius;
-    }
-
-    private double getVisibleXMin() {
-        if (player.getX() - visibleRadius <= 0)
-            return 0;
-        if (player.getX() + visibleRadius >= maxLogX)
-            return maxLogX - 2 * visibleRadius;
-        return player.getX() - visibleRadius;
-    }
-
-    private double getVisibleXMax() {
-        if (player.getX() + visibleRadius > maxLogX)
-            return maxLogX;
-        if (player.getX() - visibleRadius < 0)
-            return 2 * visibleRadius;
-        return player.getX() + visibleRadius;
-    }
-
-    public void exit() {
+    private void exit() {
         clientMailroom.exit();
     }
 }

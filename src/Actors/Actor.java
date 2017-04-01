@@ -7,9 +7,11 @@ public abstract class Actor implements Serializable {
     protected double y;
     protected double r;
     protected int id;
-    protected boolean interactable;
+    private boolean interactable;
+    protected boolean canHit;
 
     public Actor(int id, double x, double y, int r) {
+        this.canHit = true;
         this.id = id;
         this.x = x;
         this.y = y;
@@ -66,11 +68,14 @@ public abstract class Actor implements Serializable {
         this.y = y;
     }
 
-    public void setInteractable(boolean tf) {
+    protected void setInteractable(boolean tf) {
         this.interactable = tf;
     }
 
     public boolean isInteractable() {
         return this.interactable;
     }
+
+    protected void setCanHit(boolean canHit) { this.canHit = canHit; }
+    public boolean canHit() {return canHit;}
 }

@@ -164,8 +164,6 @@ public class ClientEngine {
                     selectedLock = false;
                 }
                 userBox.setSelectedActor(selectedID);
-                //fireWeapon();
-                // swing animation packet
             }
             break;
             case MouseEvent.BUTTON3: {
@@ -176,6 +174,7 @@ public class ClientEngine {
                 break;
         }
     }   // individual click
+
     private void keyPressed(KeyEvent e) {
         if (e.getKeyChar() == WPN_SWAP)
             player.swapWeapon();
@@ -186,6 +185,9 @@ public class ClientEngine {
             if (a instanceof Rock) {
                 clientMailroom.sendMessage(new Package(selectedID, Package.REMOVE));
             }
+        }
+        if (e.getKeyChar() == 'q') {
+            player.reload();
         }
     }           // individual key press
     private void exit() {
@@ -346,21 +348,23 @@ public class ClientEngine {
      ******************************************************/
 
     private void fireWeapon() {
-        Object attack = player.fireWeapon();
-        if (attack == null) {
+        Iterable<Object> attacks = player.fireWeapon();
+        if (attacks == null) {
             return;
         }
-        if (attack instanceof HitScan) {
-            // fire a hitscan to the server
-            // adds to animation queue
-            Animation a = new SwingAnimation(player, 10, "sord.png", userBox.getMouseX(), userBox.getMouseY());
-            clientMailroom.sendMessage(new Package(a, Package.ANIMATE, Integer.toString(player.getID())));
-            clientMailroom.sendMessage(new Package(attack, Package.HITSCAN, Integer.toString(player.getID())));
-        }
-        if (attack instanceof Projectile) {
-            // fire a projectile to the server
-            // adds to animation queue cause that happens already which is probs bad
-            clientMailroom.sendMessage(new Package(attack, Package.PROJECT));
+        for (Object attack : attacks) {
+            if (attack instanceof HitScan) {
+                // fire a hitscan to the server
+                // adds to animation queue
+                Animation a = new SwingAnimation(player, 10, "sord.png", userBox.getMouseX(), userBox.getMouseY());
+                clientMailroom.sendMessage(new Package(a, Package.ANIMATE, Integer.toString(player.getID())));
+                clientMailroom.sendMessage(new Package(attack, Package.HITSCAN, Integer.toString(player.getID())));
+            }
+            if (attack instanceof Projectile) {
+                // fire a projectile to the server
+                // adds to animation queue cause that happens already which is probs bad
+                clientMailroom.sendMessage(new Package(attack, Package.PROJECT));
+            }
         }
     }
 

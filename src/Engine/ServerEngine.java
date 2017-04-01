@@ -9,6 +9,7 @@ import Mailroom.Package;
 import Mailroom.ServerMailroom;
 import Projectiles.HitScan;
 import Projectiles.Projectile;
+import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -238,10 +239,13 @@ public class ServerEngine {
                 mailroom.sendPackage(new Package(a.getID(), Package.REMOVE));
             }
             for (Actor target : actorMap.values()) {
-                if (target == p)
+                if (target == p || !target.canHit() || target.getID() == p.getSrc().getID())
                     continue;
                 if (target.collides(p)) {
                     target.hit(p.getDamage());
+                    actorMap.remove(id);
+                    mailroom.sendPackage(new Package(id, Package.REMOVE));
+                    continue;
                 }
             }
         }

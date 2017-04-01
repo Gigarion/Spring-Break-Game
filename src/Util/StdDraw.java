@@ -1386,7 +1386,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         synchronized (keyLock) {
             keysTyped.addFirst(e.getKeyChar());
             userBox.keyPressed(e);
-            System.out.println("typed");
         }
     }
 

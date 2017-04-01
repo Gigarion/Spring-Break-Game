@@ -3,11 +3,13 @@ package Engine;
 import Actors.Actor;
 import Actors.Mob;
 import Actors.Player;
+import Actors.Rock;
 import Animations.HitScanLine;
 import Mailroom.Package;
 import Mailroom.ServerMailroom;
 import Projectiles.HitScan;
 import Projectiles.Projectile;
+import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -44,6 +46,8 @@ public class ServerEngine {
         this.actorMap = new ConcurrentHashMap<>();
         this.portToPlayerMap = new ConcurrentHashMap<>();
         this.mailroom = new ServerMailroom(1, (Package p) -> handleMessage(p));
+        for (int i = 0; i < 50; i++)
+            makeRocks();
         setTimers();
     }
 
@@ -235,10 +239,13 @@ public class ServerEngine {
                 mailroom.sendPackage(new Package(a.getID(), Package.REMOVE));
             }
             for (Actor target : actorMap.values()) {
-                if (target == p)
+                if (target == p || !target.canHit() || target.getID() == p.getSrc().getID())
                     continue;
                 if (target.collides(p)) {
                     target.hit(p.getDamage());
+                    actorMap.remove(id);
+                    mailroom.sendPackage(new Package(id, Package.REMOVE));
+                    continue;
                 }
             }
         }
@@ -285,8 +292,14 @@ public class ServerEngine {
         mailroom.sendPackage(new Package(a.getID(), Package.REMOVE));
         int x = 10 + (int) (Math.random() * 580);
         int id = getNextId();
-        Mob mob = new Mob(id, x, 800, 12, 10);
+        Mob mob = new Mob(id, x, 800, 12, 80);
         actorMap.put(id, mob);
         mailroom.sendPackage(new Package(mob, Package.ACTOR));
+    }
+
+    private void makeRocks() {
+        int x = 10 + (int) (Math.random() * 580);
+        int id = getNextId();
+        actorMap.put(id, new Rock(id, x, 500));
     }
 }

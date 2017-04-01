@@ -45,7 +45,7 @@ public class UserBox {
     private static final int RIGHT = KeyEvent.VK_D;
 
     private static final int HUD_WIDTH = 300;
-    private static final int DRAW_INTERVAL = 16;
+    private static final int DRAW_INTERVAL = 5;
     private static final int VIS_RADIUS = 450;
 
 
@@ -152,7 +152,7 @@ public class UserBox {
         StdDraw.text(hudCenterX, hudNameY, player.getName());
         StdDraw.text(hudCenterX, hudHealthY, Integer.toString(player.getHP()) + "/" + Integer.toString(player.getMaxHP()));
         StdDraw.text(hudCenterX - 30, hudIDY, ping + "");
-        StdDraw.text(hudCenterX + 30, hudIDY, "selected: " + selectedActor);
+        StdDraw.text(hudCenterX + 30, hudIDY, "Weapon: " + player.getWeaponName() + " : " + player.getCurrentClip() + "/" + player.getAmmoCount());
     }
 
     // the multitude of setters

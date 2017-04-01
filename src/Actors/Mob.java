@@ -39,5 +39,6 @@ public class Mob extends Actor implements Serializable {
 
     public void hit(int damage) {
         hp -= damage;
+        System.out.println(hp + " : " + damage);
     }
 }

@@ -8,27 +8,34 @@ import java.nio.file.Paths;
 
 public class Projectile extends Actor implements Serializable {
     private double destX, destY;
+    private int pierceCount;
     private double vel, rad;
     private double range;
-
+    private int damage;
     private double startX, startY;
+    private String image;
+    private Actor src;
 
-    public Projectile(Actor src, double destX, double destY, int r, double range, double speed) {
+    public Projectile(Actor src, double destX, double destY, int r,
+                      double range, double speed, int damage, String image) {
         super(-1, src.getX(), src.getY(), r);
         this.startX = x;
         this.startY = y;
         this.range = range;
         this.vel = speed;
         this.rad = getAngle(destX, destY);
+        this.damage = damage;
+        this.image = image;
+        this.src = src;
     }
 
-    public double getDestX() {
-        return this.destX;
-    }
+//    public double getDestX() {
+//        return this.destX;
+//    }
 
-    public double getDestY() {
-        return this.destY;
-    }
+//    public double getDestY() {
+//        return this.destY;
+//    }
 
     public boolean outOfRange() {
         return getDistTraveled() > range;
@@ -53,7 +60,7 @@ public class Projectile extends Actor implements Serializable {
     }
 
     // TODO: refactor projectiles to have malleable damage
-    public int getDamage() { return 20; }
+    public int getDamage() { return damage; }
 
     // thanks stackoverflow
     private double getAngle(double destX, double destY) {
@@ -71,17 +78,32 @@ public class Projectile extends Actor implements Serializable {
         y += (vel * Math.sin(rad));
     }
 
+    public void modifyRange(double percentChange) {
+        this.range = range * percentChange;
+    }
+
     @Override
     public void draw(boolean selected) {
-        System.out.println(Paths.get("").toAbsolutePath().toString());
-        try {
-            StdDraw.picture(x, y, "src/img/arrow.png", 40, 10, Math.toDegrees(rad));
-        } catch (Exception e) {
-            StdDraw.picture(x, y, "img/arrow.png", 40, 10, Math.toDegrees(rad));
+        System.out.println(image);
+        if (image == null || image.equals("img/-")) {
+            try {
+                StdDraw.picture(x, y, "src/img/arrow.png", 40, 10, Math.toDegrees(rad));
+            } catch (Exception e) {
+                StdDraw.picture(x, y, "img/arrow.png", 40, 10, Math.toDegrees(rad));
+            }
+            StdDraw.circle(x, y, r);
         }
-        StdDraw.circle(x, y, r);
+        else {
+            try {
+                StdDraw.picture(x, y, image, Math.toDegrees(rad));
+            } catch(Exception e) {
+                StdDraw.filledSquare(x, y , 5);
+            }
+        }
     }
 
     @Override
     public void hit(int damage) {}
+
+    public Actor getSrc() {return this.src;}
 }

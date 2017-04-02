@@ -1,9 +1,6 @@
 package Engine;
 
-import Actors.Actor;
-import Actors.Mob;
-import Actors.Player;
-import Actors.Rock;
+import Actors.*;
 import Animations.HitScanLine;
 import Mailroom.Package;
 import Mailroom.ServerMailroom;
@@ -300,6 +297,6 @@ public class ServerEngine {
     private void makeRocks() {
         int x = 10 + (int) (Math.random() * 580);
         int id = getNextId();
-        actorMap.put(id, new Rock(id, x, 500));
+        actorMap.put(id, new WeaponDrop(id, x, 500, "Rock/Rock/1/150/100/true/false/", "P/200/20/1/1/5/.8/Rock.png/", 1));
     }
 }

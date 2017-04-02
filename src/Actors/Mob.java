@@ -12,7 +12,6 @@ public class Mob extends Actor implements Serializable {
 
     public Mob(int id, double x, double y, int r, int hp) {
         super(id, x, y, r);
-        setInteractable(true);
         this.hp = hp;
         step = 100;
     }

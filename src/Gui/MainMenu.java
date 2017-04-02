@@ -82,12 +82,6 @@ public class MainMenu extends JFrame {
     }
 
     private void startGame() {
-        StdDraw.setCanvasSize(1200, 900);
-        StdDraw.enableDoubleBuffering();
-        StdDraw.setXscale(0, 1200);
-        StdDraw.setYscale(0, 900);
-        StdDraw.text(600, 450, "Loading");
-
         ClientEngine ce = new ClientEngine();
 
         String name = playerNameField.getText();

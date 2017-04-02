@@ -1,17 +1,16 @@
 package Actors;
 
+import Util.DefaultMap;
 import Util.StdDraw;
 import Weapons.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Player extends Actor {
     private static final int INTERACT_RANGE = 30;
-    private LinkedList<NewWeapon> weapons;
+    private LinkedList<Weapon> weapons;
     private DefaultMap<String, Integer> ammoMap; // count of each ammo type
-    private NewWeapon equipped;
+    private Weapon equipped;
     private String name;
     private int maxHP;
     private int hp;
@@ -38,7 +37,18 @@ public class Player extends Actor {
         return this.id;
     }
 
-    public void giveWeapon(NewWeapon weapon) {
+    public void giveWeapon(Weapon weapon) {
+        if (weapon.isThrowable()) {
+            String ammoType = weapon.getAmmoType();
+            int ammoCount = ammoMap.get(ammoType);
+            if (ammoCount > 0 || equipped.getAmmoType().equals(ammoType)) {
+                ammoMap.put(ammoType, ammoCount + 1);
+                return;
+            } else if ( ammoCount == 0) {
+                ammoMap.put(ammoType, ammoCount + 1);
+                reload();
+            }
+        }
         if (equipped != null)
             weapons.add(equipped);
         equipped = weapon;
@@ -46,7 +56,7 @@ public class Player extends Actor {
     }
 
     public void giveWeapons() {
-        weapons.add(new NewWeapon("Bow/Arrow/1/700/100/false/false/300", "P/400/200/1/1/5/2/-/"));
+        weapons.add(new Weapon("Bow/Arrow/1/700/100/false/false/300", "P/400/200/1/1/5/2/-/"));
         giveAmmo("Arrow", 1000000000);
 
         giveAmmo("Melee", Integer.MAX_VALUE);
@@ -140,6 +150,11 @@ public class Player extends Actor {
     @Override
     public void draw(boolean selected) {
         StdDraw.filledCircle(x, y, 10);
+        StdDraw.circle(x, y, interactRange);
+    }
+
+    public void draw(boolean selected, double rads) {
+        StdDraw.picture(x, y, "src/img/player.png", Math.toDegrees(rads));
         StdDraw.circle(x, y, interactRange);
     }
 

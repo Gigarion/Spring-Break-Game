@@ -84,7 +84,6 @@ public class Projectile extends Actor implements Serializable {
 
     @Override
     public void draw(boolean selected) {
-        System.out.println(image);
         if (image == null || image.equals("img/-")) {
             try {
                 StdDraw.picture(x, y, "src/img/arrow.png", 40, 10, Math.toDegrees(rad));

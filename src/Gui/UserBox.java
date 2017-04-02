@@ -48,7 +48,6 @@ public class UserBox {
     private static final int DRAW_INTERVAL = 5;
     private static final int VIS_RADIUS = 450;
 
-
     private int drawFrame;                      // which frame are we on
     private ConcurrentHashMap<Integer, Actor> actorMap;
     private ConcurrentLinkedQueue<Animation> animationQueue;
@@ -72,6 +71,11 @@ public class UserBox {
     }
 
     public void begin() {
+        StdDraw.setCanvasSize(1200, 900);
+        StdDraw.enableDoubleBuffering();
+        StdDraw.setXscale(0, 1200);
+        StdDraw.setYscale(0, 900);
+        StdDraw.text(600, 450, "Loading");
         Timer drawTimer = new Timer("Draw Timer", true);
         drawTimer.schedule(new TimerTask() {
             public void run() {
@@ -80,7 +84,7 @@ public class UserBox {
         }, 0, DRAW_INTERVAL);
     }
 
-    public void setVisibleBounds(int maxLogX, int maxLogY) {
+    public void setBounds(int maxLogX, int maxLogY) {
         this.maxLogX = maxLogX;
         this.maxLogY = maxLogY;
     }
@@ -131,6 +135,10 @@ public class UserBox {
             hsl.draw(drawFrame);
         }
         for (Actor actor : actorMap.values()) {
+            if (actor.getID() == player.getID()) {
+                ((Player) actor).draw(false, getAngle(getMouseX(), getMouseY()));
+                continue;
+            }
             if (actor.getID() == selectedActor)
                 actor.draw(true);
             else
@@ -138,6 +146,7 @@ public class UserBox {
         }
         StdDraw.circle(StdDraw.mouseX(), StdDraw.mouseY(), 10);
         StdDraw.show();
+
         drawFrame = (drawFrame + 1) % 10000000;
     }
 
@@ -151,7 +160,7 @@ public class UserBox {
         StdDraw.line(getVisibleXMax(), getVisibleYMin() + hudHeight, getVisibleXMax() + HUD_WIDTH, getVisibleYMin() + hudHeight);
         StdDraw.text(hudCenterX, hudNameY, player.getName());
         StdDraw.text(hudCenterX, hudHealthY, Integer.toString(player.getHP()) + "/" + Integer.toString(player.getMaxHP()));
-        StdDraw.text(hudCenterX - 30, hudIDY, ping + "");
+        StdDraw.text(hudCenterX - 100, hudIDY, ping + "");
         StdDraw.text(hudCenterX + 30, hudIDY, "Weapon: " + player.getWeaponName() + " : " + player.getCurrentClip() + "/" + player.getAmmoCount());
     }
 
@@ -223,5 +232,15 @@ public class UserBox {
     public void exit() {
         if (exitHandler != null)
             exitHandler.exit();
+    }
+
+    private double getAngle(double destX, double destY) {
+        double angle = Math.toDegrees(Math.atan2(destY - player.getY(), destX - player.getX()));
+
+        if (angle < 0) {
+            angle += 360;
+        }
+
+        return Math.toRadians(angle);
     }
 }

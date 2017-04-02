@@ -1,9 +1,6 @@
 package Engine;
 
-import Actors.Actor;
-import Actors.Interactable;
-import Actors.Player;
-import Actors.Rock;
+import Actors.*;
 import Animations.Animation;
 import Animations.HitScanLine;
 import Animations.SwingAnimation;
@@ -57,10 +54,10 @@ public class ClientEngine {
 
         // set up user interface
         userBox = new UserBox(actorMap, animationQueue);
-        userBox.setVisibleBounds(maxLogX, maxLogY);
-        userBox.setExitHandler(()-> exit());
+        userBox.setBounds(maxLogX, maxLogY);
+        userBox.setExitHandler(() -> exit());
         userBox.setKeyboardHandler((e) -> keyPressed(e));
-        userBox.setMouseHandler((x, y)-> mouseClick(x, y));
+        userBox.setMouseHandler((x, y) -> mouseClick(x, y));
 
         // gotta start mail thread here
         Timer mailTimer = new Timer("Client Engine Mail Timer", true);
@@ -180,9 +177,15 @@ public class ClientEngine {
             player.swapWeapon();
         if (e.getKeyChar() == 'r') {
             Actor a = actorMap.get(selectedID);
-            if (a != null && a instanceof Interactable)
-                ((Interactable) a).interact(player);
-            if (a instanceof Rock) {
+            if (a != null && a instanceof Interactable) {
+                Iterable<Actor> results = ((Interactable) a).interact(player);
+                if (results != null) {
+                    for (Actor result : results) {
+                        System.out.println("result");
+                    }
+                }
+            }
+            if (a instanceof WeaponDrop) {
                 clientMailroom.sendMessage(new Package(selectedID, Package.REMOVE));
             }
         }
@@ -190,6 +193,7 @@ public class ClientEngine {
             player.reload();
         }
     }           // individual key press
+
     private void exit() {
         clientMailroom.exit();
     }      // exit call
@@ -244,18 +248,39 @@ public class ClientEngine {
     // given a set of mail, handle it appropriately, utilizes helper functions
     private synchronized void handleMail(Package p) {
         if (p == null) return;
-        switch (p.getType()){
-            case Package.WELCOME:   handleWelcome(p);       break;
-            case Package.HITSCAN:   handleHitscan(p);       break;
-            case Package.PROJECT:   handleProjectile(p);    break;
-            case Package.NEW_POS:   handleNewPosition(p);   break;
-            case Package.ANIMATE:   handleAnimation(p);     break;
-            case Package.ACTOR:     handleNewActor(p);      break;
-            case Package.HIT:       handleHit(p);           break;
-            case Package.REMOVE:    handleRemove(p);        break;
-            case Package.PING:      handlePing(p);          break;
-            case Package.SCR_SIZE:  handleScreenSize(p);    break;
-            default: System.out.println("Unused package type: " + p.getType());
+        switch (p.getType()) {
+            case Package.WELCOME:
+                handleWelcome(p);
+                break;
+            case Package.HITSCAN:
+                handleHitscan(p);
+                break;
+            case Package.PROJECT:
+                handleProjectile(p);
+                break;
+            case Package.NEW_POS:
+                handleNewPosition(p);
+                break;
+            case Package.ANIMATE:
+                handleAnimation(p);
+                break;
+            case Package.ACTOR:
+                handleNewActor(p);
+                break;
+            case Package.HIT:
+                handleHit(p);
+                break;
+            case Package.REMOVE:
+                handleRemove(p);
+                break;
+            case Package.PING:
+                handlePing(p);
+                break;
+            case Package.SCR_SIZE:
+                handleScreenSize(p);
+                break;
+            default:
+                System.out.println("Unused package type: " + p.getType());
         }
     }
 
@@ -340,7 +365,7 @@ public class ClientEngine {
         double[] sizes = Package.extractCoords(sizeString);
         maxLogX = (int) sizes[0];
         maxLogY = (int) sizes[1];
-        userBox.setVisibleBounds(maxLogX, maxLogY);
+        userBox.setBounds(maxLogX, maxLogY);
     }
 
     /******************************************************
@@ -370,7 +395,9 @@ public class ClientEngine {
 
     public void setPlayer(Player player) {
         this.player = player;
-        while (!clientMailroom.isAlive()) {Thread.yield();}
+        while (!clientMailroom.isAlive()) {
+            Thread.yield();
+        }
         clientMailroom.sendMessage(new Package(player, Package.WELCOME));
         player.giveWeapons();
     }

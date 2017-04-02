@@ -12,7 +12,7 @@ import java.io.Serializable;
  * 0    1     2        3   4   5         6          7
  * name ammo  maxclip  FR  RR  throwable chargeable chargeTime
  */
-public class NewWeapon implements Serializable {
+public class Weapon implements Serializable {
     private ProjectileFactory pFactory;
     private String name;
     private int clip;
@@ -27,7 +27,7 @@ public class NewWeapon implements Serializable {
     private boolean hasFired;
     private String ammoType;
 
-    public NewWeapon(String weaponString, String factoryString) {
+    public Weapon(String weaponString, String factoryString) {
         this.clip = 0;
         this.reloadStart = 0;
         this.lastShot = 0;
@@ -73,7 +73,6 @@ public class NewWeapon implements Serializable {
             lastShot = System.currentTimeMillis();
             return pFactory.fire(src, destX, destY);
         }
-        System.out.println("cant fire");
         return null;
     }
 
@@ -94,10 +93,6 @@ public class NewWeapon implements Serializable {
     public String getName() {return this.name;}
 
     protected boolean canFire() {
-        System.out.println("Clip: " + clip);
-        System.out.println("Reload: " + isReloading());
-        System.out.println("time: " + ((System.currentTimeMillis() - lastShot) > fireRate));
-
         return (clip > 0 && !isReloading()
                 && (System.currentTimeMillis() - lastShot > fireRate));
     }

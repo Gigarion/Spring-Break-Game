@@ -7,7 +7,6 @@ public abstract class Actor implements Serializable {
     protected double y;
     protected double r;
     protected int id;
-    private boolean interactable;
     protected boolean canHit;
 
     public Actor(int id, double x, double y, int r) {
@@ -16,7 +15,6 @@ public abstract class Actor implements Serializable {
         this.x = x;
         this.y = y;
         this.r = r;
-        this.interactable = false;
     }
 
     // all actors must be Real, be drawable, and have the ability to be shot (lol)
@@ -68,12 +66,8 @@ public abstract class Actor implements Serializable {
         this.y = y;
     }
 
-    protected void setInteractable(boolean tf) {
-        this.interactable = tf;
-    }
-
     public boolean isInteractable() {
-        return this.interactable;
+        return (this instanceof Interactable);
     }
 
     protected void setCanHit(boolean canHit) { this.canHit = canHit; }

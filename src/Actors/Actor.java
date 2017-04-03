@@ -9,7 +9,7 @@ public abstract class Actor implements Serializable {
     protected int id;
     protected boolean canHit;
 
-    public Actor(int id, double x, double y, int r) {
+    public Actor(int id, double x, double y, double r) {
         this.canHit = true;
         this.id = id;
         this.x = x;
@@ -52,6 +52,7 @@ public abstract class Actor implements Serializable {
         return Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
     }
 
+    public double getR() {return this.r;}
     public synchronized double getX() {
         return x;
     }

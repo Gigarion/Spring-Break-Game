@@ -52,17 +52,13 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.TreeSet;
 import java.util.NoSuchElementException;
 import javax.imageio.ImageIO;
 
-import javax.print.attribute.standard.Media;
 import javax.swing.*;
 
-import Engine.ClientEngine;
 import Gui.UserBox;
 
 
@@ -198,6 +194,9 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         onscreenImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         offscreen = offscreenImage.createGraphics();
         onscreen = onscreenImage.createGraphics();
+
+
+
         setXscale();
         setYscale();
         offscreen.setColor(DEFAULT_CLEAR_COLOR);
@@ -206,6 +205,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         setPenRadius();
         setFont();
         clear();
+
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(true);
+        frame.setVisible(true);
 
         // add antialiasing
         RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
@@ -264,6 +267,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
      * Sets the <em>x</em>-scale to be the default (between 0.0 and 1.0).
      */
     public static void setXscale() {
+        System.out.println("here");
         setXscale(DEFAULT_XMIN, DEFAULT_XMAX);
     }
 
@@ -1385,7 +1389,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     public void keyTyped(KeyEvent e) {
         synchronized (keyLock) {
             keysTyped.addFirst(e.getKeyChar());
-            userBox.keyPressed(e);
+            userBox.keyTyped(e);
         }
     }
 
@@ -1439,6 +1443,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
     public static void attachUserBox(UserBox ub) {
         userBox = ub;
+    }
+
+    public static void close() {
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 
 }

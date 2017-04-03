@@ -9,6 +9,7 @@ import Mailroom.ClientMailroom;
 import Mailroom.Package;
 import Projectiles.HitScan;
 import Projectiles.Projectile;
+import Util.MapGrid;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -42,6 +43,7 @@ public class ClientEngine {
     private int logicFrame;         // which logicFrame are we on
     private boolean init;           // is the engine ready to start?
     private UserBox userBox;
+    private MapGrid mapGrid;        // impassability grid
 
     private int selectedID;         // currently  selected actor
     private boolean selectedLock;   // a boolean to lock selections the user clicks on
@@ -212,25 +214,26 @@ public class ClientEngine {
         oldY = player.getY();
 
         if (userBox.isKeyPressed(UP)) {
-            if (player.getY() + MOVEMENT_SIZE < maxLogY) {
+            if (mapGrid.validMove(player.getX(), player.getY() + MOVEMENT_SIZE, player)) {
                 player.moveY(MOVEMENT_SIZE);
                 userBox.moveScreen(UP, MOVEMENT_SIZE);
             }
         }
         if (userBox.isKeyPressed(DOWN)) {
-            if (player.getY() - MOVEMENT_SIZE > 0) {
+            //if (player.getY() - MOVEMENT_SIZE > 0) {
+            if (mapGrid.validMove(player.getX(), player.getY() - MOVEMENT_SIZE, player)) {
                 player.moveY(-MOVEMENT_SIZE);
                 userBox.moveScreen(DOWN, MOVEMENT_SIZE);
             }
         }
         if (userBox.isKeyPressed(LEFT)) {
-            if (player.getX() - MOVEMENT_SIZE > 0) {
+            if (mapGrid.validMove(player.getX() - MOVEMENT_SIZE, player.getY(), player)) {
                 player.moveX(-MOVEMENT_SIZE);
                 userBox.moveScreen(LEFT, MOVEMENT_SIZE);
             }
         }
         if (userBox.isKeyPressed(RIGHT)) {
-            if (player.getX() + MOVEMENT_SIZE < maxLogX) {
+            if (mapGrid.validMove(player.getX() + MOVEMENT_SIZE, player.getY(), player)) {
                 player.moveX(MOVEMENT_SIZE);
                 userBox.moveScreen(RIGHT, MOVEMENT_SIZE);
             }
@@ -366,6 +369,14 @@ public class ClientEngine {
         maxLogX = (int) sizes[0];
         maxLogY = (int) sizes[1];
         userBox.setBounds(maxLogX, maxLogY);
+        //this.mapGrid = new MapGrid(maxLogX, maxLogY, 15);
+        this.mapGrid = MapGrid.loadFromString(maxLogX + "/" + maxLogY + "/" + 20 + "/" + "5,5");
+        userBox.setMapGrid(mapGrid);
+        mapGrid.setShowBoxes(true);
+        mapGrid.setShowGrid(true);
+        //mapGrid.setShowPlayerBoxes(true);
+        mapGrid.block(50.0, 50.0);
+        mapGrid.setPlayer(player);
     }
 
     /******************************************************

@@ -3,9 +3,11 @@ package Gui;
 import Actors.Actor;
 import Actors.Player;
 import Animations.Animation;
+import Util.MapGrid;
 import Util.MapLoader;
 import Util.StdDraw;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.Timer;
@@ -46,7 +48,10 @@ public class UserBox {
 
     private static final int HUD_WIDTH = 300;
     private static final int DRAW_INTERVAL = 5;
-    private static final int VIS_RADIUS = 450;
+    private static final int Y_SCALE = 900;
+    private static final int VIS_Y_RADIUS = Y_SCALE / 2;
+
+    private double vis_x_radius;
 
     private int drawFrame;                      // which frame are we on
     private ConcurrentHashMap<Integer, Actor> actorMap;
@@ -57,24 +62,28 @@ public class UserBox {
     private int selectedActor;                  // id of the selected actor
 
     private Player player;
-    private int visibleRadius;
     private int maxLogX, maxLogY;
     private long ping;
     private int clickedButton;
 
+    private MapGrid mapGrid;
+
     public UserBox(ConcurrentHashMap<Integer, Actor> actorMap, ConcurrentLinkedQueue<Animation> animationQueue) {
         this.actorMap = actorMap;
         this.animationQueue = animationQueue;
-        this.visibleRadius = VIS_RADIUS;
         StdDraw.attachUserBox(this);
-        new MapLoader("FUKKKK");
     }
 
     public void begin() {
-        StdDraw.setCanvasSize(1200, 900);
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        double aspect = d.getWidth() / d.getHeight();
+        //StdDraw.setCanvasSize((int) d.getWidth(), (int) d.getHeight());
+        StdDraw.setCanvasSize((int) (Y_SCALE * aspect), Y_SCALE);
         StdDraw.enableDoubleBuffering();
-        StdDraw.setXscale(0, 1200);
-        StdDraw.setYscale(0, 900);
+        StdDraw.setYscale(0, Y_SCALE);
+        this.vis_x_radius = Y_SCALE * aspect / 2;
+        StdDraw.setXscale(0, vis_x_radius * 2);
+
         StdDraw.text(600, 450, "Loading");
         Timer drawTimer = new Timer("Draw Timer", true);
         drawTimer.schedule(new TimerTask() {
@@ -88,6 +97,7 @@ public class UserBox {
         this.maxLogX = maxLogX;
         this.maxLogY = maxLogY;
     }
+    public void setMapGrid(MapGrid mapGrid) {this.mapGrid = mapGrid;}
     public boolean inVisibleRange(double x, double y) {
         return (x > getVisibleXMin() && x < getVisibleXMax() + HUD_WIDTH
                 && y > getVisibleYMin() && y < getVisibleYMax());
@@ -109,13 +119,13 @@ public class UserBox {
             } break;
             case LEFT: {
                 if (getVisibleXMin() > 0 && getVisibleXMin() - movementSize > 0) {
-                    StdDraw.setXscale(getVisibleXMin() - movementSize, getVisibleXMax() - movementSize + HUD_WIDTH);
+                    StdDraw.setXscale(getVisibleXMin() - movementSize, getVisibleXMax() - movementSize);
                 }
             }
             break;
             case RIGHT: {
                 if (getVisibleXMax() < maxLogX && getVisibleXMax() + movementSize < maxLogX) {
-                    StdDraw.setXscale(getVisibleXMin() + movementSize, getVisibleXMax() + movementSize + HUD_WIDTH);
+                    StdDraw.setXscale(getVisibleXMin() + movementSize, getVisibleXMax() + movementSize);
                 }
             }
             break;
@@ -145,19 +155,24 @@ public class UserBox {
                 actor.draw(false);
         }
         StdDraw.circle(StdDraw.mouseX(), StdDraw.mouseY(), 10);
+        if (mapGrid != null)
+            mapGrid.draw();
         StdDraw.show();
 
+        if (isKeyPressed(KeyEvent.VK_ESCAPE)) {
+            StdDraw.close();
+        }
         drawFrame = (drawFrame + 1) % 10000000;
     }
 
     private void drawHUD() {
-        double hudHeight = visibleRadius * 0.66;
-        double hudCenterX = getVisibleXMax() + HUD_WIDTH / 2;
+        double hudHeight = VIS_Y_RADIUS * 0.66;
+        double hudCenterX = getVisibleXMax() - (HUD_WIDTH / 2);
         double hudNameY = getVisibleYMin() + (hudHeight * 2 / 3);
         double hudHealthY = getVisibleYMin() + (hudHeight * 1 / 3);
         double hudIDY = getVisibleYMin() + (hudHeight * 1 / 6);
-        StdDraw.line(getVisibleXMax(), getVisibleYMin(), getVisibleXMax(), getVisibleYMin() + hudHeight);
-        StdDraw.line(getVisibleXMax(), getVisibleYMin() + hudHeight, getVisibleXMax() + HUD_WIDTH, getVisibleYMin() + hudHeight);
+        StdDraw.line(getVisibleXMax() - HUD_WIDTH, getVisibleYMin(), getVisibleXMax() - HUD_WIDTH, getVisibleYMin() + hudHeight);
+        StdDraw.line(getVisibleXMax() - HUD_WIDTH, getVisibleYMin() + hudHeight, getVisibleXMax(), getVisibleYMin() + hudHeight);
         StdDraw.text(hudCenterX, hudNameY, player.getName());
         StdDraw.text(hudCenterX, hudHealthY, Integer.toString(player.getHP()) + "/" + Integer.toString(player.getMaxHP()));
         StdDraw.text(hudCenterX - 100, hudIDY, ping + "");
@@ -191,36 +206,36 @@ public class UserBox {
 
     // bounding functions
     private double getVisibleYMin() {
-        if (player.getY() - visibleRadius <= 0)
+        if (player.getY() - VIS_Y_RADIUS <= 0)
             return 0;
-        if (player.getY() + visibleRadius > maxLogY)
-            return maxLogY - 2 * visibleRadius;
-        return player.getY() - visibleRadius;
+        if (player.getY() + VIS_Y_RADIUS > maxLogY)
+            return maxLogY - 2 * VIS_Y_RADIUS;
+        return player.getY() - VIS_Y_RADIUS;
     }
     private double getVisibleYMax() {
-        if (player.getY() + visibleRadius >= maxLogY)
+        if (player.getY() + VIS_Y_RADIUS >= maxLogY)
             return maxLogY;
-        if (player.getY() - visibleRadius <= 0)
-            return 2 * visibleRadius;
-        return player.getY() + visibleRadius;
+        if (player.getY() - VIS_Y_RADIUS <= 0)
+            return 2 * VIS_Y_RADIUS;
+        return player.getY() + VIS_Y_RADIUS;
     }
     private double getVisibleXMin() {
-        if (player.getX() - visibleRadius <= 0)
+        if (player.getX() - vis_x_radius <= 0)
             return 0;
-        if (player.getX() + visibleRadius >= maxLogX)
-            return maxLogX - 2 * visibleRadius;
-        return player.getX() - visibleRadius;
+        if (player.getX() + vis_x_radius >= maxLogX)
+            return maxLogX - 2 * vis_x_radius;
+        return player.getX() - vis_x_radius;
     }
     private double getVisibleXMax() {
-        if (player.getX() + visibleRadius > maxLogX)
+        if (player.getX() + vis_x_radius > maxLogX)
             return maxLogX;
-        if (player.getX() - visibleRadius < 0)
-            return 2 * visibleRadius;
-        return player.getX() + visibleRadius;
+        if (player.getX() - vis_x_radius < 0)
+            return (2 * vis_x_radius);
+        return player.getX() + vis_x_radius;
     }
 
     // handler triggers
-    public void keyPressed(KeyEvent e) {
+    public void keyTyped(KeyEvent e) {
         if (keyboardHandler != null) {
             keyboardHandler.handleKeyboard(e);
         }

@@ -10,7 +10,7 @@ public class Mob extends Actor implements Serializable {
     private int step;
     private int direction = 2;
 
-    public Mob(int id, double x, double y, int r, int hp) {
+    public Mob(int id, double x, double y, double r, int hp) {
         super(id, x, y, r);
         this.hp = hp;
         step = 100;

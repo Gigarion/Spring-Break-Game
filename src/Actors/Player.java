@@ -91,35 +91,25 @@ public class Player extends Actor {
             reload();
     }
 
-    // fully heal player, return result hp
+    // fully heal player
     public void fillHP() {
         this.hp = maxHP;
     }
 
-    // attempt to heal player by healPoints, return result hp
+    // attempt to heal player by healPoints
     public void heal(int healPoints) {
         this.hp += healPoints;
         if (this.hp > maxHP)
             this.hp = maxHP;
     }
 
-    // attempt to damage player by damagePoints, return result hp
-    public void damage(int damagePoints) {
-        this.hp -= damagePoints;
-        if (this.hp < 0)
-            this.hp = 0;
-    }
-
     // returns either a hitscan or a projectile to register as an attack
     // (or other later???)
     public Iterable<Object> fireWeapon() {
         if (equipped == null || equipped.getClip() == 0) return null;
-//        if (equipped.getClip() == 0) {
-//            reload();
-//            return null;
-//        }
+
         Iterable<Object> toReturn = equipped.fire(this, StdDraw.mouseX(), StdDraw.mouseY());
-        System.out.println("fired " + toReturn);
+
         if (toReturn != null && equipped.isThrowable()) {
             ammoMap.put(equipped.getAmmoType(), ammoMap.get(equipped.getAmmoType()));
         }
@@ -140,6 +130,7 @@ public class Player extends Actor {
     public void moveX(double dist) {
         this.x += dist;
     }
+
     // shift the player's location by dist in the y direction
     // trusts game engine to call this and protect border cases
     public void moveY(double dist) {

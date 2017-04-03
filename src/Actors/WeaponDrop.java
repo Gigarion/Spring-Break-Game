@@ -18,8 +18,11 @@ public class WeaponDrop extends Actor implements Interactable {
         this.weaponString = weaponString;
         this.projectileString = projectileString;
         this.ammoCount = ammoCount;
-        //setInteractable(true);
         setCanHit(false);
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     // in case the player doesn't pick up the weapon or something else
@@ -40,11 +43,11 @@ public class WeaponDrop extends Actor implements Interactable {
     @Override
     public void draw(boolean selected) {
         if (image == null)
-            image = "img/sord.png";
+            image = "crate.jpg";
         try {
-            StdDraw.picture(x, y, "src/img/crate.jpg", 20, 20);
+            StdDraw.picture(x, y, "src/img/" + image, 20, 20);
         } catch (Exception e) {
-            StdDraw.picture(x, y, "img/crate.jpg", 20, 20);
+            StdDraw.picture(x, y, "img/" + image, 20, 20);
         }
         if (selected) {
             StdDraw.setPenColor(StdDraw.RED);

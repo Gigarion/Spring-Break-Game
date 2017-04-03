@@ -15,6 +15,7 @@ public class Player extends Actor {
     private int maxHP;
     private int hp;
     private double interactRange;
+    private long lastSwap;
     private int level;
     private int exp;
 
@@ -26,7 +27,8 @@ public class Player extends Actor {
         this.weapons = new LinkedList<>();
         this.ammoMap = new DefaultMap<>(0);
         this.interactRange = INTERACT_RANGE;
-        equipped = null;
+        this.equipped = null;
+        this.lastSwap = 0;
     }
 
     public void setID(int id) {
@@ -65,6 +67,9 @@ public class Player extends Actor {
     }
 
     public void swapWeapon() {
+        if (System.currentTimeMillis() - lastSwap < 50)
+            return;
+        lastSwap = System.currentTimeMillis();
         weapons.add(equipped);
         equipped = weapons.removeFirst();
     }
@@ -118,7 +123,6 @@ public class Player extends Actor {
         }
         if (equipped.isThrowable()) {
             if (equipped.getClip() == 0) {
-                System.out.println("called");
                 equipped = weapons.removeFirst();
             }
         }
@@ -136,6 +140,8 @@ public class Player extends Actor {
     public void moveY(double dist) {
         this.y += dist;
     }
+
+    @Override
     public void update() {}
 
     @Override

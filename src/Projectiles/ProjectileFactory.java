@@ -44,8 +44,6 @@ public class ProjectileFactory implements Serializable {
             this.hitScanLine = Boolean.parseBoolean(info[5]);
         }
         if(type == PROJECTILE) {
-            System.out.println(info);
-            System.out.println(info[6] + " 6 ");
             this.radius = Integer.parseInt(info[5]);
             this.speed = Double.parseDouble(info[6]);
             this.image = "img/" + info[7];

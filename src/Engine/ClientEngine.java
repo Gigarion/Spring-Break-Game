@@ -31,7 +31,7 @@ public class ClientEngine {
     private static final int LEFT = KeyEvent.VK_A;
     private static final int RIGHT = KeyEvent.VK_D;
     private static final char WPN_SWAP = 'e';
-    private static final double MOVEMENT_SIZE = 0.8; // TODO: player speeds/stats
+    private static final double MOVEMENT_SIZE = 1; // TODO: player speeds/stats
     private static final int LOGIC_INTERVAL = 1;
 
     private ConcurrentLinkedQueue<Animation> animationQueue;     // active animations
@@ -194,6 +194,12 @@ public class ClientEngine {
         if (e.getKeyChar() == 'q') {
             player.reload();
         }
+        if (e.getKeyChar() == 'y') {
+            userBox.toggleCameraLock();
+        }
+        if (e.getKeyChar() == 'e') {
+            player.swapWeapon();
+        }
     }           // individual key press
 
     private void exit() {
@@ -216,29 +222,31 @@ public class ClientEngine {
         if (userBox.isKeyPressed(UP)) {
             if (mapGrid.validMove(player.getX(), player.getY() + MOVEMENT_SIZE, player)) {
                 player.moveY(MOVEMENT_SIZE);
-                userBox.moveScreen(UP, MOVEMENT_SIZE);
+                //userBox.movePlayer();
+                //userBox.moveScreen(UP, MOVEMENT_SIZE);
             }
         }
         if (userBox.isKeyPressed(DOWN)) {
-            //if (player.getY() - MOVEMENT_SIZE > 0) {
             if (mapGrid.validMove(player.getX(), player.getY() - MOVEMENT_SIZE, player)) {
                 player.moveY(-MOVEMENT_SIZE);
-                userBox.moveScreen(DOWN, MOVEMENT_SIZE);
+                //userBox.movePlayer();
+                //userBox.moveScreen(DOWN, MOVEMENT_SIZE);
             }
         }
         if (userBox.isKeyPressed(LEFT)) {
             if (mapGrid.validMove(player.getX() - MOVEMENT_SIZE, player.getY(), player)) {
                 player.moveX(-MOVEMENT_SIZE);
-                userBox.moveScreen(LEFT, MOVEMENT_SIZE);
+                //userBox.moveScreen(LEFT, MOVEMENT_SIZE);
             }
         }
         if (userBox.isKeyPressed(RIGHT)) {
             if (mapGrid.validMove(player.getX() + MOVEMENT_SIZE, player.getY(), player)) {
                 player.moveX(MOVEMENT_SIZE);
-                userBox.moveScreen(RIGHT, MOVEMENT_SIZE);
+               // userBox.moveScreen(RIGHT, MOVEMENT_SIZE);
             }
         }
         if (player.getX() != oldX || player.getY() != oldY) {
+            userBox.movePlayer();
             Package newPos = new Package(player.getID(), Package.NEW_POS, Package.formCoords(player.getX(), player.getY()));
             clientMailroom.sendMessage(newPos);
         }
@@ -370,11 +378,11 @@ public class ClientEngine {
         maxLogY = (int) sizes[1];
         userBox.setBounds(maxLogX, maxLogY);
         //this.mapGrid = new MapGrid(maxLogX, maxLogY, 15);
-        this.mapGrid = MapGrid.loadFromString(maxLogX + "/" + maxLogY + "/" + 20 + "/" + "5,5");
+        this.mapGrid = MapGrid.loadFromString(maxLogX + "/" + maxLogY + "/" + 10 + "/" + "5,5");
         userBox.setMapGrid(mapGrid);
         mapGrid.setShowBoxes(true);
-        mapGrid.setShowGrid(true);
-        //mapGrid.setShowPlayerBoxes(true);
+        mapGrid.setShowGrid(false);
+        mapGrid.setShowPlayerBoxes(false);
         mapGrid.block(50.0, 50.0);
         mapGrid.setPlayer(player);
     }

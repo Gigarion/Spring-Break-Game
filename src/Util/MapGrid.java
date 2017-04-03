@@ -174,6 +174,16 @@ public class MapGrid {
         sb.append(maxBoxY);
         sb.append("/");
         sb.append(boxSize);
-        for 
+        for (int i = 0; i < maxBoxX; i++) {
+            for (int c = 0; c < maxBoxY; c++) {
+                if (grid[i][c]) {
+                    sb.append("/");
+                    sb.append(i);
+                    sb.append(',');
+                    sb.append(c);
+                }
+            }
+        }
+        return sb.toString();
     }
 }

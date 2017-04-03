@@ -206,10 +206,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         setFont();
         clear();
 
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setUndecorated(true);
-        frame.setVisible(true);
-
         // add antialiasing
         RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
@@ -242,6 +238,18 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         //frame.setJMenuBar(createMenuBar());
         frame.pack();
         frame.requestFocusInWindow();
+        frame.setVisible(true);
+    }
+
+    public static void setFullScreen() {
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setUndecorated(true);
+        frame.setVisible(true);
+    }
+
+    public static void setNormal() {
+        frame.setExtendedState(JFrame.NORMAL);
+        frame.setUndecorated(false);
         frame.setVisible(true);
     }
 
@@ -1400,6 +1408,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     public void keyPressed(KeyEvent e) {
         synchronized (keyLock) {
             keysDown.add(e.getKeyCode());
+            userBox.keyTyped(e);
         }
     }
 

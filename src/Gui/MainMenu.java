@@ -3,6 +3,7 @@ package Gui;
 import Actors.Player;
 import Engine.ClientEngine;
 import Engine.ServerEngine;
+import Util.MapBuilder;
 import Util.StdDraw;
 
 import javax.swing.*;
@@ -50,6 +51,10 @@ public class MainMenu extends JFrame {
     private JButton generateHitScanButton;
     private JTextField hitScanOutput;
     private JComboBox ammoComboBox;
+    private JButton beginMapBuilderButton;
+    private JTextField boxSizeField;
+    private JTextField maxXField;
+    private JTextField maxYField;
     private JLabel outputLabel;
     private boolean started;
 
@@ -79,6 +84,7 @@ public class MainMenu extends JFrame {
         setWeaponListeners();
         setProjectileListeners();
         setHitScanListeners();
+        setMapBuilderListeners();
     }
 
     private void startGame() {
@@ -157,16 +163,32 @@ public class MainMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 StringBuilder sb = new StringBuilder("H/");
-                sb.append(pRangeField.getText());
+                sb.append(hRangeField.getText());
                 sb.append("/");
-                sb.append(pDamageField.getText());
+                sb.append(hDamageField.getText());
                 sb.append("/");
                 sb.append(hPierceCountField.getText());
                 sb.append("/");
-                sb.append(pCountField.getText());
+                sb.append(hCountField.getText());
                 sb.append("/");
                 sb.append(showLineRadioButton.isSelected());
                 hitScanOutput.setText(sb.toString());
+            }
+        });
+    }
+
+    private void setMapBuilderListeners() {
+        beginMapBuilderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    int maxX = Integer.parseInt(maxXField.getText());
+                    int maxY = Integer.parseInt(maxYField.getText());
+                    int boxSize = Integer.parseInt(boxSizeField.getText());
+                    MapBuilder mapBuilder = new MapBuilder(maxX, maxY, boxSize);
+                } catch (Exception e) {
+                    System.out.println("Invalid fields");
+                }
             }
         });
     }

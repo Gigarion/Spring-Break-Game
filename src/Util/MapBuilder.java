@@ -21,15 +21,14 @@ public class MapBuilder {
         StdDraw.attachUserBox(userBox);
         userBox.setMapGrid(mapGrid);
         userBox.setBounds(maxX, maxY);
-        userBox.setMouseHandler((x, y)->{
-            mark(userBox.getMouseX(), userBox.getMouseY());
-        });
-        userBox.setKeyboardHandler((KeyEvent e) -> handleKeyboard(e));
+        userBox.setMouseHandler((x, y)-> mark(userBox.getMouseX(), userBox.getMouseY()));
+        userBox.setKeyboardHandler(this::handleKeyboard);
 
         userBox.begin();
     }
 
     public void mark(double x, double y) {
+        System.out.println(x + " : " + y + " *****");
         mapGrid.block(x, y);
         System.out.println(mapGrid.toString());
     }

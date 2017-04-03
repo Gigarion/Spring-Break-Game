@@ -53,6 +53,8 @@ public class MapGrid {
     }
 
     public void block(double x, double y) {
+        System.out.println(x + " : " + convertIndex(x));
+        System.out.println(y + " : " + convertIndex(y));
         block(new Point(convertIndex(x), convertIndex(y)));
     }
 
@@ -77,7 +79,7 @@ public class MapGrid {
             for (int r = 0; r < grid.length; r++) {
                 for (int c = 0; c < grid[0].length; c++) {
                     double x = (boxSize * r) + boxSize / 2.0;
-                    double y = (boxSize * r) + boxSize / 2.0;
+                    double y = (boxSize * c) + boxSize / 2.0;
                     if (grid[r][c])
                         StdDraw.filledRectangle(x, y, boxSize / 2, boxSize / 2);
                 }

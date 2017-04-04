@@ -1,20 +1,20 @@
-package Util;
+package Maps;
 
 import Actors.Actor;
 import Actors.Mob;
 import Actors.Player;
+import Util.StdDraw;
 
 import java.awt.*;
-import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 /**
  * Created by Gig on 4/2/2017.
  * used for blocking movement through areas
  * Rather than having to make a bunch of invisible impassable actors
  */
-public class MapGrid {
+public class MapGrid implements Serializable {
     private int boxSize; // size in pixels of the impassability box
     private boolean[][] grid;
     private int maxBoxX, maxBoxY;
@@ -53,12 +53,12 @@ public class MapGrid {
     }
 
     public void block(double x, double y) {
-        System.out.println(x + " : " + convertIndex(x));
-        System.out.println(y + " : " + convertIndex(y));
         block(new Point(convertIndex(x), convertIndex(y)));
     }
 
     private void block(Point p) {
+        if (p.x >= maxBoxX || p.y >= maxBoxY || p.x < 0 || p.y < 0)
+            return;
         grid[p.x][p.y] = true;
     }
 
@@ -67,6 +67,10 @@ public class MapGrid {
         for (Point p : toUnblock) {
             unblock(p);
         }
+    }
+
+    public void unblock(double x, double y) {
+        unblock(new Point(convertIndex(x), convertIndex(y)));
     }
 
     private void unblock(Point p) {
@@ -145,6 +149,8 @@ public class MapGrid {
             return false;
         Iterable<Point> newBoxes = getBoxes(test);
         for (Point p : newBoxes) {
+            if (p.x >= grid.length || p.y >= grid[0].length)
+                return false;
             if (grid[p.x][p.y])
                 return false;
         }

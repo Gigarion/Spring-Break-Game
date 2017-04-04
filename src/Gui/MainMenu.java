@@ -3,16 +3,14 @@ package Gui;
 import Actors.Player;
 import Engine.ClientEngine;
 import Engine.ServerEngine;
-import Util.MapBuilder;
-import Util.StdDraw;
+import Tools.MapBuilder;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.io.File;
 
 /**
  * Created by Gig on 3/27/2017.
@@ -55,6 +53,7 @@ public class MainMenu extends JFrame {
     private JTextField boxSizeField;
     private JTextField maxXField;
     private JTextField maxYField;
+    private JComboBox mapListComboBox;
     private JLabel outputLabel;
     private boolean started;
 
@@ -178,6 +177,20 @@ public class MainMenu extends JFrame {
     }
 
     private void setMapBuilderListeners() {
+        mapListComboBox.addItem("New Map");
+        try {
+            File folder = new File("src/data/Maps/");
+            System.out.println(folder.getAbsolutePath());
+            if (folder.isDirectory()) {
+                for (File f : folder.listFiles()) {
+                    System.out.println("here");
+                    mapListComboBox.addItem(f.getName().replace(".gm", ""));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         beginMapBuilderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -185,9 +198,17 @@ public class MainMenu extends JFrame {
                     int maxX = Integer.parseInt(maxXField.getText());
                     int maxY = Integer.parseInt(maxYField.getText());
                     int boxSize = Integer.parseInt(boxSizeField.getText());
-                    MapBuilder mapBuilder = new MapBuilder(maxX, maxY, boxSize);
+                    String selectedMap = (String) mapListComboBox.getSelectedItem();
+                    if (selectedMap.contains(".gm")) {
+                        new MapBuilder(selectedMap);
+                    }
+                    else {
+                        new MapBuilder(maxX, maxY, boxSize, "map.png");
+                    }
+                    setVisible(false);
                 } catch (Exception e) {
                     System.out.println("Invalid fields");
+                    e.printStackTrace();
                 }
             }
         });

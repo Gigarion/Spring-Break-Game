@@ -605,7 +605,7 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <text value=""/>
+                  <text value="10"/>
                 </properties>
               </component>
               <component id="850ff" class="javax.swing.JTextField" binding="maxXField">
@@ -615,7 +615,7 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <text value=""/>
+                  <text value="2000"/>
                 </properties>
               </component>
               <component id="f6bb8" class="javax.swing.JLabel">
@@ -633,7 +633,23 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <text value=""/>
+                  <text value="2000"/>
+                </properties>
+              </component>
+              <component id="2bfdb" class="javax.swing.JComboBox" binding="mapListComboBox">
+                <constraints>
+                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model/>
+                </properties>
+              </component>
+              <component id="5894" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="From File"/>
                 </properties>
               </component>
             </children>

@@ -9,7 +9,7 @@ import Mailroom.ClientMailroom;
 import Mailroom.Package;
 import Projectiles.HitScan;
 import Projectiles.Projectile;
-import Util.MapGrid;
+import Maps.MapGrid;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -57,9 +57,9 @@ public class ClientEngine {
         // set up user interface
         userBox = new UserBox(actorMap, animationQueue);
         userBox.setBounds(maxLogX, maxLogY);
-        userBox.setExitHandler(() -> exit());
-        userBox.setKeyboardHandler((e) -> keyPressed(e));
-        userBox.setMouseHandler((x, y) -> mouseClick(x, y));
+        userBox.setExitHandler(this::exit);
+        userBox.setKeyboardHandler(this::keyPressed);
+        userBox.setMouseHandler(this::mouseClick);
 
         // gotta start mail thread here
         Timer mailTimer = new Timer("Client Engine Mail Timer", true);
@@ -222,27 +222,21 @@ public class ClientEngine {
         if (userBox.isKeyPressed(UP)) {
             if (mapGrid.validMove(player.getX(), player.getY() + MOVEMENT_SIZE, player)) {
                 player.moveY(MOVEMENT_SIZE);
-                //userBox.movePlayer();
-                //userBox.moveScreen(UP, MOVEMENT_SIZE);
             }
         }
         if (userBox.isKeyPressed(DOWN)) {
             if (mapGrid.validMove(player.getX(), player.getY() - MOVEMENT_SIZE, player)) {
                 player.moveY(-MOVEMENT_SIZE);
-                //userBox.movePlayer();
-                //userBox.moveScreen(DOWN, MOVEMENT_SIZE);
             }
         }
         if (userBox.isKeyPressed(LEFT)) {
             if (mapGrid.validMove(player.getX() - MOVEMENT_SIZE, player.getY(), player)) {
                 player.moveX(-MOVEMENT_SIZE);
-                //userBox.moveScreen(LEFT, MOVEMENT_SIZE);
             }
         }
         if (userBox.isKeyPressed(RIGHT)) {
             if (mapGrid.validMove(player.getX() + MOVEMENT_SIZE, player.getY(), player)) {
                 player.moveX(MOVEMENT_SIZE);
-               // userBox.moveScreen(RIGHT, MOVEMENT_SIZE);
             }
         }
         if (player.getX() != oldX || player.getY() != oldY) {
@@ -334,7 +328,7 @@ public class ClientEngine {
                 }
             }
         }
-        userBox.addAnimation(a);
+        animationQueue.add(a);
     }
 
     private void handleNewActor(Package p) {

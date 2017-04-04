@@ -75,6 +75,8 @@ public class Player extends Actor {
     }
 
     public int getAmmoCount() {
+        if (equipped == null)
+            return -1;
         return getAmmoCount(equipped.getAmmoType());
     }
 

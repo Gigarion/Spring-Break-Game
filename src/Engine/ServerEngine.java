@@ -179,7 +179,7 @@ public class ServerEngine {
 
     // not technically mail but relevant, called from handleWelcome
     private void setupNewUser(Actor newPlayer, int port) {
-        String sizeString = Package.formCoords(10000, 10000);
+        String sizeString = Package.formCoords(2000, 2000);
         mailroom.sendPackage(new Package(sizeString, Package.SCR_SIZE));
         for (Actor actor : actorMap.values()) {
             mailroom.sendPackage(new Package(actor, Package.ACTOR), port);

@@ -3,15 +3,15 @@ package Gui;
 import Actors.Actor;
 import Actors.Player;
 import Animations.Animation;
-import Util.MapGrid;
-import Util.MapLoader;
+import Maps.GameMap;
+import Maps.MapGrid;
 import Util.StdDraw;
-import com.sun.org.apache.bcel.internal.generic.SWITCH;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,6 +43,7 @@ public class UserBox {
         void handleKeyboard(KeyEvent e);
     }
 
+
     private static final int UP = KeyEvent.VK_W;
     private static final int DOWN = KeyEvent.VK_S;
     private static final int LEFT = KeyEvent.VK_A;
@@ -59,22 +60,26 @@ public class UserBox {
     private int drawFrame;                      // which frame are we on
     private ConcurrentHashMap<Integer, Actor> actorMap;
     private ConcurrentLinkedQueue<Animation> animationQueue;
+
     private ExitHandler exitHandler;            // called for engine to handle exits
     private MouseHandler mouseHandler;          // called for engine to handle mouse events
     private KeyboardHandler keyboardHandler;    // called for engine to handle keyboard events
-    private int selectedActor;                  // id of the selected actor
 
-    private Player player;
-    private int maxLogX, maxLogY;
-    private long ping;
+
     private int clickedButton;
+    private int selectedActor;                  // id of the selected actor
+    private Player player;
+
+    private int maxLogX, maxLogY;
     private Point2D.Double center;
+    private long ping;
 
     private boolean showEdges;
     private boolean lockCamera;
     private long lockTimer;
 
     private MapGrid mapGrid;
+    private GameMap gameMap;
 
     public UserBox(ConcurrentHashMap<Integer, Actor> actorMap, ConcurrentLinkedQueue<Animation> animationQueue) {
         this.actorMap = actorMap;
@@ -128,10 +133,15 @@ public class UserBox {
     public void setBounds(int maxLogX, int maxLogY) {
         this.maxLogX = maxLogX;
         this.maxLogY = maxLogY;
+        System.out.println(maxLogX);
+        System.out.println(maxLogY);
     }
 
-    public void setMapGrid(MapGrid mapGrid) {
-        this.mapGrid = mapGrid;
+    //TODO: refactor to eliminate this function, proliferate map usage across files
+    public void setMapGrid(MapGrid mapGrid) {this.mapGrid = mapGrid;}
+    public void setGameMap(GameMap gameMap) {
+        this.gameMap = gameMap;
+        this.mapGrid = gameMap.getMapGrid();
     }
 
     public boolean inVisibleRange(double x, double y) {
@@ -193,9 +203,13 @@ public class UserBox {
 
     // called to display the current state of the board
     public void draw() {
-        StdDraw.clear();
-        StdDraw.rectangle(450, 450, 300, 300);
-
+       // StdDraw.rectangle(450, 450, 300, 300);
+        if (gameMap != null) {
+            gameMap.draw();
+        }
+        else {
+            StdDraw.picture(maxLogX / 2, maxLogY / 2, "src/img/Maps/map.png", maxLogX, maxLogY);
+        }
 
         for (Animation hsl : animationQueue) {
             if (hsl.getTTL() <= 0)
@@ -281,7 +295,6 @@ public class UserBox {
     public void setSelectedActor(int selectedActor) {
         this.selectedActor = selectedActor;
     }
-
     public void setPlayer(int playerID) {
         this.player = (Player) actorMap.get(playerID);
         this.center = new Point2D.Double(player.getX(), player.getY());
@@ -290,44 +303,33 @@ public class UserBox {
     public void setExitHandler(ExitHandler exitHandler) {
         this.exitHandler = exitHandler;
     }
-
     public void setKeyboardHandler(KeyboardHandler keyboardHandler) {
         this.keyboardHandler = keyboardHandler;
     }
-
     public void setMouseHandler(MouseHandler mouseHandler) {
         this.mouseHandler = mouseHandler;
+    }
+    public void setClickedButton(int button) {
+        this.clickedButton = button;
     }
 
     public void updatePing(long ping) {
         this.ping = ping;
     }
 
-    public void addAnimation(Animation a) {
-        animationQueue.add(a);
-    }
-
-    public void setClickedButton(int button) {
-        this.clickedButton = button;
-    }
-
     // getters
     public int getClickedButton() {
         return this.clickedButton;
     }
-
     public double getMouseX() {
         return StdDraw.mouseX();
     }
-
     public double getMouseY() {
         return StdDraw.mouseY();
     }
-
     public boolean isMousePressed() {
         return StdDraw.mousePressed();
     }
-
     public boolean isKeyPressed(int keyCode) {
         return StdDraw.isKeyPressed(keyCode);
     }
@@ -340,7 +342,6 @@ public class UserBox {
             return maxLogY - 2 * VIS_Y_RADIUS;
         return center.y - VIS_Y_RADIUS;
     }
-
     private double getVisibleYMax() {
         if (center.y + VIS_Y_RADIUS >= maxLogY)
             return maxLogY;
@@ -348,7 +349,6 @@ public class UserBox {
             return 2 * VIS_Y_RADIUS;
         return center.y + VIS_Y_RADIUS;
     }
-
     private double getVisibleXMin() {
         if (center.x - vis_x_radius <= 0)
             return 0;
@@ -356,7 +356,6 @@ public class UserBox {
             return maxLogX - 2 * vis_x_radius;
         return center.x - vis_x_radius;
     }
-
     private double getVisibleXMax() {
         if (center.x + vis_x_radius > maxLogX)
             return maxLogX;
@@ -371,14 +370,12 @@ public class UserBox {
             keyboardHandler.handleKeyboard(e);
         }
     }
-
     public void click(MouseEvent e) {
         setClickedButton(e.getButton());
         if (mouseHandler != null) {
             mouseHandler.handleMouse(getMouseX(), getMouseY());
         }
     }
-
     public void exit() {
         if (exitHandler != null)
             exitHandler.exit();
@@ -399,14 +396,11 @@ public class UserBox {
         center = new Point2D.Double(player.getX(), player.getY());
 
         // adjust for edges
-        double centerX = (getVisibleXMin() + getVisibleXMax()) / 2;
-        center.x = centerX;
-        double centerY = (getVisibleYMin() + getVisibleYMax()) / 2;
-        center.y = centerY;
+        center.x = (getVisibleXMin() + getVisibleXMax()) / 2;
+        center.y = (getVisibleYMin() + getVisibleYMax()) / 2;
 
         orientCamera();
     }
-
     private void orientCamera() {
         StdDraw.setXscale(getVisibleXMin(), getVisibleXMax());
         StdDraw.setYscale(getVisibleYMin(), getVisibleYMax());

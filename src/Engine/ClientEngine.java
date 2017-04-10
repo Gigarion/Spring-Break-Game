@@ -7,6 +7,8 @@ import Animations.SwingAnimation;
 import Gui.UserBox;
 import Mailroom.ClientMailroom;
 import Mailroom.Package;
+import Maps.GameMap;
+import Maps.GameMapStorage;
 import Projectiles.HitScan;
 import Projectiles.Projectile;
 import Maps.MapGrid;
@@ -48,6 +50,7 @@ public class ClientEngine {
     private int selectedID;         // currently  selected actor
     private boolean selectedLock;   // a boolean to lock selections the user clicks on
 
+
     // constructor, takes logical maxes and visual radius for userbox
     public ClientEngine() {
         animationQueue = new ConcurrentLinkedQueue<>();
@@ -59,7 +62,7 @@ public class ClientEngine {
         userBox.setBounds(maxLogX, maxLogY);
         userBox.setExitHandler(this::exit);
         userBox.setKeyboardHandler(this::keyPressed);
-        userBox.setMouseHandler(this::mouseClick);
+        userBox.setMouseHandler(this::handleMouse);
 
         // gotta start mail thread here
         Timer mailTimer = new Timer("Client Engine Mail Timer", true);
@@ -103,11 +106,11 @@ public class ClientEngine {
         if ((logicFrame % 5 == 0))
             handleKeyboard();
         if ((logicFrame % 20 == 0) && userBox.isMousePressed()) {
-            mouseClick(userBox.getMouseX(), userBox.getMouseY());
+            handleMouse(null, userBox.getMouseX(), userBox.getMouseY());
         }
         logicFrame = ((logicFrame + 1) % 100000);
         for (Actor a : actorMap.values()) {
-            a.update();
+           if (!(a instanceof Mob)) a.update();
         }
         Actor selected = actorMap.get(selectedID);
         if (selected != null && !userBox.inVisibleRange(selected.getX(), selected.getY())) {
@@ -143,9 +146,28 @@ public class ClientEngine {
      * and the loop based keyboard handler
      ***********************************************/
 
-    private void mouseClick(double x, double y) {
+    private void handleMouse(MouseEvent e, double x, double y) {
         if (!init)
             return;
+        if (e != null && (e.getID() ^ MouseEvent.MOUSE_RELEASED) == 0) {
+            handleMouseRelease(e, x, y);
+        }
+        if (e == null || (e != null && (e.getID() ^ MouseEvent.MOUSE_PRESSED) == 0)) {
+            handleMousePressed(e, x, y);
+        }
+        if (e != null && (e.getID() ^ MouseEvent.MOUSE_DRAGGED) == 0) {
+            handleMouseDragged(e, x, y);
+        }
+    }   // individual handleMouse
+
+    private void handleMouseRelease(MouseEvent e, double x, double y) {
+        switch(e.getButton()) {
+            case MouseEvent.BUTTON3: handleWeaponFire(player.release(x, y));
+            default: break;
+        }
+    }
+
+    private void handleMousePressed(MouseEvent e, double x, double y) {
         switch (userBox.getClickedButton()) {
             case MouseEvent.BUTTON1: {
                 boolean choose = false;
@@ -166,15 +188,22 @@ public class ClientEngine {
             }
             break;
             case MouseEvent.BUTTON3: {
-                fireWeapon();
+                handleWeaponFire(player.fireWeapon(userBox.getMouseX(), userBox.getMouseY()));
             }
             break;
-            default:
+            default: System.out.println(userBox.getClickedButton() + " : " + MouseEvent.BUTTON3);
                 break;
         }
-    }   // individual click
+    }
+
+    private void handleMouseDragged(MouseEvent e, double x, double y) {
+        switch (e.getButton()) {
+            default: break;
+        }
+    }
 
     private void keyPressed(KeyEvent e) {
+        System.out.println("pressed key");
         if (e.getKeyChar() == WPN_SWAP)
             player.swapWeapon();
         if (e.getKeyChar() == 'r') {
@@ -284,6 +313,9 @@ public class ClientEngine {
             case Package.SCR_SIZE:
                 handleScreenSize(p);
                 break;
+            case Package.GAME_MAP:
+                handleGameMap(p);
+                break;
             default:
                 System.out.println("Unused package type: " + p.getType());
         }
@@ -292,7 +324,7 @@ public class ClientEngine {
     private void handleNewPosition(Package p) {
         int id = (Integer) (p.getPayload());
         Actor a = actorMap.get(id);
-        if (a != null) {
+        if (a != null && id != player.getID()) {
             double[] coords = Package.extractCoords(p.getExtra());
             a.moveTo(coords[0], coords[1]);
         }
@@ -302,6 +334,9 @@ public class ClientEngine {
         int id = (Integer) p.getPayload();
         player.setID(id);
         actorMap.put(id, player);
+        System.out.println("orig" + player);
+    //    player = (Player) actorMap.get(id);
+        System.out.println("in map " + player);
         userBox.setPlayer(id);
         begin();
     }
@@ -334,15 +369,24 @@ public class ClientEngine {
     private void handleNewActor(Package p) {
         Actor a = (Actor) p.getPayload();
         int id = a.getID();
-        actorMap.put(id, a);
+        if (id != player.getID())
+            actorMap.put(id, a);
+        if (player.getID() == -1 && a instanceof Player && (((Player) a).getName().equals(player.getName()))) {
+            System.out.println("hey");
+            player.setID(id);
+            actorMap.put(id, player);
+            userBox.setPlayer(id);
+        }
     }
 
     private void handleHit(Package p) {
-        int damage = (Integer) p.getPayload();
-        int id = Integer.parseInt(p.getExtra());
+        int id = (Integer) p.getPayload();
+        System.out.println("hit " + id + " " + player.getID());
+        int damage = Integer.parseInt(p.getExtra());
         Actor a = actorMap.get(id);
-        if (a != null)
+        if (a != null) {
             a.hit(damage);
+        }
     }
 
     private void handleRemove(Package p) {
@@ -353,6 +397,13 @@ public class ClientEngine {
             if (id == selectedID) {
                 selectedLock = false;
                 selectedID = -1;
+            }
+            if (id == player.getID()) {
+                System.out.println("removed me");
+                Player replacement = new Player(player.getName());
+                replacement.giveWeapons();
+                clientMailroom.sendMessage(new Package(replacement, Package.ACTOR));
+                this.player = replacement;
             }
         }
     }
@@ -365,28 +416,28 @@ public class ClientEngine {
         clientMailroom.sendMessage(new Package(System.currentTimeMillis(), Package.PING));
     }
 
+    private void handleGameMap(Package p) {
+        GameMapStorage gms = (GameMapStorage) p.getPayload();
+        GameMap gameMap = gms.extractGameMap();
+        this.mapGrid = gameMap.getMapGrid();
+        userBox.setGameMap(gameMap);
+        mapGrid.setShowGrid(false);
+        mapGrid.setShowBoxes(false);
+    }
+
     private void handleScreenSize(Package p) {
         String sizeString = (String) p.getPayload();
         double[] sizes = Package.extractCoords(sizeString);
         maxLogX = (int) sizes[0];
         maxLogY = (int) sizes[1];
         userBox.setBounds(maxLogX, maxLogY);
-        //this.mapGrid = new MapGrid(maxLogX, maxLogY, 15);
-        this.mapGrid = MapGrid.loadFromString(maxLogX + "/" + maxLogY + "/" + 10 + "/" + "5,5");
-        userBox.setMapGrid(mapGrid);
-        mapGrid.setShowBoxes(true);
-        mapGrid.setShowGrid(false);
-        mapGrid.setShowPlayerBoxes(false);
-        mapGrid.block(50.0, 50.0);
-        mapGrid.setPlayer(player);
     }
 
     /******************************************************
      *  Miscellaneous
      ******************************************************/
 
-    private void fireWeapon() {
-        Iterable<Object> attacks = player.fireWeapon();
+    private void handleWeaponFire(Iterable<Object> attacks) {
         if (attacks == null) {
             return;
         }
@@ -414,4 +465,5 @@ public class ClientEngine {
         clientMailroom.sendMessage(new Package(player, Package.WELCOME));
         player.giveWeapons();
     }
+
 }

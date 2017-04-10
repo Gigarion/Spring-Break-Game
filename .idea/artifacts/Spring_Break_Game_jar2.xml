@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Spring-Break-Game:jar2">
+    <output-path>$PROJECT_DIR$/out/artifacts/Spring_Break_Game_jar2</output-path>
+    <root id="archive" name="Spring-Break-Game_jar2.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/META-INF/Manifests/Client/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="Spring-Break-Game" />
+    </root>
+  </artifact>
+</component>

@@ -1,7 +1,7 @@
 package Tools;
 
-import Gui.UserBox;
 import Maps.GameMap;
+import Maps.GameMapStorage;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -59,7 +59,8 @@ public class SaveMapDialog extends JDialog {
                 System.out.println("printing");
                 FileOutputStream fos = new FileOutputStream("src/data/maps/" + mapNameField.getText() + ".gm");
                 ObjectOutputStream fw = new ObjectOutputStream(fos);
-                fw.writeObject(gameMap);
+                GameMapStorage gms = gameMap.getStorage();
+                fw.writeObject(gms);
             } catch (Exception e) {
                 e.printStackTrace();
             }

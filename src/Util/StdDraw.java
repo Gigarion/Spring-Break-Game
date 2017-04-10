@@ -23,16 +23,7 @@ package Util;
  *
  ******************************************************************************/
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.FileDialog;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
+import java.awt.*;
 
 import java.awt.event.*;
 
@@ -142,7 +133,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     // set of key codes currently pressed down
     private static TreeSet<Integer> keysDown = new TreeSet<Integer>();
 
-   // private static ClientEngine clientEngine = null;
+    // private static ClientEngine clientEngine = null;
     private static UserBox userBox = null;
 
     // singleton pattern: client can't instantiate
@@ -196,7 +187,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         onscreen = onscreenImage.createGraphics();
 
 
-
         setXscale();
         setYscale();
         offscreen.setColor(DEFAULT_CLEAR_COLOR);
@@ -235,9 +225,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
         // frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);      // closes only current window
         frame.setTitle("Spring Break Defense");
-        //frame.setJMenuBar(createMenuBar());
         frame.pack();
         frame.requestFocusInWindow();
+
+
         frame.setVisible(true);
     }
 
@@ -843,8 +834,14 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         // in case file is inside a .jar (classpath relative to root of jar)
         if ((icon == null) || (icon.getImageLoadStatus() != MediaTracker.COMPLETE)) {
             URL url = StdDraw.class.getResource("/" + filename);
-            if (url == null) throw new IllegalArgumentException("image " + filename + " not found");
-            icon = new ImageIcon(url);
+            if (url != null)
+                icon = new ImageIcon(url);
+        }
+
+        if (icon.getImageLoadStatus() != MediaTracker.COMPLETE && filename.substring(0, 4).equals("src/")) {
+            return getImage(filename.substring(4, filename.length()));
+        } else if (icon == null) {
+            throw new IllegalArgumentException("Image still not found");
         }
         return icon.getImage();
     }
@@ -1267,7 +1264,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-        userBox.setClickedButton(e.getButton());
         // this body is intentionally left empty
     }
 
@@ -1296,8 +1292,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
             mouseX = StdDraw.userX(e.getX());
             mouseY = StdDraw.userY(e.getY());
             mousePressed = true;
-
-            userBox.click(e);
+            userBox.setClickedButton(e.getButton());
+            userBox.handleMouse(e);
         }
     }
 
@@ -1308,6 +1304,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     public void mouseReleased(MouseEvent e) {
         synchronized (mouseLock) {
             mousePressed = false;
+            userBox.handleMouse(e);
         }
     }
 
@@ -1319,6 +1316,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         synchronized (mouseLock) {
             mouseX = StdDraw.userX(e.getX());
             mouseY = StdDraw.userY(e.getY());
+            userBox.handleMouse(e);
         }
     }
 
@@ -1330,6 +1328,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         synchronized (mouseLock) {
             mouseX = StdDraw.userX(e.getX());
             mouseY = StdDraw.userY(e.getY());
+            userBox.setMouseXY(mouseX, mouseY);
         }
     }
 
@@ -1456,6 +1455,18 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
     public static void close() {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    }
+
+    public static void clearCursor() {
+        // Transparent 16 x 16 pixel cursor image.
+        BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+
+// Create a new blank cursor.
+        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+                cursorImg, new Point(0, 0), "blank cursor");
+
+// Set the blank cursor to the JFrame.
+        frame.getContentPane().setCursor(blankCursor);
     }
 
 }

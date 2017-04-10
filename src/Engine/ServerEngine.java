@@ -4,9 +4,10 @@ import Actors.*;
 import Animations.HitScanLine;
 import Mailroom.Package;
 import Mailroom.ServerMailroom;
+import Maps.GameMap;
+import Maps.MapGrid;
 import Projectiles.HitScan;
 import Projectiles.Projectile;
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,6 +27,10 @@ public class ServerEngine {
     private ConcurrentHashMap<Integer, Actor> actorMap;
     private ConcurrentHashMap<Integer, Integer> portToPlayerMap;
     private AtomicInteger nextFreeId;
+    private int maxLogX, maxLogY;
+    private EventLog eventLog;
+    private MapGrid mapGrid;
+
     private enum State {
         PRE_CONNECT, INIT, RUNNING
     }
@@ -35,18 +40,27 @@ public class ServerEngine {
         void handleMessage(Package p);
     }
 
-    public ServerEngine() {
+    public ServerEngine(int playerCap, int port) {
+        maxLogX = 2000;
+        maxLogY = 2000;
         System.out.println("server");
+
+        //TODO: make this not static and shitty
+        this.mapGrid = new GameMap("ServerTest.gm").getMapGrid();
+
+
         this.serverState = State.PRE_CONNECT;
         this.nextFreeId = new AtomicInteger(0);
         this.serverState = State.INIT;
         this.actorMap = new ConcurrentHashMap<>();
         this.portToPlayerMap = new ConcurrentHashMap<>();
-        this.mailroom = new ServerMailroom(1, (Package p) -> handleMessage(p));
         for (int i = 0; i < 50; i++)
             makeRocks();
+        this.mailroom = new ServerMailroom(playerCap, this::handleMessage);
         setTimers();
     }
+
+
 
     private void setTimers() {
         Timer updateTimer = new Timer("Server update timer", true);
@@ -67,8 +81,26 @@ public class ServerEngine {
 
     private void update() {
         for (Actor a : actorMap.values()) {
-            a.update();
+            Iterable<ActorRequest> requests = a.update();
+            if (requests != null) {
+                for (ActorRequest ar : requests) {
+                    handleActorRequest(a, ar);
+                }
+            }
             checkActor(a);
+        }
+    }
+
+    private void handleActorRequest(Actor a, ActorRequest ar) {
+        switch(ar.getType()) {
+            case ActorRequest.MOVE: {
+                double[] coords = Package.extractCoords(ar.getExtra());
+                if (mapGrid.validMove(coords[0], coords[1], a))
+                    a.update(ar);
+                mailroom.sendPackage(new Package(a.getID(), Package.NEW_POS, ar.getExtra()));
+            }
+                break;
+            default: System.out.println("not a move");
         }
     }
 
@@ -119,7 +151,7 @@ public class ServerEngine {
         HitScan hs = (HitScan) p.getPayload();
         int srcId = Integer.parseInt(p.getExtra());
         for (Actor hit : fireHitScan(hs, srcId)) {
-            mailroom.sendPackage(new Package(hs.getDamage(), Package.HIT, Integer.toString(hit.getID())));
+            mailroom.sendPackage(new Package(hit.getID(), Package.HIT, Integer.toString(hs.getDamage())));
         }
         if (hs.getShowLine())
             mailroom.sendPackage(new Package(new HitScanLine(hs), Package.ANIMATE));
@@ -180,7 +212,13 @@ public class ServerEngine {
     // not technically mail but relevant, called from handleWelcome
     private void setupNewUser(Actor newPlayer, int port) {
         String sizeString = Package.formCoords(2000, 2000);
+
+
         mailroom.sendPackage(new Package(sizeString, Package.SCR_SIZE));
+
+        GameMap gameMap = new GameMap("ServerTest.gm");
+        mailroom.sendPackage(new Package(gameMap.getStorage(), Package.GAME_MAP));
+
         for (Actor actor : actorMap.values()) {
             mailroom.sendPackage(new Package(actor, Package.ACTOR), port);
         }
@@ -239,10 +277,11 @@ public class ServerEngine {
                 if (target == p || !target.canHit() || target.getID() == p.getSrc().getID())
                     continue;
                 if (target.collides(p)) {
+                    System.out.println("hitting");
                     target.hit(p.getDamage());
+                    mailroom.sendPackage(new Package(target.getID(), Package.HIT, p.getDamage() + ""));
                     actorMap.remove(id);
                     mailroom.sendPackage(new Package(id, Package.REMOVE));
-                    continue;
                 }
             }
         }
@@ -254,7 +293,17 @@ public class ServerEngine {
             }
         }
 
+        if (a instanceof Player) {
+            if (((Player) a).getHP() <=0) {
+                actorMap.remove(id);
+                mailroom.sendPackage(new Package(id, Package.REMOVE));
+                System.out.println("removing player");
+                return;
+            }
+        }
+
         if (!inBounds(a.getX(), a.getY())) {
+            System.out.println("oob");
             actorMap.remove(id);
             mailroom.sendPackage(new Package(id, Package.REMOVE));
             if (a instanceof Mob)
@@ -264,8 +313,7 @@ public class ServerEngine {
 
     // is x, y in bounds
     private boolean inBounds(double x, double y) {
-        // TODO: return these 10000's to proper constants, make clients get deets from server
-        return (x < (10000 * 1.002) && x > -1 && y < (10000 * 1.002) && y > -1);
+        return (x < (maxLogX * 1.002) && x > -1 && y < (maxLogY * 1.002) && y > -1);
     }
 
     // angle calculation, thx stackoverflow

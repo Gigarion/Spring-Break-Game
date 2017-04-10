@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Created by Gig on 3/31/2017.
  * weaponString format:
  * 0    1     2        3   4   5         6          7
- * name ammo  maxclip  FR  RR  throwable chargeable chargeTime
+ * name ammo  maxclip  FR  RR  throwable chargeable maxChargeTime
  */
 public class Weapon implements Serializable {
     private ProjectileFactory pFactory;
@@ -22,9 +22,12 @@ public class Weapon implements Serializable {
     private long lastShot;
     private long reloadStart;
     private boolean isThrowable;
-    private int chargeTime;
     private boolean isChargeable;
-    private boolean hasFired;
+    private int maxChargeTime;
+
+    private long startCharge; // when did it start charging?
+    private boolean charging; // is this weapon charging?
+
     private String ammoType;
 
     public Weapon(String weaponString, String factoryString) {
@@ -45,26 +48,22 @@ public class Weapon implements Serializable {
         this.isThrowable = Boolean.parseBoolean(info[5]);
         this.isChargeable = Boolean.parseBoolean(info[6]);
         if (isChargeable)
-            this.chargeTime = Integer.parseInt(info[7]);
+            this.maxChargeTime = Integer.parseInt(info[7]);
     }
 
     // attempt to fire this weapon, only valid if not reloading,
     // constrained by fireRate, and current clip.
     // returns the stack of objects associated with firing this weapon
     public Iterable<Object> fire(Actor src, double destX, double destY) {
-        if (isChargeable && !hasFired) {
-            lastShot = System.currentTimeMillis();
-        }
         if (canFire()) {
             clip--;
-            hasFired = false;
             Iterable<Object> stuff = pFactory.fire(src, destX, destY);
             for (Object o : stuff) {
                 if (o instanceof Projectile && isChargeable) {
-                    double percent = ((System.currentTimeMillis() - lastShot) / chargeTime);
-                    if (chargeTime > 1)
+                    double percent = ((System.currentTimeMillis() - lastShot) / maxChargeTime);
+                    if (maxChargeTime > 1)
                         percent = 1;
-                    if (chargeTime < 0.25)
+                    if (maxChargeTime < 0.25)
                         percent = 0.25;
                     ((Projectile) o).modifyRange(percent);
                 }
@@ -92,8 +91,8 @@ public class Weapon implements Serializable {
     public String getAmmoType() {return this.ammoType;}
     public String getName() {return this.name;}
 
-    protected boolean canFire() {
-        return (clip > 0 && !isReloading()
+    private boolean canFire() {
+        return ((clip > 0 || ammoType.equals("Melee")) && !isReloading()
                 && (System.currentTimeMillis() - lastShot > fireRate));
     }
 
@@ -103,5 +102,48 @@ public class Weapon implements Serializable {
 
     public boolean isThrowable() {
         return isThrowable;
+    }
+
+    public synchronized void charge() {
+        if (!isChargeable || charging || !canFire()) {
+            return;
+        }
+        charging = true;
+        startCharge = System.currentTimeMillis();
+    }
+
+    public synchronized Iterable<Object> release(Actor src, double destX, double destY) {
+        if (!isChargeable || !charging) return null;
+
+        long timeCharged = System.currentTimeMillis() - startCharge;
+        double chargeRatio = timeCharged / maxChargeTime;
+        if (chargeRatio < 0.25)
+            chargeRatio = 0.25;
+        if (chargeRatio > 1)
+            chargeRatio = 1;
+        charging = false;
+        Iterable<Object> toReturn = fire(src, destX, destY);
+        for (Object o : toReturn) {
+            if (o instanceof Projectile) {
+                ((Projectile) o).modifyRange(chargeRatio);
+                ((Projectile) o).modifyDamage(chargeRatio);
+            }
+        }
+        return toReturn;
+    }
+
+    public boolean isChargeable() {
+        return isChargeable;
+    }
+
+    public boolean isCharging() {
+        return isChargeable && charging;
+    }
+
+    public double getChargeRatio() {
+        if (!charging)
+            return 0;
+
+        return Math.min(1, (System.currentTimeMillis() - startCharge) / (double) maxChargeTime);
     }
 }

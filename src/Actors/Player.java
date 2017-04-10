@@ -1,5 +1,6 @@
 package Actors;
 
+import Engine.ActorRequest;
 import Util.DefaultMap;
 import Util.StdDraw;
 import Weapons.*;
@@ -12,10 +13,15 @@ public class Player extends Actor {
     private DefaultMap<String, Integer> ammoMap; // count of each ammo type
     private Weapon equipped;
     private String name;
+
     private int maxHP;
     private int hp;
+
     private double interactRange;
     private long lastSwap;
+
+    private long startCharge;
+
     private int level;
     private int exp;
 
@@ -29,6 +35,7 @@ public class Player extends Actor {
         this.interactRange = INTERACT_RANGE;
         this.equipped = null;
         this.lastSwap = 0;
+        setCanHit(true);
     }
 
     public void setID(int id) {
@@ -58,8 +65,10 @@ public class Player extends Actor {
     }
 
     public void giveWeapons() {
-        weapons.add(new Weapon("Bow/Arrow/1/700/100/false/false/300", "P/400/200/1/1/5/2/-/"));
-        giveAmmo("Arrow", 1000000000);
+        weapons.add(new Weapon("Bow/Arrow/1/700/100/false/true/300", "P/400/200/1/1/5/2/-/"));
+        giveAmmo("Arrow", 5);
+
+        weapons.add(new Weapon("Sword/Melee/0/200/50/false/false/", "H/40/20/1/1/true"));
 
         giveAmmo("Melee", Integer.MAX_VALUE);
         equipped = weapons.removeFirst();
@@ -67,6 +76,7 @@ public class Player extends Actor {
     }
 
     public void swapWeapon() {
+        if (equipped.isCharging()) return;
         if (System.currentTimeMillis() - lastSwap < 50)
             return;
         lastSwap = System.currentTimeMillis();
@@ -111,11 +121,14 @@ public class Player extends Actor {
     }
 
     // returns either a hitscan or a projectile to register as an attack
-    // (or other later???)
-    public Iterable<Object> fireWeapon() {
-        if (equipped == null || equipped.getClip() == 0) return null;
+    public Iterable<Object> fireWeapon(double destX, double destY) {
+        if (equipped == null) return null;
 
-        Iterable<Object> toReturn = equipped.fire(this, StdDraw.mouseX(), StdDraw.mouseY());
+        if (equipped.isChargeable()) {
+            equipped.charge();
+            return null;
+        }
+        Iterable<Object> toReturn = equipped.fire(this, destX, destY);
 
         if (toReturn != null && equipped.isThrowable()) {
             ammoMap.put(equipped.getAmmoType(), ammoMap.get(equipped.getAmmoType()));
@@ -144,7 +157,9 @@ public class Player extends Actor {
     }
 
     @Override
-    public void update() {}
+    public Iterable<ActorRequest> update() {
+        return null;
+    }
 
     @Override
     public void draw(boolean selected) {
@@ -153,12 +168,18 @@ public class Player extends Actor {
     }
 
     public void draw(boolean selected, double rads) {
-        StdDraw.picture(x, y, "src/img/player.png", Math.toDegrees(rads));
+        try {
+            StdDraw.picture(x, y, "src/img/player.png", Math.toDegrees(rads));
+        } catch (Exception e) {
+            StdDraw.picture(x, y, "img/player.png", Math.toDegrees(rads));
+        }
         StdDraw.circle(x, y, interactRange);
     }
 
     @Override
-    public void hit(int damage) {}
+    public void hit(int damage) {
+        this.hp -= damage;
+    }
 
     public void reload() {
         int current = ammoMap.get(equipped.getAmmoType());
@@ -178,5 +199,19 @@ public class Player extends Actor {
         if (equipped == null)
             return -1;
         return this.equipped.getClip();
+    }
+
+    public Iterable<Object> release(double destX, double destY) {
+        Iterable<Object> toReturn = equipped.release(this, destX, destY);
+        if (equipped.getClip() == 0) {
+            reload();
+        }
+        return toReturn;
+    }
+
+    public double getChargeRatio() {
+        if (equipped == null)
+            return 0;
+        return equipped.getChargeRatio();
     }
 }

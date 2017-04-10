@@ -1,5 +1,7 @@
 package Actors;
 
+import Engine.ActorRequest;
+import Mailroom.Package;
 import java.io.Serializable;
 
 public abstract class Actor implements Serializable {
@@ -18,7 +20,17 @@ public abstract class Actor implements Serializable {
     }
 
     // all actors must be Real, be drawable, and have the ability to be shot (lol)
-    public abstract void update();
+    public abstract Iterable<ActorRequest> update();
+
+    // given an ActorRequest, perform the update.
+    // plz override as necessary across the classes
+    public void update(ActorRequest ar) {
+        if (ar.getType() == ActorRequest.MOVE) {
+            double[] coords = Package.extractCoords(ar.getExtra());
+            x = coords[0];
+            y = coords[1];
+        }
+    }
     public abstract void draw(boolean selected);
     public abstract void hit(int damage);
 

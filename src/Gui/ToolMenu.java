@@ -1,26 +1,22 @@
 package Gui;
 
-import Actors.Player;
-import Engine.ClientEngine;
-import Engine.ServerEngine;
 import Tools.MapBuilder;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.tools.Tool;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.io.*;
+import java.net.Socket;
+import java.util.Scanner;
 
 /**
- * Created by Gig on 3/27/2017.
+ * Created by Gig on 4/4/2017.
  */
-public class MainMenu extends JFrame {
+public class ToolMenu extends JFrame {
     private JPanel mainMenuPanel;
-    private JButton startServerButton;
-    private JTextField localhostTextField;
-    private JButton enterGameButton;
-    private JTextField playerNameField;
     private JTextField wpnNameField;
     private JTextField wpnMaxClipField;
     private JTextField wpnReloadRateField;
@@ -54,57 +50,39 @@ public class MainMenu extends JFrame {
     private JTextField maxXField;
     private JTextField maxYField;
     private JComboBox mapListComboBox;
+    private JPanel toolPane;
     private JLabel outputLabel;
-    private boolean started;
 
-    public MainMenu()  {
-        super("Main Menu");
-        setSize(500, 500);
-        //pack();
-        setContentPane(mainMenuPanel);
-        setVisible(true);
+    public ToolMenu() {
+        setSize(600, 600);
+        setContentPane(toolPane);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        tabbedPane.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                switch(tabbedPane.getSelectedIndex()) {
-                    case 0: getRootPane().setDefaultButton(enterGameButton); break;
-                    case 1: getRootPane().setDefaultButton(startServerButton); break;
-                    case 2: getRootPane().setDefaultButton(generateWeaponStringButton); break;
-                    case 3: getRootPane().setDefaultButton(generateProjectileStringButton); break;
-                    case 4: getRootPane().setDefaultButton(generateHitScanButton); break;
-                    default: getRootPane().setDefaultButton(null);
-                }
+        setMapBuilderListeners();
+        setHitScanListeners();
+        setProjectileListeners();
+        setWeaponListeners();
+
+        tabbedPane.addChangeListener((ChangeEvent e) -> {
+            switch (tabbedPane.getSelectedIndex()) {
+                case 0:
+                    getRootPane().setDefaultButton(generateWeaponStringButton);
+                    break;
+                case 1:
+                    getRootPane().setDefaultButton(generateProjectileStringButton);
+                    break;
+                case 2:
+                    getRootPane().setDefaultButton(generateHitScanButton);
+                    break;
+                case 3:
+                    getRootPane().setDefaultButton(beginMapBuilderButton);
+                    break;
+                default:
+                    getRootPane().setDefaultButton(null);
             }
         });
 
-        setListeners();
-        setWeaponListeners();
-        setProjectileListeners();
-        setHitScanListeners();
-        setMapBuilderListeners();
-    }
-
-    private void startGame() {
-        ClientEngine ce = new ClientEngine();
-
-        String name = playerNameField.getText();
-        if (name.equals(""))
-            name = "new player";
-        ce.setPlayer(new Player(name));
-       //StdDraw.addEngine(ce);
-        setVisible(false);
-    }
-
-    private void setListeners() {
-        startServerButton.addActionListener((ActionEvent e) -> {
-            started = true;
-            ServerEngine se = new ServerEngine();
-        });
-        enterGameButton.addActionListener((ActionEvent e) -> {
-            startGame();
-        });
+        setVisible(true);
     }
 
     private void setWeaponListeners() {
@@ -179,12 +157,12 @@ public class MainMenu extends JFrame {
     private void setMapBuilderListeners() {
         mapListComboBox.addItem("New Map");
         try {
-            File folder = new File("src/data/Maps/");
+            File folder = new File("data/Maps/");
             System.out.println(folder.getAbsolutePath());
             if (folder.isDirectory()) {
                 for (File f : folder.listFiles()) {
                     System.out.println("here");
-                    mapListComboBox.addItem(f.getName().replace(".gm", ""));
+                    mapListComboBox.addItem(f.getName());
                 }
             }
         } catch (Exception e) {
@@ -201,8 +179,7 @@ public class MainMenu extends JFrame {
                     String selectedMap = (String) mapListComboBox.getSelectedItem();
                     if (selectedMap.contains(".gm")) {
                         new MapBuilder(selectedMap);
-                    }
-                    else {
+                    } else {
                         new MapBuilder(maxX, maxY, boxSize, "map.png");
                     }
                     setVisible(false);
@@ -215,6 +192,29 @@ public class MainMenu extends JFrame {
     }
 
     public static void main(String[] args) {
-        MainMenu mainMenu = new MainMenu();
+        new ToolMenu();
+         try {
+
+             Socket s = new Socket("localhost", 9999);
+             OutputStreamWriter bos = new OutputStreamWriter(s.getOutputStream());
+             System.out.println("output");
+             Scanner isr = new Scanner(s.getInputStream());
+
+             System.out.println("input");
+             System.out.println(s.isConnected());
+
+
+             bos.write("sbg1901\n");
+             bos.write("hey\n");
+             bos.write("another\n");
+             bos.write("fin\n");
+             bos.flush();
+             System.out.println(isr.next());
+             s.close();
+             System.out.println("wrote tool");
+
+         } catch(Exception e) {
+             e.printStackTrace();
+         }
     }
 }

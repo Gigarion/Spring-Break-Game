@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,7 +34,7 @@ public class UserBox {
 
     // a handler for mouse events from the user
     public interface MouseHandler {
-        void handleMouse(double x, double y);
+        void handleMouse(MouseEvent e, double x, double y);
     }
     // a handler for mouse events from the user
 
@@ -49,11 +48,11 @@ public class UserBox {
     private static final int LEFT = KeyEvent.VK_A;
     private static final int RIGHT = KeyEvent.VK_D;
 
-    private static final int HUD_WIDTH = 300;
-    private static final int DRAW_INTERVAL = 5;
-    private static final int Y_SCALE = 900;
+    private static final int Y_SCALE = 1000;
+    private static final int DRAW_INTERVAL = 10;
+    private static final int HUD_WIDTH = (int) (0.27 * Y_SCALE);
     private static final int VIS_Y_RADIUS = Y_SCALE / 2;
-    private static final int EDGE_RADIUS = 50;
+    private static final int EDGE_RADIUS = (int )(Y_SCALE * 0.11);
 
     private double vis_x_radius;
 
@@ -80,6 +79,8 @@ public class UserBox {
 
     private MapGrid mapGrid;
     private GameMap gameMap;
+
+    private double mouseX, mouseY;
 
     public UserBox(ConcurrentHashMap<Integer, Actor> actorMap, ConcurrentLinkedQueue<Animation> animationQueue) {
         this.actorMap = actorMap;
@@ -108,6 +109,8 @@ public class UserBox {
                 draw();
             }
         }, 0, DRAW_INTERVAL);
+
+        StdDraw.clearCursor();
     }
 
     public void setFullScreen(boolean fullScreen) {
@@ -137,8 +140,6 @@ public class UserBox {
         System.out.println(maxLogY);
     }
 
-    //TODO: refactor to eliminate this function, proliferate map usage across files
-    public void setMapGrid(MapGrid mapGrid) {this.mapGrid = mapGrid;}
     public void setGameMap(GameMap gameMap) {
         this.gameMap = gameMap;
         this.mapGrid = gameMap.getMapGrid();
@@ -153,7 +154,6 @@ public class UserBox {
         if (!lockCamera)
             return;
         centerCamera();
-        orientCamera();
     }
 
     // request to move the screen in the given direction, only does so
@@ -166,6 +166,7 @@ public class UserBox {
                         return;
                     StdDraw.setYscale(getVisibleYMin() + movementSize, getVisibleYMax() + movementSize);
                     center = new Point2D.Double(center.x, center.y + movementSize);
+                    mouseY += movementSize;
                 }
             }
             break;
@@ -175,6 +176,7 @@ public class UserBox {
                         return;
                     StdDraw.setYscale(getVisibleYMin() - movementSize, getVisibleYMax() - movementSize);
                     center = new Point2D.Double(center.x, center.y - movementSize);
+                    mouseY -= movementSize;
                 }
             }
             break;
@@ -184,6 +186,7 @@ public class UserBox {
                         return;
                     StdDraw.setXscale(getVisibleXMin() - movementSize, getVisibleXMax() - movementSize);
                     center = new Point2D.Double(center.x - movementSize, center.y);
+                    mouseX -= movementSize;
                 }
             }
             break;
@@ -193,6 +196,7 @@ public class UserBox {
                         return;
                     StdDraw.setXscale(getVisibleXMin() + movementSize, getVisibleXMax() + movementSize);
                     center = new Point2D.Double(center.x + movementSize, center.y);
+                    mouseX += movementSize;
                 }
             }
             break;
@@ -203,12 +207,15 @@ public class UserBox {
 
     // called to display the current state of the board
     public void draw() {
-       // StdDraw.rectangle(450, 450, 300, 300);
         if (gameMap != null) {
             gameMap.draw();
         }
         else {
-            StdDraw.picture(maxLogX / 2, maxLogY / 2, "src/img/Maps/map.png", maxLogX, maxLogY);
+            try {
+                StdDraw.picture(maxLogX / 2, maxLogY / 2, "src/img/Maps/map.png", maxLogX, maxLogY);
+            } catch (Exception e) {
+                StdDraw.picture(maxLogX / 2, maxLogY / 2, "img/Maps/map.png", maxLogX, maxLogY);
+            }
         }
 
         for (Animation hsl : animationQueue) {
@@ -226,7 +233,6 @@ public class UserBox {
             else
                 actor.draw(false);
         }
-        StdDraw.circle(StdDraw.mouseX(), StdDraw.mouseY(), 10);
         if (mapGrid != null)
             mapGrid.draw();
 
@@ -242,15 +248,52 @@ public class UserBox {
             StdDraw.line(getVisibleXMax() - EDGE_RADIUS, getVisibleYMin(), getVisibleXMax() - EDGE_RADIUS, getVisibleYMax());
             StdDraw.setPenColor();
         }
-        StdDraw.setPenColor(StdDraw.GREEN);
-        StdDraw.filledCircle(center.x, center.y, 10);
-        StdDraw.setPenColor();
 
         drawHUD();
+        drawCrosshair();
 
         handleMouseLocation();
         drawFrame = (drawFrame + 1) % 10000000;
         StdDraw.show();
+    }
+
+    private void drawHUD() {
+        if (player == null) {
+            return;
+        }
+        double hudHeight = VIS_Y_RADIUS * 0.5;
+        double hudCenterX = getVisibleXMax() - (HUD_WIDTH / 2) - 10;
+        double hudThirdX = getVisibleXMax() - (HUD_WIDTH * 2 / 3) - 10;
+        double hudHalfY = getVisibleYMin() + (hudHeight / 2);
+        double hudThirdY = getVisibleYMin() + (hudHeight * 1 / 3);
+        double hudSixthY = getVisibleYMin() + (hudHeight * 1 / 6);
+        double[] xBox = {getVisibleXMax() - HUD_WIDTH, getVisibleXMax() - HUD_WIDTH, getVisibleXMax(), getVisibleXMax()};
+        for (int i = 0; i < xBox.length; i++) {
+            xBox[i] -= 10;
+        }
+        double[] yBox = {getVisibleYMin(), getVisibleYMin() + hudHeight, getVisibleYMin() + hudHeight, getVisibleYMin()};
+        StdDraw.setPenColor(StdDraw.WHITE);
+        StdDraw.filledPolygon(xBox, yBox);
+        StdDraw.setPenColor();
+        StdDraw.polygon(xBox, yBox);
+
+        StdDraw.text(hudCenterX,  hudSixthY + (hudHeight * 2/3), player.getName());
+        StdDraw.text(hudCenterX, hudHalfY, "HP: " + player.getHP() + "/" + player.getMaxHP());
+        StdDraw.text(hudCenterX, hudThirdY, "Ping: " + ping);
+        StdDraw.text(hudCenterX, hudSixthY, "Weapon: " + player.getWeaponName() + " : " + player.getCurrentClip() + "/" + player.getAmmoCount());
+    }
+
+    private void drawCrosshair() {
+        double ratio = player.getChargeRatio();
+        StdDraw.setPenRadius(0.004);
+        if (ratio == 0)
+            StdDraw.setPenColor(StdDraw.RED);
+        else if (ratio < 1)
+            StdDraw.setPenColor(StdDraw.YELLOW);
+        else StdDraw.setPenColor(StdDraw.GREEN);
+        StdDraw.circle(mouseX, mouseY, 10);
+        StdDraw.setPenRadius();
+        StdDraw.setPenColor();
     }
 
     private void handleMouseLocation() {
@@ -266,29 +309,6 @@ public class UserBox {
             moveScreen(UP, 10);
         if (y - getVisibleYMin() < EDGE_RADIUS)
             moveScreen(DOWN, 10);
-    }
-
-    private void drawHUD() {
-        if (player == null) {
-            return;
-        }
-        double hudHeight = VIS_Y_RADIUS * 0.66;
-        double hudCenterX = getVisibleXMax() - (HUD_WIDTH / 2);
-        double hudNameY = getVisibleYMin() + (hudHeight * 2 / 3);
-        double hudHealthY = getVisibleYMin() + (hudHeight * 1 / 3);
-        double hudIDY = getVisibleYMin() + (hudHeight * 1 / 6);
-        double[] xBox = {getVisibleXMax() - HUD_WIDTH, getVisibleXMax() - HUD_WIDTH, getVisibleXMax(), getVisibleXMax()};
-        double[] yBox = {getVisibleYMin(), getVisibleYMin() + HUD_WIDTH, getVisibleYMin() + HUD_WIDTH, getVisibleYMin()};
-        StdDraw.setPenColor(StdDraw.WHITE);
-        StdDraw.filledPolygon(xBox, yBox);
-        StdDraw.setPenColor();
-        StdDraw.polygon(xBox, yBox);
-        StdDraw.line(getVisibleXMax() - HUD_WIDTH, getVisibleYMin(), getVisibleXMax() - HUD_WIDTH, getVisibleYMin() + hudHeight);
-        StdDraw.line(getVisibleXMax() - HUD_WIDTH, getVisibleYMin() + hudHeight, getVisibleXMax(), getVisibleYMin() + hudHeight);
-        StdDraw.text(hudCenterX, hudNameY, player.getName());
-        StdDraw.text(hudCenterX, hudHealthY, Integer.toString(player.getHP()) + "/" + Integer.toString(player.getMaxHP()));
-        StdDraw.text(hudCenterX - 100, hudIDY, ping + "");
-        StdDraw.text(hudCenterX + 30, hudIDY, "Weapon: " + player.getWeaponName() + " : " + player.getCurrentClip() + "/" + player.getAmmoCount());
     }
 
     // the multitude of setters
@@ -322,10 +342,10 @@ public class UserBox {
         return this.clickedButton;
     }
     public double getMouseX() {
-        return StdDraw.mouseX();
+        return mouseX;
     }
     public double getMouseY() {
-        return StdDraw.mouseY();
+        return mouseY;
     }
     public boolean isMousePressed() {
         return StdDraw.mousePressed();
@@ -370,10 +390,12 @@ public class UserBox {
             keyboardHandler.handleKeyboard(e);
         }
     }
-    public void click(MouseEvent e) {
-        setClickedButton(e.getButton());
+    public void handleMouse(MouseEvent e) {
+        //setClickedButton(e.getButton());
+        this.mouseX = StdDraw.mouseX();
+        this.mouseY = StdDraw.mouseY();
         if (mouseHandler != null) {
-            mouseHandler.handleMouse(getMouseX(), getMouseY());
+            mouseHandler.handleMouse(e, getMouseX(), getMouseY());
         }
     }
     public void exit() {
@@ -392,12 +414,19 @@ public class UserBox {
     }
 
     private void centerCamera() {
+        // update mouse
+        double oldX =  center.x;
+        double oldY =  center.y;
+
         // set to player location
         center = new Point2D.Double(player.getX(), player.getY());
 
         // adjust for edges
         center.x = (getVisibleXMin() + getVisibleXMax()) / 2;
         center.y = (getVisibleYMin() + getVisibleYMax()) / 2;
+
+        mouseX += center.x - oldX;
+        mouseY += center.y - oldY;
 
         orientCamera();
     }
@@ -408,5 +437,10 @@ public class UserBox {
 
     public void setShowEdges(boolean showEdges) {
         this.showEdges = showEdges;
+    }
+
+    public void setMouseXY(double x, double y) {
+        mouseX = x;
+        mouseY = y;
     }
 }

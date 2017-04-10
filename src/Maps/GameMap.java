@@ -24,30 +24,20 @@ public class GameMap {
         this.actors = new LinkedList<>();
     }
 
-    private class GameMapStorage implements Serializable {
-        //priva
-        private GameMapStorage(GameMap gameMap) {
-
-        }
-    }
-
     public GameMap(String filename) {
         if (!filename.contains(".gm"))
             filename += ".gm";
         try {
-            FileInputStream fis = new FileInputStream("src/data/Maps/" + filename);
+            System.out.println("loading");
+            FileInputStream fis = new FileInputStream("data/Maps/" + filename);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            GameMap gm = (GameMap) ois.readObject();
+            GameMapStorage gm = (GameMapStorage) ois.readObject();
 
             this.mapGrid = gm.mapGrid;
             this.maxX = gm.maxX;
             this.maxY = gm.maxY;
             this.image = gm.image;
             this.actors = gm.actors;
-
-            System.out.println(mapGrid.toString());
-            System.out.println(maxX);
-            System.out.println(maxY);
 
 
         } catch (Exception e) {
@@ -74,7 +64,17 @@ public class GameMap {
         actors.add(a);
     }
 
+    public String getImage() { return this.image; }
+
+    public GameMapStorage getStorage() {
+        return new GameMapStorage(this);
+    }
+
     public void draw() {
-        StdDraw.picture(maxX / 2, maxY / 2, "src/img/Maps/" + image, maxX, maxY);
+        try {
+            StdDraw.picture(maxX / 2, maxY / 2, "src/img/Maps/" + image, maxX, maxY);
+        } catch (Exception e) {
+            StdDraw.picture(maxX / 2, maxY / 2, "img/Maps/" + image, maxX, maxY);
+        }
     }
 }

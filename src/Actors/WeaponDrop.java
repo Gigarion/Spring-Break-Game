@@ -1,5 +1,6 @@
 package Actors;
 
+import Engine.ActorRequest;
 import Util.StdDraw;
 import Weapons.Weapon;
 
@@ -31,13 +32,14 @@ public class WeaponDrop extends Actor implements Interactable {
         Weapon toGive = new Weapon(weaponString, projectileString);
         String ammoType = toGive.getAmmoType();
         p.giveWeapon(toGive);
-        //p.giveAmmo(ammoType, ammoCount);
+        p.giveAmmo(ammoType, ammoCount);
         return null;
     }
 
     // no need to update
     @Override
-    public void update() {
+    public Iterable<ActorRequest> update() {
+        return null;
     }
 
     @Override

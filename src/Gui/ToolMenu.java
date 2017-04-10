@@ -193,28 +193,28 @@ public class ToolMenu extends JFrame {
 
     public static void main(String[] args) {
         new ToolMenu();
-         try {
-
-             Socket s = new Socket("localhost", 9999);
-             OutputStreamWriter bos = new OutputStreamWriter(s.getOutputStream());
-             System.out.println("output");
-             Scanner isr = new Scanner(s.getInputStream());
-
-             System.out.println("input");
-             System.out.println(s.isConnected());
-
-
-             bos.write("sbg1901\n");
-             bos.write("hey\n");
-             bos.write("another\n");
-             bos.write("fin\n");
-             bos.flush();
-             System.out.println(isr.next());
-             s.close();
-             System.out.println("wrote tool");
-
-         } catch(Exception e) {
-             e.printStackTrace();
-         }
+//         try {
+//
+//             Socket s = new Socket("localhost", 9999);
+//             OutputStreamWriter bos = new OutputStreamWriter(s.getOutputStream());
+//             System.out.println("output");
+//             Scanner isr = new Scanner(s.getInputStream());
+//
+//             System.out.println("input");
+//             System.out.println(s.isConnected());
+//
+//
+//             bos.write("sbg1901\n");
+//             bos.write("hey\n");
+//             bos.write("another\n");
+//             bos.write("fin\n");
+//             bos.flush();
+//             System.out.println(isr.next());
+//             s.close();
+//             System.out.println("wrote tool");
+//
+//         } catch(Exception e) {
+//             e.printStackTrace();
+//         }
     }
 }

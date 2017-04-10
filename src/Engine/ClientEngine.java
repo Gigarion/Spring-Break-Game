@@ -203,7 +203,6 @@ public class ClientEngine {
     }
 
     private void keyPressed(KeyEvent e) {
-        System.out.println("pressed key");
         if (e.getKeyChar() == WPN_SWAP)
             player.swapWeapon();
         if (e.getKeyChar() == 'r') {
@@ -422,7 +421,6 @@ public class ClientEngine {
         this.mapGrid = gameMap.getMapGrid();
         userBox.setGameMap(gameMap);
         mapGrid.setShowGrid(false);
-        mapGrid.setShowBoxes(false);
     }
 
     private void handleScreenSize(Package p) {

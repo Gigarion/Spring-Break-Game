@@ -49,9 +49,9 @@ public class WeaponDrop extends Actor implements Interactable {
         if (image == null)
             image = "crate.jpg";
         try {
-            StdDraw.picture(x, y, "src/img/" + image, 20, 20);
+            StdDraw.picture(x, y, "src/img/" + image);
         } catch (Exception e) {
-            StdDraw.picture(x, y, "img/" + image, 20, 20);
+            StdDraw.picture(x, y, "img/" + image);
         }
         if (selected) {
             StdDraw.setPenColor(StdDraw.RED);

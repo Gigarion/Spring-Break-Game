@@ -164,9 +164,9 @@ public class Player extends Actor {
 
     public void draw(boolean selected, double rads) {
         try {
-            StdDraw.picture(x, y, "src/img/player.png", Math.toDegrees(rads));
+            StdDraw.picture(x, y, "src/img/Actors/player.png", Math.toDegrees(rads) - 90);
         } catch (Exception e) {
-            StdDraw.picture(x, y, "img/player.png", Math.toDegrees(rads));
+            StdDraw.picture(x, y, "img/Actors/player.png", Math.toDegrees(rads) - 90);
         }
         //StdDraw.circle(x, y, interactRange);
     }

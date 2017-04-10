@@ -5,11 +5,12 @@ import Util.StdDraw;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
  * Created by Gig on 4/3/2017.
+ * GameMap contains the image url, the mapgrid, logical boundaries, and
+ * associated actors with a given map instance.  useful for drawing maps you know
  */
 public class GameMap {
     private MapGrid mapGrid;
@@ -64,7 +65,7 @@ public class GameMap {
         actors.add(a);
     }
 
-    public String getImage() { return this.image; }
+    String getImage() { return this.image; }
 
     public GameMapStorage getStorage() {
         return new GameMapStorage(this);

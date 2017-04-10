@@ -10,18 +10,16 @@ import java.net.*;
  * Created by Gig on 3/22/2017.
  * helper class for clients of the server
  */
-public class ServerClient {
-    private Socket socket;
+class ServerClient {
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
-    private Object isDeadLock;
+    private final Object isDeadLock;
     private int id;
     private boolean live;
 
-    public ServerClient(Socket socket, int id) {
+    ServerClient(Socket socket, int id) {
         System.out.println("HEY IM NEW" + id);
         isDeadLock = new Object();
-        this.socket = socket;
         this.id = id;
         this.live = true;
         try {
@@ -32,7 +30,7 @@ public class ServerClient {
         }
     }
 
-    public void sendMessage(Package pack) {
+    void sendMessage(Package pack) {
         try {
             synchronized (isDeadLock) {
                 if (!live)
@@ -47,7 +45,7 @@ public class ServerClient {
 
     // polls the top package from the inputstream
     // hopefully it's fast enough..  lel
-    public Package getMessage() {
+    Package getMessage() {
         Package p;
         try {
             synchronized (isDeadLock) {
@@ -69,11 +67,11 @@ public class ServerClient {
         }
     }
 
-    public int getPort() {
+    int getPort() {
         return this.id;
     }
 
-    public boolean isAlive() {
+    boolean isAlive() {
         return this.live;
     }
 }

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Created by Gig on 3/31/2017.
  * weaponString format:
  * 0    1     2        3   4   5         6          7
- * name ammo  maxclip  FR  RR  throwable chargeable maxChargeTime
+ * name ammo  max clip FR  RR  throwable chargeable maxChargeTime
  */
 public class Weapon implements Serializable {
     private ProjectileFactory pFactory;
@@ -96,7 +96,7 @@ public class Weapon implements Serializable {
                 && (System.currentTimeMillis() - lastShot > fireRate));
     }
 
-    public boolean isReloading() {
+    private boolean isReloading() {
         return (((System.currentTimeMillis() - reloadStart) < reloadRate));
     }
 

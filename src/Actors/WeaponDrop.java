@@ -6,6 +6,8 @@ import Weapons.Weapon;
 
 /**
  * Created by Gig on 4/1/2017.
+ * This is an actor class that gives users weapons
+ * and ammo when they interact with it.
  */
 public class WeaponDrop extends Actor implements Interactable {
     private String image;
@@ -19,7 +21,7 @@ public class WeaponDrop extends Actor implements Interactable {
         this.weaponString = weaponString;
         this.projectileString = projectileString;
         this.ammoCount = ammoCount;
-        setCanHit(false);
+        this.canHit = false;
     }
 
     public void setImage(String image) {
@@ -28,7 +30,7 @@ public class WeaponDrop extends Actor implements Interactable {
 
     // in case the player doesn't pick up the weapon or something else
     @Override
-    public Iterable<Actor> interact(Player p) {
+    public Iterable<Object> interact(Player p) {
         Weapon toGive = new Weapon(weaponString, projectileString);
         String ammoType = toGive.getAmmoType();
         p.giveWeapon(toGive);

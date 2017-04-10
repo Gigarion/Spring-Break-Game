@@ -1,6 +1,5 @@
 package Engine;
 
-import Actors.Actor;
 import Mailroom.Package;
 
 /**

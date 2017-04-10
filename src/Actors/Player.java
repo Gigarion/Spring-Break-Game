@@ -20,11 +20,6 @@ public class Player extends Actor {
     private double interactRange;
     private long lastSwap;
 
-    private long startCharge;
-
-    private int level;
-    private int exp;
-
     public Player(String userName) {
         super(-1, 300, 300, 10);
         this.name = userName;
@@ -35,7 +30,7 @@ public class Player extends Actor {
         this.interactRange = INTERACT_RANGE;
         this.equipped = null;
         this.lastSwap = 0;
-        setCanHit(true);
+        this.canHit = true;
     }
 
     public void setID(int id) {
@@ -46,7 +41,7 @@ public class Player extends Actor {
         return this.id;
     }
 
-    public void giveWeapon(Weapon weapon) {
+    void giveWeapon(Weapon weapon) {
         if (weapon.isThrowable()) {
             String ammoType = weapon.getAmmoType();
             int ammoCount = ammoMap.get(ammoType);
@@ -90,14 +85,14 @@ public class Player extends Actor {
         return getAmmoCount(equipped.getAmmoType());
     }
 
-    public int getAmmoCount(String type) {
+    private int getAmmoCount(String type) {
         Integer count = ammoMap.get(type);
         if (count == null)
             return 0;
         return count;
     }
 
-    public void giveAmmo(String type, int count) {
+    void giveAmmo(String type, int count) {
         Integer current = ammoMap.get(type);
         if (current == null)
             current = 0;
@@ -173,7 +168,7 @@ public class Player extends Actor {
         } catch (Exception e) {
             StdDraw.picture(x, y, "img/player.png", Math.toDegrees(rads));
         }
-        StdDraw.circle(x, y, interactRange);
+        //StdDraw.circle(x, y, interactRange);
     }
 
     @Override

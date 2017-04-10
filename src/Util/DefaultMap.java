@@ -5,6 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Gig on 4/1/2017.
+ * A HashMap that returns a default value
+ * useful little class
  */
 public class DefaultMap<K, V> extends HashMap<K, V> {
     private V defaultValue;

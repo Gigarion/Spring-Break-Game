@@ -7,6 +7,9 @@ import java.util.LinkedList;
 
 /**
  * Created by Gig on 4/4/2017.
+ * A serializeable storage class for GameMaps,
+ * an actual gameMap can be extracted from it.
+ * Nice and secure. gotta do this for players and actors too
  */
 public class GameMapStorage implements Serializable {
     MapGrid mapGrid;

@@ -5,9 +5,9 @@ import java.io.Serializable;
 public abstract class Animation implements Serializable {
     protected double x;
     protected double y;
-    protected int ttl;
+    int ttl;
 
-    public Animation(double x, double y, int ttl) {
+    Animation(double x, double y, int ttl) {
         this.x = x;
         this.y = y;
         this.ttl = ttl;

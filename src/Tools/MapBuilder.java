@@ -9,8 +9,6 @@ import Util.StdDraw;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +16,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by Gig on 4/2/2017.
+ * This beautiful class is MSPaint for map building
+ * Currently allows single-type invisible wall building in the background
+ * TODO: implement the 0-3 scale of walls, click the numbers to switch
+ * TODO: implement actor adding, make a palette form or something
  */
 public class MapBuilder {
     private static final int UP = KeyEvent.VK_W;

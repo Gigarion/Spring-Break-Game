@@ -128,7 +128,7 @@ public class MapGrid implements Serializable {
         int halfDiffY = (maxY - minY) / 2;
         for (int i = minX; i <= maxX; i++) {
             toReturn.add(new Point(i, startY));
-            for (int j = startY; j < halfDiffY; j++) {;
+            for (int j = startY; j < halfDiffY; j++) {
                 toReturn.add(new Point(i, startY + halfDiffY));
                 toReturn.add(new Point(i, startY - halfDiffY));
             }
@@ -149,7 +149,7 @@ public class MapGrid implements Serializable {
             return false;
         Iterable<Point> newBoxes = getBoxes(test);
         for (Point p : newBoxes) {
-            if (p.x >= grid.length || p.y >= grid[0].length)
+            if (p.x >= grid.length || p.y >= grid[0].length || p.x < 0 || p.y < 0)
                 return false;
             if (grid[p.x][p.y])
                 return false;
@@ -162,6 +162,7 @@ public class MapGrid implements Serializable {
     }
 
     // string format = {maxX}/{maxY}/{boxSize}/x,y/x,y/
+    // probably never going to be used because GameMapStorage
     public static MapGrid loadFromString(String initString) {
         String[] units = initString.split("/");
         int maxX = Integer.parseInt(units[0]);

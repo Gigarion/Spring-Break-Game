@@ -5,11 +5,9 @@ import Engine.ActorRequest;
 import Util.StdDraw;
 
 import java.io.Serializable;
-import java.nio.file.Paths;
 import java.util.LinkedList;
 
 public class Projectile extends Actor implements Serializable {
-    private double destX, destY;
     private int pierceCount;
     private double vel, rad;
     private double range;
@@ -19,7 +17,7 @@ public class Projectile extends Actor implements Serializable {
     private Actor src;
 
     public Projectile(Actor src, double destX, double destY, int r,
-                      double range, double speed, int damage, String image) {
+                      double range, double speed, int damage, int pierceCount, String image) {
         super(-1, src.getX(), src.getY(), r);
         this.startX = x;
         this.startY = y;
@@ -29,6 +27,7 @@ public class Projectile extends Actor implements Serializable {
         this.damage = damage;
         this.image = image;
         this.src = src;
+        this.pierceCount = pierceCount;
         this.canHit = false;
     }
 
@@ -36,22 +35,10 @@ public class Projectile extends Actor implements Serializable {
         return getDistTraveled() > range;
     }
 
-    public double getDistTraveled() {
+    private double getDistTraveled() {
         double xDiff = x - startX;
         double yDiff = y - startY;
         return Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
-    }
-
-    public double getRange() {
-        return this.range;
-    }
-
-    public double getStartX() {
-        return startX;
-    }
-
-    public double getStartY() {
-        return startY;
     }
 
     public int getDamage() { return damage; }

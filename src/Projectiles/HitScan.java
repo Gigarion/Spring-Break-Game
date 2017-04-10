@@ -6,13 +6,14 @@ import java.io.Serializable;
 
 /**
  * Created by Gig on 3/20/2017.
- * pojo describing a hitscan for communication purposes and such
+ * Plain old Java Object describing a HitScan for communication purposes and such
  */
 public class HitScan implements Serializable {
-    private int damage, pierceCount;
+    private int damage, pierceCount, srcID;
     private double srcX, srcY, destX, destY, range;
     private boolean showLine;
     public HitScan(Actor src, double destX, double destY, int damage, int pierceCount, double range) {
+        this.srcID = src.getID();
         this.srcX = src.getX();
         this.srcY = src.getY();
         this.destX = destX;
@@ -31,9 +32,7 @@ public class HitScan implements Serializable {
         return showLine;
     }
 
-    //public Actor getSrc() {
-        //return this.src;
-    //}
+    public int getSrcID() {return this.srcID;}
 
     public int getDamage() {
         return damage;

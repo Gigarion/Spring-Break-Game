@@ -70,7 +70,7 @@ public class ServerMailroom {
     }
 
     // attempt to allow a new client to join
-    private synchronized void handleLostClient(ServerClient client) {
+    private void handleLostClient(ServerClient client) {
         if (!clients.contains(client)) {
             return;
         }

@@ -9,8 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69d04400-34d6-49b7-820e-0bde14eb2f0f" name="Default" comment="Userbox refactor">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/Player.java" afterPath="$PROJECT_DIR$/src/Actors/Player.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/WeaponDrop.java" afterPath="$PROJECT_DIR$/src/Actors/WeaponDrop.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/ServerEngine.java" afterPath="$PROJECT_DIR$/src/Engine/ServerEngine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Mailroom/ServerMailroom.java" afterPath="$PROJECT_DIR$/src/Mailroom/ServerMailroom.java" />
     </list>
     <ignored path="Spring-Break-Game.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -132,11 +132,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ServerEngine.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ServerEngine.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Engine/ServerEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="197" column="5" lean-forward="true" selection-start-line="197" selection-start-column="5" selection-end-line="197" selection-end-column="5" />
+            <state relative-caret-position="255">
+              <caret line="101" column="5" lean-forward="false" selection-start-line="101" selection-start-column="5" selection-end-line="101" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;class#ServerEngine#0" expanded="false" />
@@ -163,6 +163,16 @@
                 <element signature="method#makeRocks#0;class#ServerEngine#0" expanded="false" />
                 <element signature="method#removeActor#0;class#ServerEngine#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ServerMailroom.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerMailroom.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="186">
+              <caret line="76" column="10" lean-forward="false" selection-start-line="76" selection-start-column="10" selection-end-line="76" selection-end-column="10" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -209,41 +219,6 @@
                 <element signature="method#handleScreenSize#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#handleWeaponFire#0;class#ClientEngine#0" expanded="false" />
                 <element signature="method#setPlayer#0;class#ClientEngine#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserBox.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Gui/UserBox.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="386" column="0" lean-forward="false" selection-start-line="386" selection-start-column="0" selection-end-line="386" selection-end-column="0" />
-              <folding>
-                <element signature="class#ExitHandler#0;class#UserBox#0" expanded="false" />
-                <element signature="class#KeyboardHandler#0;class#UserBox#0" expanded="false" />
-                <element signature="method#UserBox#0;class#UserBox#0" expanded="false" />
-                <element signature="method#begin#0;class#UserBox#0" expanded="false" />
-                <element signature="method#setFullScreen#0;class#UserBox#0" expanded="false" />
-                <element signature="method#toggleCameraLock#0;class#UserBox#0" expanded="false" />
-                <element signature="method#inVisibleRange#0;class#UserBox#0" expanded="false" />
-                <element signature="method#movePlayer#0;class#UserBox#0" expanded="false" />
-                <element signature="method#moveScreen#0;class#UserBox#0" expanded="false" />
-                <element signature="method#draw#0;class#UserBox#0" expanded="false" />
-                <element signature="method#drawHUD#0;class#UserBox#0" expanded="false" />
-                <element signature="method#drawCrosshair#0;class#UserBox#0" expanded="false" />
-                <element signature="method#handleMouseLocation#0;class#UserBox#0" expanded="false" />
-                <element signature="method#setPlayer#0;class#UserBox#0" expanded="false" />
-                <element signature="method#getVisibleYMin#0;class#UserBox#0" expanded="false" />
-                <element signature="method#getVisibleYMax#0;class#UserBox#0" expanded="false" />
-                <element signature="method#getVisibleXMin#0;class#UserBox#0" expanded="false" />
-                <element signature="method#getVisibleXMax#0;class#UserBox#0" expanded="false" />
-                <element signature="method#keyTyped#0;class#UserBox#0" expanded="false" />
-                <element signature="method#exit#0;class#UserBox#0" expanded="false" />
-                <element signature="method#getAngle#0;class#UserBox#0" expanded="false" />
-                <element signature="method#centerCamera#0;class#UserBox#0" expanded="false" />
-                <element signature="method#orientCamera#0;class#UserBox#0" expanded="false" />
-                <element signature="method#setMouseXY#0;class#UserBox#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -347,7 +322,6 @@
         <option value="$PROJECT_DIR$/src/Mailroom/ClientMailroom.java" />
         <option value="$PROJECT_DIR$/src/Mailroom/Package.java" />
         <option value="$PROJECT_DIR$/src/Mailroom/ServerClient.java" />
-        <option value="$PROJECT_DIR$/src/Mailroom/ServerMailroom.java" />
         <option value="$PROJECT_DIR$/src/Maps/GameMap.java" />
         <option value="$PROJECT_DIR$/src/Maps/GameMapStorage.java" />
         <option value="$PROJECT_DIR$/src/Projectiles/HitScan.java" />
@@ -367,9 +341,10 @@
         <option value="$PROJECT_DIR$/src/Tools/MapBuilder.java" />
         <option value="$PROJECT_DIR$/src/Maps/MapGrid.java" />
         <option value="$PROJECT_DIR$/src/Engine/ClientEngine.java" />
-        <option value="$PROJECT_DIR$/src/Engine/ServerEngine.java" />
         <option value="$PROJECT_DIR$/src/Actors/Player.java" />
         <option value="$PROJECT_DIR$/src/Actors/WeaponDrop.java" />
+        <option value="$PROJECT_DIR$/src/Engine/ServerEngine.java" />
+        <option value="$PROJECT_DIR$/src/Mailroom/ServerMailroom.java" />
       </list>
     </option>
   </component>
@@ -439,6 +414,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Weapons" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Spring-Break-Game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Spring-Break-Game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Mailroom" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -994,10 +987,10 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30444205" sideWeight="0.48773986" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30444205" sideWeight="0.48773986" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12892741" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30877572" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15010683" sideWeight="0.496208" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15010683" sideWeight="0.496208" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32394367" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15010683" sideWeight="0.503792" order="6" side_tool="true" content_ui="tabs" />
@@ -1116,14 +1109,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1496">
           <caret line="73" column="4" lean-forward="false" selection-start-line="73" selection-start-column="4" selection-end-line="73" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerMailroom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="29" column="61" lean-forward="false" selection-start-line="29" selection-start-column="61" selection-end-line="29" selection-end-column="61" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1440,8 +1425,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Engine/ServerEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="197" column="5" lean-forward="true" selection-start-line="197" selection-start-column="5" selection-end-line="197" selection-end-column="5" />
+        <state relative-caret-position="255">
+          <caret line="101" column="5" lean-forward="false" selection-start-line="101" selection-start-column="5" selection-end-line="101" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#ServerEngine#0" expanded="false" />
@@ -1468,6 +1453,14 @@
             <element signature="method#makeRocks#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#removeActor#0;class#ServerEngine#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerMailroom.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="76" column="10" lean-forward="false" selection-start-line="76" selection-start-column="10" selection-end-line="76" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>

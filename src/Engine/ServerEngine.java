@@ -101,7 +101,6 @@ public class ServerEngine {
         }
     }
 
-
     /*******************************************************
      *  Mail handling, main switch and helper functions
      *******************************************************/

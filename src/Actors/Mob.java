@@ -1,8 +1,10 @@
 package Actors;// actors with health, probably mostly used for enemies unless I make the supports killable
 
+import Engine.ActorRequest;
 import Util.StdDraw;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 public class Mob extends Actor implements Serializable {
     private int hp;
@@ -10,9 +12,8 @@ public class Mob extends Actor implements Serializable {
     private int step;
     private int direction = 2;
 
-    public Mob(int id, double x, double y, int r, int hp) {
+    public Mob(int id, double x, double y, double r, int hp) {
         super(id, x, y, r);
-        setInteractable(true);
         this.hp = hp;
         step = 100;
     }
@@ -22,8 +23,10 @@ public class Mob extends Actor implements Serializable {
     }
 
     @Override
-    public void update() {
-        y -= 0.1;
+    public Iterable<ActorRequest> update() {
+        LinkedList<ActorRequest> toReturn = new LinkedList<>();
+        toReturn.add(ActorRequest.moveTo(x, y - 0.1));
+        return toReturn;
     }
     @Override
 

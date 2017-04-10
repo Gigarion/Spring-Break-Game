@@ -1,17 +1,17 @@
 package Engine;
 
-import Actors.Actor;
-import Actors.Interactable;
-import Actors.Player;
-import Actors.Rock;
+import Actors.*;
 import Animations.Animation;
 import Animations.HitScanLine;
 import Animations.SwingAnimation;
 import Gui.UserBox;
 import Mailroom.ClientMailroom;
 import Mailroom.Package;
+import Maps.GameMap;
+import Maps.GameMapStorage;
 import Projectiles.HitScan;
 import Projectiles.Projectile;
+import Maps.MapGrid;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -33,7 +33,7 @@ public class ClientEngine {
     private static final int LEFT = KeyEvent.VK_A;
     private static final int RIGHT = KeyEvent.VK_D;
     private static final char WPN_SWAP = 'e';
-    private static final double MOVEMENT_SIZE = 0.8; // TODO: player speeds/stats
+    private static final double MOVEMENT_SIZE = 1; // TODO: player speeds/stats
     private static final int LOGIC_INTERVAL = 1;
 
     private ConcurrentLinkedQueue<Animation> animationQueue;     // active animations
@@ -45,9 +45,11 @@ public class ClientEngine {
     private int logicFrame;         // which logicFrame are we on
     private boolean init;           // is the engine ready to start?
     private UserBox userBox;
+    private MapGrid mapGrid;        // impassability grid
 
     private int selectedID;         // currently  selected actor
     private boolean selectedLock;   // a boolean to lock selections the user clicks on
+
 
     // constructor, takes logical maxes and visual radius for userbox
     public ClientEngine() {
@@ -57,10 +59,10 @@ public class ClientEngine {
 
         // set up user interface
         userBox = new UserBox(actorMap, animationQueue);
-        userBox.setVisibleBounds(maxLogX, maxLogY);
-        userBox.setExitHandler(()-> exit());
-        userBox.setKeyboardHandler((e) -> keyPressed(e));
-        userBox.setMouseHandler((x, y)-> mouseClick(x, y));
+        userBox.setBounds(maxLogX, maxLogY);
+        userBox.setExitHandler(this::exit);
+        userBox.setKeyboardHandler(this::keyPressed);
+        userBox.setMouseHandler(this::handleMouse);
 
         // gotta start mail thread here
         Timer mailTimer = new Timer("Client Engine Mail Timer", true);
@@ -104,11 +106,11 @@ public class ClientEngine {
         if ((logicFrame % 5 == 0))
             handleKeyboard();
         if ((logicFrame % 20 == 0) && userBox.isMousePressed()) {
-            mouseClick(userBox.getMouseX(), userBox.getMouseY());
+            handleMouse(null, userBox.getMouseX(), userBox.getMouseY());
         }
         logicFrame = ((logicFrame + 1) % 100000);
         for (Actor a : actorMap.values()) {
-            a.update();
+           if (!(a instanceof Mob)) a.update();
         }
         Actor selected = actorMap.get(selectedID);
         if (selected != null && !userBox.inVisibleRange(selected.getX(), selected.getY())) {
@@ -144,9 +146,28 @@ public class ClientEngine {
      * and the loop based keyboard handler
      ***********************************************/
 
-    private void mouseClick(double x, double y) {
+    private void handleMouse(MouseEvent e, double x, double y) {
         if (!init)
             return;
+        if (e != null && (e.getID() ^ MouseEvent.MOUSE_RELEASED) == 0) {
+            handleMouseRelease(e, x, y);
+        }
+        if (e == null || (e != null && (e.getID() ^ MouseEvent.MOUSE_PRESSED) == 0)) {
+            handleMousePressed(e, x, y);
+        }
+        if (e != null && (e.getID() ^ MouseEvent.MOUSE_DRAGGED) == 0) {
+            handleMouseDragged(e, x, y);
+        }
+    }   // individual handleMouse
+
+    private void handleMouseRelease(MouseEvent e, double x, double y) {
+        switch(e.getButton()) {
+            case MouseEvent.BUTTON3: handleWeaponFire(player.release(x, y));
+            default: break;
+        }
+    }
+
+    private void handleMousePressed(MouseEvent e, double x, double y) {
         switch (userBox.getClickedButton()) {
             case MouseEvent.BUTTON1: {
                 boolean choose = false;
@@ -167,29 +188,49 @@ public class ClientEngine {
             }
             break;
             case MouseEvent.BUTTON3: {
-                fireWeapon();
+                handleWeaponFire(player.fireWeapon(userBox.getMouseX(), userBox.getMouseY()));
             }
             break;
-            default:
+            default: System.out.println(userBox.getClickedButton() + " : " + MouseEvent.BUTTON3);
                 break;
         }
-    }   // individual click
+    }
+
+    private void handleMouseDragged(MouseEvent e, double x, double y) {
+        switch (e.getButton()) {
+            default: break;
+        }
+    }
 
     private void keyPressed(KeyEvent e) {
+        System.out.println("pressed key");
         if (e.getKeyChar() == WPN_SWAP)
             player.swapWeapon();
         if (e.getKeyChar() == 'r') {
             Actor a = actorMap.get(selectedID);
-            if (a != null && a instanceof Interactable)
-                ((Interactable) a).interact(player);
-            if (a instanceof Rock) {
+            if (a != null && a instanceof Interactable) {
+                Iterable<Actor> results = ((Interactable) a).interact(player);
+                if (results != null) {
+                    for (Actor result : results) {
+                        System.out.println("result");
+                    }
+                }
+            }
+            if (a instanceof WeaponDrop) {
                 clientMailroom.sendMessage(new Package(selectedID, Package.REMOVE));
             }
         }
         if (e.getKeyChar() == 'q') {
             player.reload();
         }
+        if (e.getKeyChar() == 'y') {
+            userBox.toggleCameraLock();
+        }
+        if (e.getKeyChar() == 'e') {
+            player.swapWeapon();
+        }
     }           // individual key press
+
     private void exit() {
         clientMailroom.exit();
     }      // exit call
@@ -208,30 +249,27 @@ public class ClientEngine {
         oldY = player.getY();
 
         if (userBox.isKeyPressed(UP)) {
-            if (player.getY() + MOVEMENT_SIZE < maxLogY) {
+            if (mapGrid.validMove(player.getX(), player.getY() + MOVEMENT_SIZE, player)) {
                 player.moveY(MOVEMENT_SIZE);
-                userBox.moveScreen(UP, MOVEMENT_SIZE);
             }
         }
         if (userBox.isKeyPressed(DOWN)) {
-            if (player.getY() - MOVEMENT_SIZE > 0) {
+            if (mapGrid.validMove(player.getX(), player.getY() - MOVEMENT_SIZE, player)) {
                 player.moveY(-MOVEMENT_SIZE);
-                userBox.moveScreen(DOWN, MOVEMENT_SIZE);
             }
         }
         if (userBox.isKeyPressed(LEFT)) {
-            if (player.getX() - MOVEMENT_SIZE > 0) {
+            if (mapGrid.validMove(player.getX() - MOVEMENT_SIZE, player.getY(), player)) {
                 player.moveX(-MOVEMENT_SIZE);
-                userBox.moveScreen(LEFT, MOVEMENT_SIZE);
             }
         }
         if (userBox.isKeyPressed(RIGHT)) {
-            if (player.getX() + MOVEMENT_SIZE < maxLogX) {
+            if (mapGrid.validMove(player.getX() + MOVEMENT_SIZE, player.getY(), player)) {
                 player.moveX(MOVEMENT_SIZE);
-                userBox.moveScreen(RIGHT, MOVEMENT_SIZE);
             }
         }
         if (player.getX() != oldX || player.getY() != oldY) {
+            userBox.movePlayer();
             Package newPos = new Package(player.getID(), Package.NEW_POS, Package.formCoords(player.getX(), player.getY()));
             clientMailroom.sendMessage(newPos);
         }
@@ -244,25 +282,49 @@ public class ClientEngine {
     // given a set of mail, handle it appropriately, utilizes helper functions
     private synchronized void handleMail(Package p) {
         if (p == null) return;
-        switch (p.getType()){
-            case Package.WELCOME:   handleWelcome(p);       break;
-            case Package.HITSCAN:   handleHitscan(p);       break;
-            case Package.PROJECT:   handleProjectile(p);    break;
-            case Package.NEW_POS:   handleNewPosition(p);   break;
-            case Package.ANIMATE:   handleAnimation(p);     break;
-            case Package.ACTOR:     handleNewActor(p);      break;
-            case Package.HIT:       handleHit(p);           break;
-            case Package.REMOVE:    handleRemove(p);        break;
-            case Package.PING:      handlePing(p);          break;
-            case Package.SCR_SIZE:  handleScreenSize(p);    break;
-            default: System.out.println("Unused package type: " + p.getType());
+        switch (p.getType()) {
+            case Package.WELCOME:
+                handleWelcome(p);
+                break;
+            case Package.HITSCAN:
+                handleHitscan(p);
+                break;
+            case Package.PROJECT:
+                handleProjectile(p);
+                break;
+            case Package.NEW_POS:
+                handleNewPosition(p);
+                break;
+            case Package.ANIMATE:
+                handleAnimation(p);
+                break;
+            case Package.ACTOR:
+                handleNewActor(p);
+                break;
+            case Package.HIT:
+                handleHit(p);
+                break;
+            case Package.REMOVE:
+                handleRemove(p);
+                break;
+            case Package.PING:
+                handlePing(p);
+                break;
+            case Package.SCR_SIZE:
+                handleScreenSize(p);
+                break;
+            case Package.GAME_MAP:
+                handleGameMap(p);
+                break;
+            default:
+                System.out.println("Unused package type: " + p.getType());
         }
     }
 
     private void handleNewPosition(Package p) {
         int id = (Integer) (p.getPayload());
         Actor a = actorMap.get(id);
-        if (a != null) {
+        if (a != null && id != player.getID()) {
             double[] coords = Package.extractCoords(p.getExtra());
             a.moveTo(coords[0], coords[1]);
         }
@@ -272,6 +334,9 @@ public class ClientEngine {
         int id = (Integer) p.getPayload();
         player.setID(id);
         actorMap.put(id, player);
+        System.out.println("orig" + player);
+    //    player = (Player) actorMap.get(id);
+        System.out.println("in map " + player);
         userBox.setPlayer(id);
         begin();
     }
@@ -298,21 +363,30 @@ public class ClientEngine {
                 }
             }
         }
-        userBox.addAnimation(a);
+        animationQueue.add(a);
     }
 
     private void handleNewActor(Package p) {
         Actor a = (Actor) p.getPayload();
         int id = a.getID();
-        actorMap.put(id, a);
+        if (id != player.getID())
+            actorMap.put(id, a);
+        if (player.getID() == -1 && a instanceof Player && (((Player) a).getName().equals(player.getName()))) {
+            System.out.println("hey");
+            player.setID(id);
+            actorMap.put(id, player);
+            userBox.setPlayer(id);
+        }
     }
 
     private void handleHit(Package p) {
-        int damage = (Integer) p.getPayload();
-        int id = Integer.parseInt(p.getExtra());
+        int id = (Integer) p.getPayload();
+        System.out.println("hit " + id + " " + player.getID());
+        int damage = Integer.parseInt(p.getExtra());
         Actor a = actorMap.get(id);
-        if (a != null)
+        if (a != null) {
             a.hit(damage);
+        }
     }
 
     private void handleRemove(Package p) {
@@ -323,6 +397,13 @@ public class ClientEngine {
             if (id == selectedID) {
                 selectedLock = false;
                 selectedID = -1;
+            }
+            if (id == player.getID()) {
+                System.out.println("removed me");
+                Player replacement = new Player(player.getName());
+                replacement.giveWeapons();
+                clientMailroom.sendMessage(new Package(replacement, Package.ACTOR));
+                this.player = replacement;
             }
         }
     }
@@ -335,20 +416,28 @@ public class ClientEngine {
         clientMailroom.sendMessage(new Package(System.currentTimeMillis(), Package.PING));
     }
 
+    private void handleGameMap(Package p) {
+        GameMapStorage gms = (GameMapStorage) p.getPayload();
+        GameMap gameMap = gms.extractGameMap();
+        this.mapGrid = gameMap.getMapGrid();
+        userBox.setGameMap(gameMap);
+        mapGrid.setShowGrid(false);
+        mapGrid.setShowBoxes(false);
+    }
+
     private void handleScreenSize(Package p) {
         String sizeString = (String) p.getPayload();
         double[] sizes = Package.extractCoords(sizeString);
         maxLogX = (int) sizes[0];
         maxLogY = (int) sizes[1];
-        userBox.setVisibleBounds(maxLogX, maxLogY);
+        userBox.setBounds(maxLogX, maxLogY);
     }
 
     /******************************************************
      *  Miscellaneous
      ******************************************************/
 
-    private void fireWeapon() {
-        Iterable<Object> attacks = player.fireWeapon();
+    private void handleWeaponFire(Iterable<Object> attacks) {
         if (attacks == null) {
             return;
         }
@@ -370,8 +459,11 @@ public class ClientEngine {
 
     public void setPlayer(Player player) {
         this.player = player;
-        while (!clientMailroom.isAlive()) {Thread.yield();}
+        while (!clientMailroom.isAlive()) {
+            Thread.yield();
+        }
         clientMailroom.sendMessage(new Package(player, Package.WELCOME));
         player.giveWeapons();
     }
+
 }

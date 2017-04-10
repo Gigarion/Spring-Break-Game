@@ -40,13 +40,13 @@ public class Package implements Serializable {
 
     // Server notifies the field of a hit to an actor
     // Client:: n/a
-    // Server:: Payload: Integer damage, Extra: id of hit actor
+    // Server:: Payload: Integer id of actor, Extra: integer damage
     public static final char HIT     = 6;
 
-    // Signals the end of initialization information from the server
+    // Contains a GameMapStorage object the client ought to use
     // Client:: n/a
-    // Server:: Payload: n/a, Extra: n/a
-    public static final char END_INIT = 7; // signals the end of engine initialization.
+    // Server:: Payload: GameMapStorage, Extra: n/a
+    public static final char GAME_MAP = 7; // signals the end of engine initialization.
 
     // remove an actor because it is no longer relevant
     // Client:: Payload: Integer id of actor, Extra: n/a

@@ -1,5 +1,7 @@
 package Actors;
 
+import Engine.ActorRequest;
+import Mailroom.Package;
 import java.io.Serializable;
 
 public abstract class Actor implements Serializable {
@@ -7,20 +9,28 @@ public abstract class Actor implements Serializable {
     protected double y;
     protected double r;
     protected int id;
-    private boolean interactable;
     protected boolean canHit;
 
-    public Actor(int id, double x, double y, int r) {
+    public Actor(int id, double x, double y, double r) {
         this.canHit = true;
         this.id = id;
         this.x = x;
         this.y = y;
         this.r = r;
-        this.interactable = false;
     }
 
     // all actors must be Real, be drawable, and have the ability to be shot (lol)
-    public abstract void update();
+    public abstract Iterable<ActorRequest> update();
+
+    // given an ActorRequest, perform the update.
+    // plz override as necessary across the classes
+    public void update(ActorRequest ar) {
+        if (ar.getType() == ActorRequest.MOVE) {
+            double[] coords = Package.extractCoords(ar.getExtra());
+            x = coords[0];
+            y = coords[1];
+        }
+    }
     public abstract void draw(boolean selected);
     public abstract void hit(int damage);
 
@@ -54,6 +64,7 @@ public abstract class Actor implements Serializable {
         return Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
     }
 
+    public double getR() {return this.r;}
     public synchronized double getX() {
         return x;
     }
@@ -68,12 +79,8 @@ public abstract class Actor implements Serializable {
         this.y = y;
     }
 
-    protected void setInteractable(boolean tf) {
-        this.interactable = tf;
-    }
-
     public boolean isInteractable() {
-        return this.interactable;
+        return (this instanceof Interactable);
     }
 
     protected void setCanHit(boolean canHit) { this.canHit = canHit; }

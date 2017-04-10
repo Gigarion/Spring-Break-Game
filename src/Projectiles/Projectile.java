@@ -1,10 +1,12 @@
 package Projectiles;
 
 import Actors.Actor;
+import Engine.ActorRequest;
 import Util.StdDraw;
 
 import java.io.Serializable;
 import java.nio.file.Paths;
+import java.util.LinkedList;
 
 public class Projectile extends Actor implements Serializable {
     private double destX, destY;
@@ -27,15 +29,8 @@ public class Projectile extends Actor implements Serializable {
         this.damage = damage;
         this.image = image;
         this.src = src;
+        this.canHit = false;
     }
-
-//    public double getDestX() {
-//        return this.destX;
-//    }
-
-//    public double getDestY() {
-//        return this.destY;
-//    }
 
     public boolean outOfRange() {
         return getDistTraveled() > range;
@@ -59,7 +54,6 @@ public class Projectile extends Actor implements Serializable {
         return startY;
     }
 
-    // TODO: refactor projectiles to have malleable damage
     public int getDamage() { return damage; }
 
     // thanks stackoverflow
@@ -73,18 +67,24 @@ public class Projectile extends Actor implements Serializable {
         return Math.toRadians(angle);
     }
 
-    public void update() {
-        x += (vel * Math.cos(rad));
-        y += (vel * Math.sin(rad));
+    @Override
+    public Iterable<ActorRequest> update() {
+        double newX = x + (vel * Math.cos(rad));
+        double newY = y + (vel * Math.sin(rad));
+        LinkedList<ActorRequest> toReturn = new LinkedList<>();
+        toReturn.add(ActorRequest.moveTo(newX, newY));
+        return toReturn;
     }
 
     public void modifyRange(double percentChange) {
         this.range = range * percentChange;
     }
+    public void modifyDamage(double percentChange) {
+        this.damage = (int) (damage * percentChange);
+    }
 
     @Override
     public void draw(boolean selected) {
-        System.out.println(image);
         if (image == null || image.equals("img/-")) {
             try {
                 StdDraw.picture(x, y, "src/img/arrow.png", 40, 10, Math.toDegrees(rad));

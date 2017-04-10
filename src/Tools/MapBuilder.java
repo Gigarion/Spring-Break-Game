@@ -31,11 +31,13 @@ public class MapBuilder {
     private UserBox userBox;
     private Player player;
     private GameMap gameMap;
+    private char currHeight;
 
     public MapBuilder(int maxX, int maxY, int boxSize, String image) {
         this.mapGrid = new MapGrid(maxX, maxY, boxSize);
         mapGrid.setShowGrid(true);
         mapGrid.setShowBoxes(true);
+        currHeight = 3;
 
         this.gameMap = new GameMap(maxX, maxY, image);
         gameMap.setMapGrid(mapGrid);
@@ -81,12 +83,12 @@ public class MapBuilder {
         userBox.setBounds(maxX, maxY);
         userBox.setShowEdges(true);
 
-        userBox.setKeyboardHandler(this::saveMap);
+        userBox.setKeyboardHandler(this::keyboard);
         userBox.begin();
     }
 
     private void mark(double x, double y) {
-        mapGrid.block(x, y);
+        mapGrid.block(x, y, currHeight);
     }
 
     private void unmark(double x, double y) {
@@ -130,11 +132,18 @@ public class MapBuilder {
         }
     }
 
-    private void saveMap(KeyEvent e) {
+    private void keyboard(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             SaveMapDialog smd = new SaveMapDialog(gameMap);
             smd.pack();
             smd.setVisible(true);
+        }
+        switch(e.getKeyCode()) {
+            case KeyEvent.VK_0: currHeight = 0; break;
+            case KeyEvent.VK_1: currHeight = 1; break;
+            case KeyEvent.VK_2: currHeight = 2; break;
+            case KeyEvent.VK_3: currHeight = 3; break;
+            default: break;
         }
     }
 }

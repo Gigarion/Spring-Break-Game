@@ -29,6 +29,7 @@ public class Projectile extends Actor implements Serializable {
         this.src = src;
         this.pierceCount = pierceCount;
         this.canHit = false;
+        this.passesHeight = 1;
     }
 
     public boolean outOfRange() {
@@ -78,7 +79,6 @@ public class Projectile extends Actor implements Serializable {
             } catch (Exception e) {
                 StdDraw.picture(x, y, "img/arrow.png", 40, 10, Math.toDegrees(rad));
             }
-            StdDraw.circle(x, y, r);
         }
         else {
             try {
@@ -93,4 +93,9 @@ public class Projectile extends Actor implements Serializable {
     public void hit(int damage) {}
 
     public Actor getSrc() {return this.src;}
+
+    public int decrementPierceCount() {
+        this.pierceCount--;
+        return this.pierceCount;
+    }
 }

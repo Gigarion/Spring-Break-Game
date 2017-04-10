@@ -56,8 +56,6 @@ public class ServerEngine {
         setTimers();
     }
 
-
-
     private void setTimers() {
         Timer updateTimer = new Timer("Server update timer", true);
         updateTimer.schedule(new TimerTask() {
@@ -93,6 +91,9 @@ public class ServerEngine {
                 double[] coords = Package.extractCoords(ar.getExtra());
                 if (mapGrid.validMove(coords[0], coords[1], a))
                     a.update(ar);
+                else if (a instanceof Projectile) {
+                    removeActor(a);
+                }
                 mailroom.sendPackage(new Package(a.getID(), Package.NEW_POS, ar.getExtra()));
             }
                 break;
@@ -266,8 +267,7 @@ public class ServerEngine {
         if (a instanceof Projectile) {
             Projectile p = (Projectile) a;
             if (p.outOfRange()) {
-                actorMap.remove(id);
-                mailroom.sendPackage(new Package(a.getID(), Package.REMOVE));
+                removeActor(p);
             }
             for (Actor target : actorMap.values()) {
                 if (target == p || !target.canHit() || target.getID() == p.getSrc().getID())
@@ -276,8 +276,10 @@ public class ServerEngine {
                     System.out.println("hitting");
                     target.hit(p.getDamage());
                     mailroom.sendPackage(new Package(target.getID(), Package.HIT, p.getDamage() + ""));
-                    actorMap.remove(id);
-                    mailroom.sendPackage(new Package(id, Package.REMOVE));
+                    int piercesLeft = p.decrementPierceCount();
+                    if (piercesLeft == 0) {
+                        removeActor(p);
+                    }
                 }
             }
         }
@@ -291,17 +293,14 @@ public class ServerEngine {
 
         if (a instanceof Player) {
             if (((Player) a).getHP() <=0) {
-                actorMap.remove(id);
-                mailroom.sendPackage(new Package(id, Package.REMOVE));
+                removeActor(a);
                 System.out.println("removing player");
                 return;
             }
         }
 
         if (!inBounds(a.getX(), a.getY())) {
-            System.out.println("oob");
-            actorMap.remove(id);
-            mailroom.sendPackage(new Package(id, Package.REMOVE));
+            removeActor(a);
             if (a instanceof Mob)
                 killMob(a);
         }
@@ -343,5 +342,10 @@ public class ServerEngine {
         int x = 10 + (int) (Math.random() * 580);
         int id = getNextId();
         actorMap.put(id, new WeaponDrop(id, x, 500, "Rock/Rock/1/150/100/true/false/", "P/200/20/1/1/5/.8/Rock.png/", 1));
+    }
+
+    private void removeActor(Actor a) {
+        actorMap.remove(a.getID());
+        mailroom.sendPackage(new Package(a.getID(), Package.REMOVE));
     }
 }

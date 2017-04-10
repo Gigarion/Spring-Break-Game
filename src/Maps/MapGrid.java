@@ -15,8 +15,17 @@ import java.util.LinkedList;
  * Rather than having to make a bunch of invisible impassable actors
  */
 public class MapGrid implements Serializable {
+
+    // heights that things can be.  Actors with a
+    // goesOver value >= a height can traverse that
+    // height as if it were not blocked.
+    public static final char GROUND_HEIGHT = 0;
+    public static final char HALF_HEIGHT = 1;
+    public static final char FULL_HEIGHT = 2;
+    public static final char ABS_HEIGHT = 3;
+
     private int boxSize; // size in pixels of the impassability box
-    private boolean[][] grid;
+    private char[][] grid;
     private int maxBoxX, maxBoxY;
     private boolean showGrid;
     private boolean showBoxes;
@@ -26,40 +35,46 @@ public class MapGrid implements Serializable {
     public MapGrid(int maxLogX, int maxLogY, int boxSize) {
         this.maxBoxX = maxLogX / boxSize;
         this.maxBoxY = maxLogY / boxSize;
-        this.grid = new boolean[maxBoxX][maxBoxY];
+        this.grid = new char[maxBoxX][maxBoxY];
         this.boxSize = boxSize;
+        this.showGrid = false;
+        this.showBoxes = false;
     }
 
 
-    public void setPlayer(Player player) {this.player = player;}
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     public void setShowGrid(boolean show) {
-        this.showGrid = show;
+        this.showGrid = show;System.out.println("showing " + show);
     }
+
     public void setShowBoxes(boolean show) {
         this.showBoxes = show;
     }
 
     // returns whether or not the location is inside a blocked box
-    public boolean isBlocked(double x, double y) {
+    public boolean isBlocked(double x, double y, int height) {
         int gridX = convertIndex(x);
         int gridY = convertIndex(y);
-        return grid[gridX][gridY];
+        return grid[gridX][gridY] > height;
     }
 
     public void block(Actor a) {
         for (Point p : getBoxes(a)) {
-            block(p);
+            block(p, a.getPassesHeight());
         }
     }
 
-    public void block(double x, double y) {
-        block(new Point(convertIndex(x), convertIndex(y)));
+    public void block(double x, double y, char height) {
+        block(new Point(convertIndex(x), convertIndex(y)), height);
     }
 
-    private void block(Point p) {
+    private void block(Point p, char height) {
         if (p.x >= maxBoxX || p.y >= maxBoxY || p.x < 0 || p.y < 0)
             return;
-        grid[p.x][p.y] = true;
+        grid[p.x][p.y] = height;
     }
 
     public void unblock(Actor a) {
@@ -74,7 +89,7 @@ public class MapGrid implements Serializable {
     }
 
     private void unblock(Point p) {
-        grid[p.x][p.y] = false;
+        grid[p.x][p.y] = GROUND_HEIGHT;
     }
 
     public void draw() {
@@ -84,8 +99,24 @@ public class MapGrid implements Serializable {
                 for (int c = 0; c < grid[0].length; c++) {
                     double x = (boxSize * r) + boxSize / 2.0;
                     double y = (boxSize * c) + boxSize / 2.0;
-                    if (grid[r][c])
-                        StdDraw.filledRectangle(x, y, boxSize / 2, boxSize / 2);
+                    switch (grid[r][c]) {
+                        case 0:
+                            continue;
+                        case 1:
+                            StdDraw.setPenColor(StdDraw.BLUE);
+                            break;
+                        case 2:
+                            StdDraw.setPenColor(StdDraw.PRINCETON_ORANGE);
+                            break;
+                        case 3:
+                            StdDraw.setPenColor();
+                            break;
+                        default:
+                            StdDraw.setPenColor(StdDraw.RED);
+                            break;
+                    }
+                    StdDraw.filledRectangle(x, y, boxSize / 2, boxSize / 2);
+                    StdDraw.setPenColor();
                 }
             }
         }
@@ -145,13 +176,14 @@ public class MapGrid implements Serializable {
 
     public boolean validMove(double destX, double destY, Actor a) {
         Mob test = new Mob(-1, destX, destY, a.getR(), 100);
-        if (destX < 0 || destY < 0 || destX > maxBoxX * boxSize|| destY > maxBoxY * boxSize)
+        char maxHeight = a.getPassesHeight();
+        if (destX < 0 || destY < 0 || destX > maxBoxX * boxSize || destY > maxBoxY * boxSize)
             return false;
         Iterable<Point> newBoxes = getBoxes(test);
         for (Point p : newBoxes) {
             if (p.x >= grid.length || p.y >= grid[0].length || p.x < 0 || p.y < 0)
                 return false;
-            if (grid[p.x][p.y])
+            if (grid[p.x][p.y] > maxHeight)
                 return false;
         }
         return true;
@@ -171,7 +203,7 @@ public class MapGrid implements Serializable {
         MapGrid mapGrid = new MapGrid(maxX, maxY, boxSize);
         for (int i = 3; i < units.length; i++) {
             String[] coords = units[i].split(",");
-            mapGrid.block(new Point(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])));
+            mapGrid.block(new Point(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])), coords[2].charAt(0));
         }
         return mapGrid;
     }
@@ -185,11 +217,13 @@ public class MapGrid implements Serializable {
         sb.append(boxSize);
         for (int i = 0; i < maxBoxX; i++) {
             for (int c = 0; c < maxBoxY; c++) {
-                if (grid[i][c]) {
+                if (grid[i][c] > 0) {
                     sb.append("/");
                     sb.append(i);
                     sb.append(',');
                     sb.append(c);
+                    sb.append(',');
+                    sb.append(Character.toString(grid[i][c]));
                 }
             }
         }

@@ -2,6 +2,8 @@ package Actors;
 
 import Engine.ActorRequest;
 import Mailroom.Package;
+import Maps.MapGrid;
+
 import java.io.Serializable;
 
 public abstract class Actor implements Serializable {
@@ -10,6 +12,11 @@ public abstract class Actor implements Serializable {
     protected double r;
     protected int id;
     protected boolean canHit;
+    protected char passesHeight; // what is the base level of terrain height this actor can naturally go over
+
+    public char getPassesHeight() {
+        return passesHeight;
+    }
 
     public Actor(int id, double x, double y, double r) {
         this.canHit = true;
@@ -17,6 +24,7 @@ public abstract class Actor implements Serializable {
         this.x = x;
         this.y = y;
         this.r = r;
+        this.passesHeight = MapGrid.GROUND_HEIGHT;
     }
 
     // all actors must be Real, be drawable, and have the ability to be shot (lol)

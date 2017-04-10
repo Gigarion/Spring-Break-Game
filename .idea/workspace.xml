@@ -9,24 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69d04400-34d6-49b7-820e-0bde14eb2f0f" name="Default" comment="Userbox refactor">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/Maps/A third.gm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/Maps/Attempt.gm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/Maps/Try Two.gm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/Maps/a.gm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/Maps/hey.gm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/Maps/plz.gm" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/Maps/showAnthony.gm" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/Maps/ServerTest.gm" afterPath="$PROJECT_DIR$/data/Maps/ServerTest.gm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/Actor.java" afterPath="$PROJECT_DIR$/src/Actors/Actor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/ClientEngine.java" afterPath="$PROJECT_DIR$/src/Engine/ClientEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/ServerEngine.java" afterPath="$PROJECT_DIR$/src/Engine/ServerEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Gui/ToolMenu.java" afterPath="$PROJECT_DIR$/src/Gui/ToolMenu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Gui/UserBox.java" afterPath="$PROJECT_DIR$/src/Gui/UserBox.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Maps/MapGrid.java" afterPath="$PROJECT_DIR$/src/Maps/MapGrid.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Projectiles/Projectile.java" afterPath="$PROJECT_DIR$/src/Projectiles/Projectile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tools/MapBuilder.java" afterPath="$PROJECT_DIR$/src/Tools/MapBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tools/SaveMapDialog.java" afterPath="$PROJECT_DIR$/src/Tools/SaveMapDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/Player.java" afterPath="$PROJECT_DIR$/src/Actors/Player.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/WeaponDrop.java" afterPath="$PROJECT_DIR$/src/Actors/WeaponDrop.java" />
     </list>
     <ignored path="Spring-Break-Game.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,25 +49,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MapGrid.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Maps/MapGrid.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="48" column="43" lean-forward="true" selection-start-line="48" selection-start-column="43" selection-end-line="48" selection-end-column="43" />
-              <folding>
-                <element signature="e#1297#1298#0" expanded="true" />
-                <element signature="e#1333#1334#0" expanded="true" />
-                <element signature="e#1498#1499#0" expanded="true" />
-                <element signature="e#1535#1536#0" expanded="true" />
-                <element signature="e#1979#1980#0" expanded="true" />
-                <element signature="e#2053#2054#0" expanded="true" />
-                <element signature="method#getBoxes#0;class#MapGrid#0" expanded="false" />
-                <element signature="method#validMove#0;class#MapGrid#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Projectile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Projectiles/Projectile.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -103,8 +68,8 @@
       <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Actors/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2548">
-              <caret line="196" column="5" lean-forward="true" selection-start-line="196" selection-start-column="5" selection-end-line="196" selection-end-column="5" />
+            <state relative-caret-position="282">
+              <caret line="166" column="85" lean-forward="false" selection-start-line="166" selection-start-column="85" selection-end-line="166" selection-end-column="85" />
               <folding>
                 <element signature="method#Player#0;class#Player#0" expanded="false" />
                 <element signature="method#giveWeapon#0;class#Player#0" expanded="false" />
@@ -118,11 +83,25 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="WeaponDrop.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Actors/WeaponDrop.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="214">
+              <caret line="17" column="111" lean-forward="false" selection-start-line="17" selection-start-column="111" selection-end-line="17" selection-end-column="111" />
+              <folding>
+                <element signature="method#WeaponDrop#0;class#WeaponDrop#0" expanded="false" />
+                <element signature="method#interact#0;class#WeaponDrop#0" expanded="false" />
+                <element signature="method#draw#0;class#WeaponDrop#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Weapon.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Weapons/Weapon.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2115">
-              <caret line="105" column="0" lean-forward="true" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+              <caret line="105" column="0" lean-forward="false" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -156,8 +135,8 @@
       <file leaf-file-name="ServerEngine.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Engine/ServerEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="87" column="62" lean-forward="false" selection-start-line="87" selection-start-column="62" selection-end-line="87" selection-end-column="62" />
+            <state relative-caret-position="149">
+              <caret line="197" column="5" lean-forward="true" selection-start-line="197" selection-start-column="5" selection-end-line="197" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;class#ServerEngine#0" expanded="false" />
@@ -175,12 +154,14 @@
                 <element signature="method#handleAnimation#0;class#ServerEngine#0" expanded="false" />
                 <element signature="method#handleActor#0;class#ServerEngine#0" expanded="false" />
                 <element signature="method#handleRemove#0;class#ServerEngine#0" expanded="false" />
-                <element signature="method#handleDisconnect#0;class#ServerEngine#0" expanded="false" />
                 <element signature="method#setupNewUser#0;class#ServerEngine#0" expanded="false" />
                 <element signature="method#fireHitScan#0;class#ServerEngine#0" expanded="false" />
                 <element signature="docComment;method#checkActor#0;class#ServerEngine#0" expanded="false" />
+                <element signature="method#checkActor#0;class#ServerEngine#0" expanded="false" />
                 <element signature="method#getRads#0;class#ServerEngine#0" expanded="false" />
                 <element signature="method#killMob#0;class#ServerEngine#0" expanded="false" />
+                <element signature="method#makeRocks#0;class#ServerEngine#0" expanded="false" />
+                <element signature="method#removeActor#0;class#ServerEngine#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -190,7 +171,7 @@
         <entry file="file://$PROJECT_DIR$/src/Maps/GameMap.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="378">
-              <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+              <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#GameMap#0;class#GameMap#0" expanded="false" />
@@ -374,12 +355,10 @@
         <option value="$PROJECT_DIR$/src/Util/DefaultMap.java" />
         <option value="$PROJECT_DIR$/src/Weapons/Weapon.java" />
         <option value="$PROJECT_DIR$/src/Animations/Animation.java" />
-        <option value="$PROJECT_DIR$/src/Actors/Player.java" />
         <option value="$PROJECT_DIR$/src/Actors/Interactable.java" />
         <option value="$PROJECT_DIR$/src/Animations/FlyText.java" />
         <option value="$PROJECT_DIR$/src/Animations/Particle.java" />
         <option value="$PROJECT_DIR$/src/Engine/ActorRequest.java" />
-        <option value="$PROJECT_DIR$/src/Actors/WeaponDrop.java" />
         <option value="$PROJECT_DIR$/src/Actors/Actor.java" />
         <option value="$PROJECT_DIR$/src/Gui/ToolMenu.java" />
         <option value="$PROJECT_DIR$/src/Tools/SaveMapDialog.java" />
@@ -389,6 +368,8 @@
         <option value="$PROJECT_DIR$/src/Maps/MapGrid.java" />
         <option value="$PROJECT_DIR$/src/Engine/ClientEngine.java" />
         <option value="$PROJECT_DIR$/src/Engine/ServerEngine.java" />
+        <option value="$PROJECT_DIR$/src/Actors/Player.java" />
+        <option value="$PROJECT_DIR$/src/Actors/WeaponDrop.java" />
       </list>
     </option>
   </component>
@@ -458,96 +439,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Weapons" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Projectiles" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Maps" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Spring-Break-Game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Actors" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1084,7 +975,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1932" height="1056" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Amazon EC2" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1107,7 +997,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30444205" sideWeight="0.48773986" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12892741" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30877572" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15010683" sideWeight="0.496208" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15010683" sideWeight="0.496208" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32394367" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15010683" sideWeight="0.503792" order="6" side_tool="true" content_ui="tabs" />
@@ -1166,7 +1056,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="243" />
+      <option name="time" value="244" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1279,12 +1169,12 @@
         <state relative-caret-position="366">
           <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
             <element signature="method#EventLog#0;class#EventLog#0" expanded="false" />
             <element signature="method#kill#0;class#EventLog#0" expanded="false" />
             <element signature="method#getCurrTime#0;class#EventLog#0" expanded="false" />
-            <element signature="e#1817#1818#0" expanded="true" />
-            <element signature="e#1866#1867#0" expanded="true" />
+            <element signature="e#1817#1818#0" expanded="false" />
+            <element signature="e#1866#1867#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1317,16 +1207,6 @@
         <state relative-caret-position="-272">
           <caret line="12" column="36" lean-forward="false" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="36" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Actors/WeaponDrop.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="31" column="4" lean-forward="false" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1386,7 +1266,7 @@
         <state relative-caret-position="190">
           <caret line="37" column="8" lean-forward="false" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
             <element signature="method#handleMouse#0;class#MapBuilder#0" expanded="false" />
             <element signature="method#handleKeyboard#0;class#MapBuilder#0" expanded="false" />
             <element signature="method#keyboard#0;class#MapBuilder#0" expanded="false" />
@@ -1397,7 +1277,7 @@
     <entry file="file://$PROJECT_DIR$/src/Maps/MapGrid.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
-          <caret line="48" column="43" lean-forward="true" selection-start-line="48" selection-start-column="43" selection-end-line="48" selection-end-column="43" />
+          <caret line="48" column="43" lean-forward="false" selection-start-line="48" selection-start-column="43" selection-end-line="48" selection-end-column="43" />
           <folding>
             <element signature="e#1297#1298#0" expanded="true" />
             <element signature="e#1333#1334#0" expanded="true" />
@@ -1447,7 +1327,7 @@
     <entry file="file://$PROJECT_DIR$/src/Maps/GameMap.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
-          <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#GameMap#0;class#GameMap#0" expanded="false" />
@@ -1473,7 +1353,7 @@
     <entry file="file://$PROJECT_DIR$/src/Weapons/Weapon.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2115">
-          <caret line="105" column="0" lean-forward="true" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+          <caret line="105" column="0" lean-forward="false" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1495,22 +1375,6 @@
             <element signature="method#update#1;class#Actor#0" expanded="false" />
             <element signature="method#distanceTo#1;class#Actor#0" expanded="false" />
             <element signature="method#moveTo#0;class#Actor#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Actors/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2548">
-          <caret line="196" column="5" lean-forward="true" selection-start-line="196" selection-start-column="5" selection-end-line="196" selection-end-column="5" />
-          <folding>
-            <element signature="method#Player#0;class#Player#0" expanded="false" />
-            <element signature="method#giveWeapon#0;class#Player#0" expanded="false" />
-            <element signature="method#giveWeapons#0;class#Player#0" expanded="false" />
-            <element signature="method#swapWeapon#0;class#Player#0" expanded="false" />
-            <element signature="method#getAmmoCount#0;class#Player#0" expanded="false" />
-            <element signature="method#getAmmoCount#1;class#Player#0" expanded="false" />
-            <element signature="method#giveAmmo#0;class#Player#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1546,10 +1410,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Actors/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="166" column="85" lean-forward="false" selection-start-line="166" selection-start-column="85" selection-end-line="166" selection-end-column="85" />
+          <folding>
+            <element signature="method#Player#0;class#Player#0" expanded="false" />
+            <element signature="method#giveWeapon#0;class#Player#0" expanded="false" />
+            <element signature="method#giveWeapons#0;class#Player#0" expanded="false" />
+            <element signature="method#swapWeapon#0;class#Player#0" expanded="false" />
+            <element signature="method#getAmmoCount#0;class#Player#0" expanded="false" />
+            <element signature="method#getAmmoCount#1;class#Player#0" expanded="false" />
+            <element signature="method#giveAmmo#0;class#Player#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Actors/WeaponDrop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="17" column="111" lean-forward="false" selection-start-line="17" selection-start-column="111" selection-end-line="17" selection-end-column="111" />
+          <folding>
+            <element signature="method#WeaponDrop#0;class#WeaponDrop#0" expanded="false" />
+            <element signature="method#interact#0;class#WeaponDrop#0" expanded="false" />
+            <element signature="method#draw#0;class#WeaponDrop#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Engine/ServerEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="87" column="62" lean-forward="false" selection-start-line="87" selection-start-column="62" selection-end-line="87" selection-end-column="62" />
+        <state relative-caret-position="149">
+          <caret line="197" column="5" lean-forward="true" selection-start-line="197" selection-start-column="5" selection-end-line="197" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#ServerEngine#0" expanded="false" />
@@ -1567,12 +1459,14 @@
             <element signature="method#handleAnimation#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleActor#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleRemove#0;class#ServerEngine#0" expanded="false" />
-            <element signature="method#handleDisconnect#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#setupNewUser#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#fireHitScan#0;class#ServerEngine#0" expanded="false" />
             <element signature="docComment;method#checkActor#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#checkActor#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#getRads#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#killMob#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#makeRocks#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#removeActor#0;class#ServerEngine#0" expanded="false" />
           </folding>
         </state>
       </provider>

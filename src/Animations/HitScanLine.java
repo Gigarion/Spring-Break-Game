@@ -3,6 +3,12 @@ package Animations;
 import Projectiles.HitScan;
 import Util.StdDraw;
 
+/**
+ * Created by Gig during Spring Break.
+ * A line which traces the path of a given HitScan
+ * nice for bullet animation, I think
+ */
+
 public class HitScanLine extends Animation {
     private double destX;
     private double destY;

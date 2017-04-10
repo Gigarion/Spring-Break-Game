@@ -5,8 +5,12 @@ import Util.StdDraw;
 
 import java.io.Serializable;
 
+/**
+ * Created by Gig on 3/27/2017.
+ * Shows a stabbing sword animation for the basic melee attack
+ */
+
 public class SwingAnimation extends Animation implements Serializable {
-    private String imgPath = "img/";
     private String imgLoc;
     protected int startFrame = -1;
     private double srcX, srcY;
@@ -18,7 +22,7 @@ public class SwingAnimation extends Animation implements Serializable {
         super(src.getX(), src.getY(), ttl);
         this.srcX = src.getX();
         this.srcY = src.getY();
-        this.imgLoc = imgPath + imgName;
+        this.imgLoc = "img/" + imgName;
         this.src = null;
         this.deg = Math.toDegrees(Math.atan2(destY - src.getY(), destX - src.getX()));
         this.rad = Math.toRadians(deg);

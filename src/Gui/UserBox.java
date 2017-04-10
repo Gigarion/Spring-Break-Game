@@ -136,8 +136,6 @@ public class UserBox {
     public void setBounds(int maxLogX, int maxLogY) {
         this.maxLogX = maxLogX;
         this.maxLogY = maxLogY;
-        System.out.println(maxLogX);
-        System.out.println(maxLogY);
     }
 
     public void setGameMap(GameMap gameMap) {
@@ -158,7 +156,7 @@ public class UserBox {
 
     // request to move the screen in the given direction, only does so
     // if player is in an appropriate place
-    public void moveScreen(int direction, double movementSize) {
+    private void moveScreen(int direction, double movementSize) {
         switch (direction) {
             case UP: {
                 if (getVisibleYMax() < maxLogY && getVisibleYMax() + movementSize < maxLogY) {
@@ -201,7 +199,7 @@ public class UserBox {
             }
             break;
             default:
-                System.out.println("WTF mate");
+                System.out.println("WTF mate, improper move attempt");
         }
     }
 

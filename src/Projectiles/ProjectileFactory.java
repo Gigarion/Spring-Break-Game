@@ -70,6 +70,6 @@ public class ProjectileFactory implements Serializable {
         return new HitScan(src, destX, destY, damage, pierceCount, range);
     }
     private Projectile getProjectile(Actor src, double destX, double destY) {
-        return new Projectile(src, destX, destY, radius, range, speed, damage, image);
+        return new Projectile(src, destX, destY, radius, range, speed, damage, pierceCount, image);
     }
 }

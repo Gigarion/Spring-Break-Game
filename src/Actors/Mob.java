@@ -8,14 +8,10 @@ import java.util.LinkedList;
 
 public class Mob extends Actor implements Serializable {
     private int hp;
-    private double offset = 0.1;
-    private int step;
-    private int direction = 2;
 
     public Mob(int id, double x, double y, double r, int hp) {
         super(id, x, y, r);
         this.hp = hp;
-        step = 100;
     }
 
     public int getHP() {

@@ -27,8 +27,7 @@ public class ServerMailroom {
         try {
             acceptSocket = new ServerSocket(3333);
             // yes, will loop until all clients hook in
-            // fight me
-            int i = 0;
+            // fight me, but it blocks yeh? so why the fight?
             while (clients.size() < maxClients) {
                 Socket clientSocket = acceptSocket.accept();
                 clients.add(new ServerClient(clientSocket, getNextId()));

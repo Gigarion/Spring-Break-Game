@@ -152,7 +152,7 @@ public class ClientEngine {
         if (e != null && (e.getID() ^ MouseEvent.MOUSE_RELEASED) == 0) {
             handleMouseRelease(e, x, y);
         }
-        if (e == null || (e != null && (e.getID() ^ MouseEvent.MOUSE_PRESSED) == 0)) {
+        if (e == null || (e.getID() ^ MouseEvent.MOUSE_PRESSED) == 0) {
             handleMousePressed(e, x, y);
         }
         if (e != null && (e.getID() ^ MouseEvent.MOUSE_DRAGGED) == 0) {
@@ -209,9 +209,9 @@ public class ClientEngine {
         if (e.getKeyChar() == 'r') {
             Actor a = actorMap.get(selectedID);
             if (a != null && a instanceof Interactable) {
-                Iterable<Actor> results = ((Interactable) a).interact(player);
+                Iterable<Object> results = ((Interactable) a).interact(player);
                 if (results != null) {
-                    for (Actor result : results) {
+                    for (Object result : results) {
                         System.out.println("result");
                     }
                 }

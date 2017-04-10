@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 /**
  * Created by Gig on 3/21/2017.
+ * Packages are the format in which data is sent from
+ * client to server and back.  This class contains all
+ * you need to form these packages
  */
 
 public class Package implements Serializable {
@@ -53,8 +56,7 @@ public class Package implements Serializable {
     // Server:: ""
     public static final char REMOVE = 8;
 
-    // informs clients of what state they are in.
-    public static final char STATE = 9;
+    //TODO: make the next package replace 9
 
     // informs server that a client disconnected and that player should get removed
     // Client:: n/a
@@ -76,19 +78,14 @@ public class Package implements Serializable {
     private String extra;
     private int port;
 
-    // the welcome package to the server to ID the user
-    public Package(String userName) {
-        payload = userName;
-        type = WELCOME;
-        this.port = -1;
-    }
-
+    // basic package, payload and type
     public Package(Object payload, char type) {
         this.payload = payload;
         this.type = type;
         this.port = -1;
     }
 
+    // for those that need the extra string
     public Package(Object payload, char type, String extra) {
         this.payload = payload;
         this.type = type;
@@ -108,7 +105,7 @@ public class Package implements Serializable {
         return toReturn;
     }
 
-    public void setPort(int port) { this.port = port; }
+    void setPort(int port) { this.port = port; }
     public int getPort() { return this.port; }
     public int getType() { return this.type; }
     public Object getPayload() { return this.payload;}

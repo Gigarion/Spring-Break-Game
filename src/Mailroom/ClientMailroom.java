@@ -19,7 +19,7 @@ public class ClientMailroom {
         beginAndConnect();
     }
 
-    public void beginAndConnect() {
+    private void beginAndConnect() {
         try {
             socket = new Socket("localhost", 3333);
             System.out.println(socket);

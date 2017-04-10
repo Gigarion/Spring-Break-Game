@@ -18,7 +18,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by Gig on 3/22/2017.
  * Big daddy server
- * handles some logic and spreading the news
+ * handles almost all logic and spreading the news
+ * actively pushing worry about network congestion and
+ * memory issues out of mind
  */
 
 
@@ -30,11 +32,6 @@ public class ServerEngine {
     private int maxLogX, maxLogY;
     private EventLog eventLog;
     private MapGrid mapGrid;
-
-    private enum State {
-        PRE_CONNECT, INIT, RUNNING
-    }
-    private State serverState;
 
     public interface MessageHandler {
         void handleMessage(Package p);
@@ -48,10 +45,9 @@ public class ServerEngine {
         //TODO: make this not static and shitty
         this.mapGrid = new GameMap("ServerTest.gm").getMapGrid();
 
+        this.eventLog = new EventLog(port);
 
-        this.serverState = State.PRE_CONNECT;
         this.nextFreeId = new AtomicInteger(0);
-        this.serverState = State.INIT;
         this.actorMap = new ConcurrentHashMap<>();
         this.portToPlayerMap = new ConcurrentHashMap<>();
         for (int i = 0; i < 50; i++)
@@ -189,6 +185,7 @@ public class ServerEngine {
     }
 
     private void handleRemove(Package p) {
+        System.out.println("client asked to remove");
         Actor actor = actorMap.get(p.getPayload());
         if (actor != null) {
             actorMap.remove(actor.getID());
@@ -212,7 +209,6 @@ public class ServerEngine {
     // not technically mail but relevant, called from handleWelcome
     private void setupNewUser(Actor newPlayer, int port) {
         String sizeString = Package.formCoords(2000, 2000);
-
 
         mailroom.sendPackage(new Package(sizeString, Package.SCR_SIZE));
 
@@ -251,10 +247,10 @@ public class ServerEngine {
                     notHit.remove(mob);
                     hits++;
                 }
-                if (hits > hs.getPierceCount())
+                if (hits >= hs.getPierceCount())
                     break;
             }
-            if (hits > hs.getPierceCount())
+            if (hits >= hs.getPierceCount())
                 break;
         }
         return areHit;
@@ -339,6 +335,7 @@ public class ServerEngine {
         int id = getNextId();
         Mob mob = new Mob(id, x, 800, 12, 80);
         actorMap.put(id, mob);
+        System.out.println("making another");
         mailroom.sendPackage(new Package(mob, Package.ACTOR));
     }
 

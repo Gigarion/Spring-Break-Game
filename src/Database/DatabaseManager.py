@@ -1,6 +1,6 @@
 import pyrebase
 
-class DatabaseManager():
+class DatabaseManager:
     ## initialize the firebase and all
     def __init__(self):
         config = {
@@ -30,7 +30,7 @@ class DatabaseManager():
              return None
 
     def createnewuser(self, email, password):
-        #try:
+        try:
             print("Here")
             self._auth.create_user_with_email_and_password(email, password)
             user = self.login(email, password)
@@ -38,11 +38,11 @@ class DatabaseManager():
             self._auth.send_email_verification(user['idToken'])
             self._db.child("users").set(value, self._currUser['idToken'])
             return user
-        # except:
-        #     print("bad create")
-        #     return None
+        except:
+            print("bad create")
+            return None
 
-    def getData(self):
+    def getdata(self):
         return self._db.child().get(self._currUser['idToken']).val()
 
     def store(self, filename):

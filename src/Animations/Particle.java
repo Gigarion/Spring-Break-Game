@@ -2,12 +2,13 @@ package Animations;
 
 import Util.StdDraw;
 
-// particle effects class
+/**
+ * Created by Gig during spring break
+ * TODO: make this class work, good small side branch
+ */
 public class Particle extends Animation {
-     private long ttl; // time to live in milliseconds
      public Particle(int x, int y, int ttl) {
-          super(x, y, 0);
-          this.ttl = System.currentTimeMillis() + ttl;
+          super(x, y, ttl);
      }
 
      @Override

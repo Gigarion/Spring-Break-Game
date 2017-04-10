@@ -39,17 +39,12 @@ public abstract class Actor implements Serializable {
         double xDiff = this.x - that.x;
         double yDiff = this.y - that.y;
         double distance = Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
-        if (distance < that.r || distance < this.r)
-            return true;
-        return false;
+        return distance < that.r || distance < this.r;
     }
 
     // simple square hitbox
     public boolean contains(double x, double y) {
-        if ((x < this.x + r) && x > (this.x - r) && (y < this.y + r) && (y > this.y - r)) {
-            return true;
-        }
-        return false;
+        return (x < this.x + r) && x > (this.x - r) && (y < this.y + r) && (y > this.y - r);
     }
 
     public double distanceTo(Actor a) {
@@ -57,7 +52,7 @@ public abstract class Actor implements Serializable {
     }
 
     // distance to the center of the object
-    public double distanceTo(double x, double y) {
+    private double distanceTo(double x, double y) {
         double xDiff, yDiff;
         xDiff = this.x - x;
         yDiff = this.y - y;
@@ -83,6 +78,5 @@ public abstract class Actor implements Serializable {
         return (this instanceof Interactable);
     }
 
-    protected void setCanHit(boolean canHit) { this.canHit = canHit; }
     public boolean canHit() {return canHit;}
 }

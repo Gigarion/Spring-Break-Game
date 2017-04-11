@@ -110,7 +110,6 @@ public class ServerEngine {
         switch (p.getType()) {
             case Package.WELCOME: handleWelcome(p); break;
             case Package.HITSCAN: handleHitScan(p); break;
-//            case Package.PROJECT: handleProjectile(p); break;
             case Package.NEW_POS: handleNewPosition(p); break;
             case Package.ANIMATE: handleAnimation(p); break;
             case Package.ACTOR: handleActor(p); break;
@@ -153,14 +152,6 @@ public class ServerEngine {
         }
         if (hs.getShowLine())
             mailroom.sendPackage(new Package(new HitScanLine(hs), Package.ANIMATE));
-    }
-
-    private void handleProjectile(Package p) {
-        Projectile proj = (Projectile) p.getPayload();
-        int id = getNextId();
-        proj.setID(id);
-        actorMap.put(id, proj);
-        mailroom.sendPackage(p);
     }
 
     private void handleNewPosition(Package p) {

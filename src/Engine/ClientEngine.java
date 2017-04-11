@@ -292,9 +292,6 @@ public class ClientEngine {
             case Package.HITSCAN:
                 handleHitscan(p);
                 break;
-//            case Package.PROJECT:
-//                handleProjectile(p);
-//                break;
             case Package.NEW_POS:
                 handleNewPosition(p);
                 break;
@@ -345,11 +342,6 @@ public class ClientEngine {
         HitScan hs = (HitScan) p.getPayload();
         if (hs.getShowLine())
             animationQueue.add(new HitScanLine(hs));
-    }
-
-    private void handleProjectile(Package p) {
-        Projectile proj = (Projectile) p.getPayload();
-        actorMap.put(proj.getID(), proj);
     }
 
     private void handleAnimation(Package p) {

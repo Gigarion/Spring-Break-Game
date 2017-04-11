@@ -57,7 +57,10 @@ public class Package implements Serializable {
     // Server:: ""
     public static final char REMOVE = 8;
 
-    //TODO: make the next package replace 9
+
+    // 9 IS FREE ********************************************
+
+
 
     // informs server that a client disconnected and that player should get removed
     // Client:: n/a

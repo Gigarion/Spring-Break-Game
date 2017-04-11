@@ -13,6 +13,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/ServerEngine.java" afterPath="$PROJECT_DIR$/src/Engine/ServerEngine.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Mailroom/Package.java" afterPath="$PROJECT_DIR$/src/Mailroom/Package.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tools/MapBuilder.java" afterPath="$PROJECT_DIR$/src/Tools/MapBuilder.java" />
+
     </list>
     <ignored path="Spring-Break-Game.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -64,6 +65,7 @@
                 <element signature="method#update#0;class#Projectile#0" expanded="false" />
                 <element signature="method#draw#0;class#Projectile#0" expanded="false" />
                 <element signature="method#decrementPierceCount#0;class#Projectile#0" expanded="false" />
+
               </folding>
             </state>
           </provider>
@@ -145,6 +147,7 @@
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;class#ServerEngine#0" expanded="false" />
                 <element signature="class#MessageHandler#0;class#ServerEngine#0" expanded="false" />
+                <element signature="method#ServerEngine#0;class#ServerEngine#0" expanded="false" />
                 <element signature="method#setTimers#0;class#ServerEngine#0" expanded="false" />
                 <element signature="method#update#0;class#ServerEngine#0" expanded="false" />
                 <element signature="method#handleActorRequest#0;class#ServerEngine#0" expanded="false" />
@@ -485,7 +488,7 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="Scratches" />
+      <pane id="Scratches" />r
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1648,6 +1651,7 @@
             <element signature="method#ActorStorage#0;class#ActorStorage#0" expanded="false" />
             <element signature="method#getPlayerStore#0;class#ActorStorage#0" expanded="false" />
             <element signature="method#getMob#0;class#ActorStorage#0" expanded="false" />
+
           </folding>
         </state>
       </provider>

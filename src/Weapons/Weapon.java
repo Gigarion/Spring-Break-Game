@@ -4,15 +4,13 @@ import Actors.Actor;
 import Projectiles.Projectile;
 import Projectiles.ProjectileFactory;
 
-import java.io.Serializable;
-
 /**
  * Created by Gig on 3/31/2017.
  * weaponString format:
  * 0    1     2        3   4   5         6          7
  * name ammo  max clip FR  RR  throwable chargeable maxChargeTime
  */
-public class Weapon implements Serializable {
+public class Weapon {
     private ProjectileFactory pFactory;
     private String name;
     private int clip;

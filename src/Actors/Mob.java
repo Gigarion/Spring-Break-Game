@@ -14,6 +14,11 @@ public class Mob extends Actor implements Serializable {
         this.hp = hp;
     }
 
+    public Mob(ActorStorage as) {
+        super(as.id, as.x, as.y, as.r);
+        this.hp = (Integer) as.extras.get(ActorStorage.MAXHP);
+    }
+
     public int getHP() {
         return this.hp;
     }
@@ -27,7 +32,6 @@ public class Mob extends Actor implements Serializable {
     @Override
 
     public void draw(boolean selected) {
-
         if (selected) {
             StdDraw.setPenColor(StdDraw.RED);
             StdDraw.filledSquare(x, y, 10);
@@ -38,6 +42,5 @@ public class Mob extends Actor implements Serializable {
 
     public void hit(int damage) {
         hp -= damage;
-        System.out.println(hp + " : " + damage);
     }
 }

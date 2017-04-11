@@ -37,8 +37,9 @@ public class Package implements Serializable {
     public static final char ANIMATE = 4;
 
     // Somebody requests an Actor be added to the game
+    // sends an ActorStorage Object, not the full actor
     // Client:: ?????
-    // Server:: Payload: new Actor, Extra: n/a
+    // Server:: Payload: ActorStorage, Extra: n/a
     public static final char ACTOR   = 5;
 
     // Server notifies the field of a hit to an actor

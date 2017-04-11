@@ -11,14 +11,14 @@ public class Projectile extends Actor implements Serializable {
     private int pierceCount;
     private double vel, rad;
     private double range;
-    private int damage;
+    private int damage, srcID;
     private double startX, startY;
     private String image;
-    private Actor src;
 
     public Projectile(Actor src, double destX, double destY, int r,
                       double range, double speed, int damage, int pierceCount, String image) {
         super(-1, src.getX(), src.getY(), r);
+        this.srcID = src.getID();
         this.startX = x;
         this.startY = y;
         this.range = range;
@@ -26,7 +26,6 @@ public class Projectile extends Actor implements Serializable {
         this.rad = getAngle(destX, destY);
         this.damage = damage;
         this.image = image;
-        this.src = src;
         this.pierceCount = pierceCount;
         this.canHit = false;
         this.passesHeight = 1;
@@ -43,6 +42,8 @@ public class Projectile extends Actor implements Serializable {
     }
 
     public int getDamage() { return damage; }
+
+    public int getSrcID() {return srcID;}
 
     // thanks stackoverflow
     private double getAngle(double destX, double destY) {
@@ -91,8 +92,6 @@ public class Projectile extends Actor implements Serializable {
 
     @Override
     public void hit(int damage) {}
-
-    public Actor getSrc() {return this.src;}
 
     public int decrementPierceCount() {
         this.pierceCount--;

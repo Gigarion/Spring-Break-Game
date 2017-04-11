@@ -24,10 +24,24 @@ public class WeaponDrop extends Actor implements Interactable {
         this.canHit = false;
     }
 
+    public WeaponDrop(ActorStorage as) {
+        super(as.id, as.x, as.y, as.r);
+        this.image = as.image;
+        this.weaponString = (String) as.extras.get(ActorStorage.WEAPON_STR);
+        this.projectileString = (String) as.extras.get(ActorStorage.PROJ_STR);
+        this.ammoCount = (Integer) as.extras.get(ActorStorage.AMMO_COUNT);
+        this.canHit = false;
+    }
+
     public void setImage(String image) {
         this.image = image;
     }
 
+    // methods for ActorStorage
+    String getImage() {return this.image;}
+    String getWeaponString() { return this.weaponString;}
+    String getProjectileString() { return this.projectileString;}
+    int getAmmoCount() {return this.ammoCount;}
     // in case the player doesn't pick up the weapon or something else
     @Override
     public Iterable<Object> interact(Player p) {

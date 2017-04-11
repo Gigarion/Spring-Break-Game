@@ -9,6 +9,7 @@ import Maps.MapGrid;
 import Projectiles.HitScan;
 import Projectiles.Projectile;
 
+import java.awt.print.PrinterJob;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -139,7 +140,7 @@ public class ServerEngine {
         int x = 10 + (int) (Math.random() * 580);
         Mob m = new Mob(getNextId(), x, 800, 12, 10);
         actorMap.put(m.getID(), m);
-        mailroom.sendPackage(new Package(m, Package.ACTOR));
+        mailroom.sendActor(m);
     }
 
     private void handleHitScan(Package p) {
@@ -176,7 +177,20 @@ public class ServerEngine {
     }
 
     private void handleActor(Package p) {
-        Actor a = (Actor) p.getPayload();
+        ActorStorage as = (ActorStorage) p.getPayload();
+        Actor a = null;
+        switch (as.getType()) {
+            case ActorStorage.PLAYER_TYPE:
+                a = new Player(as);
+                break;
+            case ActorStorage.MOB_TYPE:
+                a = new Mob(as);
+                break;
+            case ActorStorage.WEAPON_DROP_TYPE:
+                a = new WeaponDrop(as);
+                break;
+            default: System.out.println("bad actorstorage type"); return;
+        }
         if (a.getID() == -1)
             a.setID(getNextId());
         actorMap.put(a.getID(), a);
@@ -185,7 +199,6 @@ public class ServerEngine {
     }
 
     private void handleRemove(Package p) {
-        System.out.println("client asked to remove");
         Actor actor = actorMap.get(p.getPayload());
         if (actor != null) {
             actorMap.remove(actor.getID());
@@ -216,9 +229,9 @@ public class ServerEngine {
         mailroom.sendPackage(new Package(gameMap.getStorage(), Package.GAME_MAP));
 
         for (Actor actor : actorMap.values()) {
-            mailroom.sendPackage(new Package(actor, Package.ACTOR), port);
+            mailroom.sendActor(actor, port);
         }
-        mailroom.sendPackage(new Package(newPlayer, Package.ACTOR));
+        mailroom.sendActor(newPlayer);
     }
 
     // fire a hitscan, currently ignores hitting the initiating player
@@ -253,6 +266,7 @@ public class ServerEngine {
             if (hits >= hs.getPierceCount())
                 break;
         }
+        System.out.println(areHit.size());
         return areHit;
     }
 
@@ -269,10 +283,9 @@ public class ServerEngine {
                 removeActor(p);
             }
             for (Actor target : actorMap.values()) {
-                if (target == p || !target.canHit() || target.getID() == p.getSrc().getID())
+                if (target == p || !target.canHit() || target.getID() == p.getSrcID())
                     continue;
                 if (target.collides(p)) {
-                    System.out.println("hitting");
                     target.hit(p.getDamage());
                     mailroom.sendPackage(new Package(target.getID(), Package.HIT, p.getDamage() + ""));
                     int piercesLeft = p.decrementPierceCount();
@@ -333,8 +346,7 @@ public class ServerEngine {
         int id = getNextId();
         Mob mob = new Mob(id, x, 800, 12, 80);
         actorMap.put(id, mob);
-        System.out.println("making another");
-        mailroom.sendPackage(new Package(mob, Package.ACTOR));
+        mailroom.sendActor(mob);
     }
 
     private void makeRocks() {

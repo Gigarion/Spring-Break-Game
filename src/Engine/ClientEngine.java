@@ -110,7 +110,7 @@ public class ClientEngine {
         }
         logicFrame = ((logicFrame + 1) % 100000);
         for (Actor a : actorMap.values()) {
-           if (!(a instanceof Mob)) a.update();
+            if (!(a instanceof Mob)) a.update();
         }
         Actor selected = actorMap.get(selectedID);
         if (selected != null && !userBox.inVisibleRange(selected.getX(), selected.getY())) {
@@ -161,9 +161,11 @@ public class ClientEngine {
     }   // individual handleMouse
 
     private void handleMouseRelease(MouseEvent e, double x, double y) {
-        switch(e.getButton()) {
-            case MouseEvent.BUTTON3: handleWeaponFire(player.release(x, y));
-            default: break;
+        switch (e.getButton()) {
+            case MouseEvent.BUTTON3:
+                handleWeaponFire(player.release(x, y));
+            default:
+                break;
         }
     }
 
@@ -191,14 +193,16 @@ public class ClientEngine {
                 handleWeaponFire(player.fireWeapon(userBox.getMouseX(), userBox.getMouseY()));
             }
             break;
-            default: System.out.println(userBox.getClickedButton() + " : " + MouseEvent.BUTTON3);
+            default:
+                System.out.println(userBox.getClickedButton() + " : " + MouseEvent.BUTTON3);
                 break;
         }
     }
 
     private void handleMouseDragged(MouseEvent e, double x, double y) {
         switch (e.getButton()) {
-            default: break;
+            default:
+                break;
         }
     }
 
@@ -333,9 +337,6 @@ public class ClientEngine {
         int id = (Integer) p.getPayload();
         player.setID(id);
         actorMap.put(id, player);
-        System.out.println("orig" + player);
-    //    player = (Player) actorMap.get(id);
-        System.out.println("in map " + player);
         userBox.setPlayer(id);
         begin();
     }
@@ -366,12 +367,24 @@ public class ClientEngine {
     }
 
     private void handleNewActor(Package p) {
-        Actor a = (Actor) p.getPayload();
+        ActorStorage as = (ActorStorage) p.getPayload();
+        Actor a = null;
+        switch (as.getType()) {
+            case ActorStorage.PLAYER_TYPE:
+                a = new Player(as);
+                break;
+            case ActorStorage.MOB_TYPE:
+                a = new Mob(as);
+                break;
+            case ActorStorage.WEAPON_DROP_TYPE:
+                a = new WeaponDrop(as);
+                break;
+            default: System.out.println("bad actorstorage type"); return;
+        }
         int id = a.getID();
         if (id != player.getID())
             actorMap.put(id, a);
         if (player.getID() == -1 && a instanceof Player && (((Player) a).getName().equals(player.getName()))) {
-            System.out.println("hey");
             player.setID(id);
             actorMap.put(id, player);
             userBox.setPlayer(id);
@@ -380,7 +393,6 @@ public class ClientEngine {
 
     private void handleHit(Package p) {
         int id = (Integer) p.getPayload();
-        System.out.println("hit " + id + " " + player.getID());
         int damage = Integer.parseInt(p.getExtra());
         Actor a = actorMap.get(id);
         if (a != null) {

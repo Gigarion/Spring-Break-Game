@@ -10,14 +10,13 @@ import Weapons.Weapon;
  * and ammo when they interact with it.
  */
 public class WeaponDrop extends Actor implements Interactable {
-    private String image;
     private String weaponString;
     private String projectileString;
     private int ammoCount;
 
     public WeaponDrop(int id, double x, double y, String weaponString, String projectileString, int ammoCount) {
         super(id, x, y, 5);
-        image = null;
+        this.image = null;
         this.weaponString = weaponString;
         this.projectileString = projectileString;
         this.ammoCount = ammoCount;

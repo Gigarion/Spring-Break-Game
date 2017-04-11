@@ -4,15 +4,14 @@ import Engine.ActorRequest;
 import Mailroom.Package;
 import Maps.MapGrid;
 
-import java.io.Serializable;
-
-public abstract class Actor implements Serializable {
+public abstract class Actor {
     protected double x;
     protected double y;
     protected double r;
     protected int id;
     protected boolean canHit;
     protected char passesHeight; // what is the base level of terrain height this actor can naturally go over
+    protected String image;
 
     public char getPassesHeight() {
         return passesHeight;

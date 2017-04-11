@@ -110,7 +110,7 @@ public class ServerEngine {
         switch (p.getType()) {
             case Package.WELCOME: handleWelcome(p); break;
             case Package.HITSCAN: handleHitScan(p); break;
-            case Package.PROJECT: handleProjectile(p); break;
+//            case Package.PROJECT: handleProjectile(p); break;
             case Package.NEW_POS: handleNewPosition(p); break;
             case Package.ANIMATE: handleAnimation(p); break;
             case Package.ACTOR: handleActor(p); break;
@@ -127,7 +127,8 @@ public class ServerEngine {
         // upon getting a welcome, send a return packet containing
         // the id the player should be assigned.
         int id = getNextId();
-        Player newPlayer = (Player) p.getPayload();
+        ActorStorage as = (ActorStorage) p.getPayload();
+        Player newPlayer = new Player(as);
         newPlayer.setID(id);
         actorMap.put(id, newPlayer);
         portToPlayerMap.put(p.getPort(), id);
@@ -180,6 +181,9 @@ public class ServerEngine {
         ActorStorage as = (ActorStorage) p.getPayload();
         Actor a = null;
         switch (as.getType()) {
+            case ActorStorage.PROJ_TYPE:
+                a = new Projectile(as);
+                break;
             case ActorStorage.PLAYER_TYPE:
                 a = new Player(as);
                 break;
@@ -289,7 +293,7 @@ public class ServerEngine {
                     target.hit(p.getDamage());
                     mailroom.sendPackage(new Package(target.getID(), Package.HIT, p.getDamage() + ""));
                     int piercesLeft = p.decrementPierceCount();
-                    if (piercesLeft == 0) {
+                    if (piercesLeft <= 0) {
                         removeActor(p);
                     }
                 }

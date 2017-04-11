@@ -292,9 +292,9 @@ public class ClientEngine {
             case Package.HITSCAN:
                 handleHitscan(p);
                 break;
-            case Package.PROJECT:
-                handleProjectile(p);
-                break;
+//            case Package.PROJECT:
+//                handleProjectile(p);
+//                break;
             case Package.NEW_POS:
                 handleNewPosition(p);
                 break;
@@ -370,6 +370,9 @@ public class ClientEngine {
         ActorStorage as = (ActorStorage) p.getPayload();
         Actor a = null;
         switch (as.getType()) {
+            case ActorStorage.PROJ_TYPE:
+                a = new Projectile(as);
+                break;
             case ActorStorage.PLAYER_TYPE:
                 a = new Player(as);
                 break;
@@ -410,12 +413,7 @@ public class ClientEngine {
                 selectedID = -1;
             }
             if (id == player.getID()) {
-                System.out.println("removed me");
-                Player replacement = new Player(player.getName());
-                replacement.giveWeapons();
-                ActorStorage as = ActorStorage.getPlayerStore(replacement);
-                clientMailroom.sendMessage(new Package(as, Package.ACTOR));
-                this.player = replacement;
+                handlePlayerDeath();
             }
         }
     }
@@ -463,7 +461,7 @@ public class ClientEngine {
             if (attack instanceof Projectile) {
                 // fire a projectile to the server
                 // adds to animation queue cause that happens already which is probs bad
-                clientMailroom.sendMessage(new Package(attack, Package.PROJECT));
+                clientMailroom.sendActor((Projectile)attack);
             }
         }
     }
@@ -473,8 +471,18 @@ public class ClientEngine {
         while (!clientMailroom.isAlive()) {
             Thread.yield();
         }
-        clientMailroom.sendMessage(new Package(player, Package.WELCOME));
+        ActorStorage as = ActorStorage.getPlayerStore(player);
+        clientMailroom.sendMessage(new Package(as, Package.WELCOME));
         player.giveWeapons();
+    }
+
+    private void handlePlayerDeath() {
+        System.out.println("removed me");
+        Player replacement = new Player(player.getName());
+        replacement.giveWeapons();
+        ActorStorage as = ActorStorage.getPlayerStore(replacement);
+        clientMailroom.sendMessage(new Package(as, Package.ACTOR));
+        this.player = replacement;
     }
 
 }

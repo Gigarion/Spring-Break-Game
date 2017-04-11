@@ -23,7 +23,7 @@ public class Package implements Serializable {
     // Client requests a projectile be put on the field
     // Client:: Payload: Projectile object, Extra: ID of spawning actor
     // Server:: ""
-    public static final char PROJECT = 2;
+   // public static final char PROJECT = 2;
 
     // Either client or Server demands a position update,
     // mostly used to notify of new player positions

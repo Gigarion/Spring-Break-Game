@@ -11,8 +11,6 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static Mailroom.Package.PROJECT;
-
 /**
  * Created by Gig on 3/22/2017.
  * Handles server-side mail
@@ -72,7 +70,7 @@ public class ServerMailroom {
     public void sendActor(Actor a, int port) {
         ActorStorage as = null;
         if (a instanceof Projectile)
-            sendPackage(new Package(a, Package.PROJECT), port);
+            as = ActorStorage.getProjectile((Projectile) a);
         else if (a instanceof Player)
             as = ActorStorage.getPlayerStore((Player) a);
         else if (a instanceof Mob)
@@ -80,7 +78,7 @@ public class ServerMailroom {
         else if (a instanceof WeaponDrop)
             as = ActorStorage.getWeaponDropStore((WeaponDrop) a);
         else return;
-        sendPackage(new Package(as, Package.ACTOR));
+        sendPackage(new Package(as, Package.ACTOR), port);
     }
 
     public void sendPackage(Package p) {

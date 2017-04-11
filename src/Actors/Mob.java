@@ -6,7 +6,7 @@ import Util.StdDraw;
 import java.io.Serializable;
 import java.util.LinkedList;
 
-public class Mob extends Actor implements Serializable {
+public class Mob extends Actor {
     private int hp;
 
     public Mob(int id, double x, double y, double r, int hp) {

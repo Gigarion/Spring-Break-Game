@@ -1,5 +1,8 @@
 package Mailroom;
 
+import Actors.*;
+import Projectiles.Projectile;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
@@ -32,6 +35,21 @@ public class ClientMailroom {
             e.printStackTrace();
         }
     }
+
+    public void sendActor(Actor a) {
+        ActorStorage as = null;
+        if (a instanceof Projectile)
+            as = ActorStorage.getProjectile((Projectile) a);
+        else if (a instanceof Player)
+            as = ActorStorage.getPlayerStore((Player) a);
+        else if (a instanceof Mob)
+            as = ActorStorage.getMob((Mob) a);
+        else if (a instanceof WeaponDrop)
+            as = ActorStorage.getWeaponDropStore((WeaponDrop) a);
+        else return;
+        sendMessage(new Package(as, Package.ACTOR));
+    }
+
 
     // send a single message
     public synchronized void sendMessage(Package pack) {

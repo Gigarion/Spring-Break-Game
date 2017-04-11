@@ -8,11 +8,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69d04400-34d6-49b7-820e-0bde14eb2f0f" name="Default" comment="Userbox refactor">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/WeaponDrop.java" afterPath="$PROJECT_DIR$/src/Actors/WeaponDrop.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/ClientEngine.java" afterPath="$PROJECT_DIR$/src/Engine/ClientEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/ServerEngine.java" afterPath="$PROJECT_DIR$/src/Engine/ServerEngine.java" />
-    </list>
+    <list default="true" id="69d04400-34d6-49b7-820e-0bde14eb2f0f" name="Default" comment="Userbox refactor" />
     <ignored path="Spring-Break-Game.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -49,7 +45,7 @@
     <favorites_list name="Spring-Break-Game" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.62276214">
+    <splitter split-orientation="horizontal" split-proportion="0.5006394">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="ActorStorage.java" pinned="false" current-in-tab="false">
@@ -107,7 +103,7 @@
           <file leaf-file-name="ClientEngine.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Engine/ClientEngine.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="307">
+                <state relative-caret-position="571">
                   <caret line="385" column="32" lean-forward="false" selection-start-line="385" selection-start-column="32" selection-end-line="385" selection-end-column="32" />
                   <folding>
                     <element signature="method#begin#0;class#ClientEngine#0" expanded="false" />
@@ -1081,7 +1077,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2990249" sideWeight="0.48773986" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.013001083" sideWeight="0.48773986" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12892741" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30877572" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16452992" sideWeight="0.496208" order="0" side_tool="false" content_ui="combo" />
@@ -1758,7 +1754,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Engine/ClientEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
+        <state relative-caret-position="571">
           <caret line="385" column="32" lean-forward="false" selection-start-line="385" selection-start-column="32" selection-end-line="385" selection-end-column="32" />
           <folding>
             <element signature="method#begin#0;class#ClientEngine#0" expanded="false" />

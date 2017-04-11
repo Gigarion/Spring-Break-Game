@@ -170,7 +170,7 @@
       <file leaf-file-name="ServerMailroom.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerMailroom.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
+            <state relative-caret-position="1518">
               <caret line="76" column="10" lean-forward="false" selection-start-line="76" selection-start-column="10" selection-end-line="76" selection-end-column="10" />
               <folding>
                 <element signature="e#1637#2058#0" expanded="true" />
@@ -374,7 +374,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -454,7 +454,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -970,7 +970,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1932" height="1056" extended-state="1" />
+    <frame x="-8" y="0" width="1932" height="1056" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -987,7 +988,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30877572" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15170941" sideWeight="0.496208" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15491453" sideWeight="0.496208" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24946581" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0063965884" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1078,6 +1079,122 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/Weapons/Weapon.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2134">
+          <caret line="105" column="0" lean-forward="false" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Projectiles/ProjectileFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="616">
+          <caret line="32" column="19" lean-forward="false" selection-start-line="32" selection-start-column="19" selection-end-line="32" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Actors/Actor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#update#1;class#Actor#0" expanded="false" />
+            <element signature="method#distanceTo#1;class#Actor#0" expanded="false" />
+            <element signature="method#moveTo#0;class#Actor#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Engine/ServerEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="814">
+          <caret line="101" column="5" lean-forward="false" selection-start-line="101" selection-start-column="5" selection-end-line="101" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;class#ServerEngine#0" expanded="false" />
+            <element signature="class#MessageHandler#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#ServerEngine#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#setTimers#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#update#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#handleActorRequest#0;class#ServerEngine#0" expanded="false" />
+            <element signature="docComment;method#handleMessage#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#handleMessage#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#handleWelcome#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#handleHitScan#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#handleProjectile#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#handleNewPosition#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#handleAnimation#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#handleActor#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#handleRemove#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#setupNewUser#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#fireHitScan#0;class#ServerEngine#0" expanded="false" />
+            <element signature="docComment;method#checkActor#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#checkActor#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#getRads#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#killMob#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#makeRocks#0;class#ServerEngine#0" expanded="false" />
+            <element signature="method#removeActor#0;class#ServerEngine#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Maps/GameMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#GameMap#0;class#GameMap#0" expanded="false" />
+            <element signature="method#GameMap#1;class#GameMap#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Engine/ClientEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3146">
+          <caret line="422" column="35" lean-forward="false" selection-start-line="422" selection-start-column="35" selection-end-line="422" selection-end-column="35" />
+          <folding>
+            <element signature="method#begin#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#findNearestActor#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleMouse#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleMouseRelease#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleMousePressed#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleMouseDragged#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#keyPressed#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleKeyboard#0;class#ClientEngine#0" expanded="false" />
+            <element signature="docComment;method#handleMail#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleMail#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleNewPosition#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleWelcome#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleHitscan#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleProjectile#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleAnimation#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleNewActor#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleHit#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleRemove#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handlePing#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleScreenSize#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleWeaponFire#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#setPlayer#0;class#ClientEngine#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerMailroom.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1518">
+          <caret line="76" column="10" lean-forward="false" selection-start-line="76" selection-start-column="10" selection-end-line="76" selection-end-column="10" />
+          <folding>
+            <element signature="e#1637#2058#0" expanded="true" />
+            <element signature="e#2057#2058#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Projectiles/Projectile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="902">
@@ -1555,7 +1672,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Mailroom/ServerMailroom.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
+        <state relative-caret-position="1518">
           <caret line="76" column="10" lean-forward="false" selection-start-line="76" selection-start-column="10" selection-end-line="76" selection-end-column="10" />
           <folding>
             <element signature="e#1637#2058#0" expanded="true" />

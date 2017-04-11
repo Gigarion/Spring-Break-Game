@@ -176,15 +176,18 @@ public class Player extends Actor {
 
     @Override
     public void draw(boolean selected) {
-        StdDraw.filledCircle(x, y, 10);
-        StdDraw.circle(x, y, interactRange);
+        try {
+            StdDraw.picture(x, y, "src/img/Actors/player2.png");
+        } catch (Exception e) {
+            StdDraw.picture(x, y, "img/Actors/player2.png");
+        }
     }
 
     public void draw(boolean selected, double rads) {
         try {
-            StdDraw.picture(x, y, "src/img/Actors/player.png", Math.toDegrees(rads) - 90);
+            StdDraw.picture(x, y, "src/img/Actors/player2.png", Math.toDegrees(rads) - 90);
         } catch (Exception e) {
-            StdDraw.picture(x, y, "img/Actors/player.png", Math.toDegrees(rads) - 90);
+            StdDraw.picture(x, y, "img/Actors/player2.png", Math.toDegrees(rads) - 90);
         }
     }
 

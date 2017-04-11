@@ -413,7 +413,8 @@ public class ClientEngine {
                 System.out.println("removed me");
                 Player replacement = new Player(player.getName());
                 replacement.giveWeapons();
-                clientMailroom.sendMessage(new Package(replacement, Package.ACTOR));
+                ActorStorage as = ActorStorage.getPlayerStore(replacement);
+                clientMailroom.sendMessage(new Package(as, Package.ACTOR));
                 this.player = replacement;
             }
         }

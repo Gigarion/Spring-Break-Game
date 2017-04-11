@@ -195,7 +195,7 @@ public class ServerEngine {
             a.setID(getNextId());
         actorMap.put(a.getID(), a);
         // broadcast packet
-        mailroom.sendPackage(p);
+        mailroom.sendActor(a);
     }
 
     private void handleRemove(Package p) {

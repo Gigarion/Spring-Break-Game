@@ -9,15 +9,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69d04400-34d6-49b7-820e-0bde14eb2f0f" name="Default" comment="Userbox refactor">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/ActorStorage.java" afterPath="$PROJECT_DIR$/src/Actors/ActorStorage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/Mob.java" afterPath="$PROJECT_DIR$/src/Actors/Mob.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/Player.java" afterPath="$PROJECT_DIR$/src/Actors/Player.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Actors/WeaponDrop.java" afterPath="$PROJECT_DIR$/src/Actors/WeaponDrop.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/ClientEngine.java" afterPath="$PROJECT_DIR$/src/Engine/ClientEngine.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Engine/ServerEngine.java" afterPath="$PROJECT_DIR$/src/Engine/ServerEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Mailroom/Package.java" afterPath="$PROJECT_DIR$/src/Mailroom/Package.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Mailroom/ServerMailroom.java" afterPath="$PROJECT_DIR$/src/Mailroom/ServerMailroom.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Projectiles/Projectile.java" afterPath="$PROJECT_DIR$/src/Projectiles/Projectile.java" />
     </list>
     <ignored path="Spring-Break-Game.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,7 +49,7 @@
     <favorites_list name="Spring-Break-Game" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4673913">
+    <splitter split-orientation="horizontal" split-proportion="0.62276214">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="ActorStorage.java" pinned="false" current-in-tab="false">
@@ -73,7 +67,7 @@
           <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Actors/Player.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-468">
+                <state relative-caret-position="589">
                   <caret line="103" column="5" lean-forward="true" selection-start-line="103" selection-start-column="5" selection-end-line="103" selection-end-column="5" />
                   <folding>
                     <element signature="method#Player#0;class#Player#0" expanded="false" />
@@ -93,8 +87,8 @@
           <file leaf-file-name="UserBox.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Gui/UserBox.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="273">
-                  <caret line="202" column="34" lean-forward="false" selection-start-line="202" selection-start-column="16" selection-end-line="202" selection-end-column="34" />
+                <state relative-caret-position="427">
+                  <caret line="203" column="9" lean-forward="true" selection-start-line="203" selection-start-column="9" selection-end-line="203" selection-end-column="9" />
                   <folding />
                 </state>
               </provider>
@@ -110,11 +104,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ClientEngine.java" pinned="false" current-in-tab="false">
+          <file leaf-file-name="ClientEngine.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Engine/ClientEngine.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-297">
-                  <caret line="171" column="70" lean-forward="false" selection-start-line="171" selection-start-column="70" selection-end-line="171" selection-end-column="70" />
+                <state relative-caret-position="307">
+                  <caret line="385" column="32" lean-forward="false" selection-start-line="385" selection-start-column="32" selection-end-line="385" selection-end-column="32" />
                   <folding>
                     <element signature="method#begin#0;class#ClientEngine#0" expanded="false" />
                     <element signature="method#logicTick#0;class#ClientEngine#0" expanded="false" />
@@ -132,9 +126,7 @@
                     <element signature="method#handleHitscan#0;class#ClientEngine#0" expanded="false" />
                     <element signature="method#handleProjectile#0;class#ClientEngine#0" expanded="false" />
                     <element signature="method#handleAnimation#0;class#ClientEngine#0" expanded="false" />
-                    <element signature="method#handleNewActor#0;class#ClientEngine#0" expanded="false" />
                     <element signature="method#handleHit#0;class#ClientEngine#0" expanded="false" />
-                    <element signature="method#handleRemove#0;class#ClientEngine#0" expanded="false" />
                     <element signature="method#handlePing#0;class#ClientEngine#0" expanded="false" />
                     <element signature="method#handleGameMap#0;class#ClientEngine#0" expanded="false" />
                     <element signature="method#handleScreenSize#0;class#ClientEngine#0" expanded="false" />
@@ -163,7 +155,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Mob.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Mob.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Actors/Mob.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="677">
@@ -231,11 +223,10 @@
           <file leaf-file-name="WeaponDrop.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Actors/WeaponDrop.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="237">
-                  <caret line="20" column="41" lean-forward="true" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
+                <state relative-caret-position="306">
+                  <caret line="60" column="13" lean-forward="true" selection-start-line="60" selection-start-column="13" selection-end-line="60" selection-end-column="13" />
                   <folding>
                     <element signature="method#interact#0;class#WeaponDrop#0" expanded="false" />
-                    <element signature="method#draw#0;class#WeaponDrop#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -244,8 +235,8 @@
           <file leaf-file-name="ServerEngine.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Engine/ServerEngine.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="683">
-                  <caret line="268" column="42" lean-forward="false" selection-start-line="268" selection-start-column="42" selection-end-line="268" selection-end-column="42" />
+                <state relative-caret-position="313">
+                  <caret line="191" column="0" lean-forward="false" selection-start-line="189" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="docComment;class#ServerEngine#0" expanded="false" />
@@ -261,7 +252,6 @@
                     <element signature="method#handleProjectile#0;class#ServerEngine#0" expanded="false" />
                     <element signature="method#handleNewPosition#0;class#ServerEngine#0" expanded="false" />
                     <element signature="method#handleAnimation#0;class#ServerEngine#0" expanded="false" />
-                    <element signature="method#handleActor#0;class#ServerEngine#0" expanded="false" />
                     <element signature="method#handleRemove#0;class#ServerEngine#0" expanded="false" />
                     <element signature="method#handleDisconnect#0;class#ServerEngine#0" expanded="false" />
                     <element signature="method#setupNewUser#0;class#ServerEngine#0" expanded="false" />
@@ -303,7 +293,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>setClickedButton</find>
       <find>setbutt</find>
       <find>hasFired</find>
       <find>setclicked</find>
@@ -330,9 +319,10 @@
       <find>System.out.</find>
       <find>setGameMap</find>
       <find>setShow</find>
-      <find>Package.Actor</find>
       <find>&quot;here&quot;</find>
+      <find>Package.Actor</find>
       <find>System.out.println</find>
+      <find>.Actor</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -402,12 +392,12 @@
         <option value="$PROJECT_DIR$/src/Actors/Player.java" />
         <option value="$PROJECT_DIR$/src/Projectiles/Projectile.java" />
         <option value="$PROJECT_DIR$/src/Mailroom/Package.java" />
-        <option value="$PROJECT_DIR$/src/Actors/WeaponDrop.java" />
         <option value="$PROJECT_DIR$/src/Actors/ActorStorage.java" />
         <option value="$PROJECT_DIR$/src/Mailroom/ServerMailroom.java" />
-        <option value="$PROJECT_DIR$/src/Engine/ClientEngine.java" />
         <option value="$PROJECT_DIR$/src/Actors/Mob.java" />
+        <option value="$PROJECT_DIR$/src/Actors/WeaponDrop.java" />
         <option value="$PROJECT_DIR$/src/Engine/ServerEngine.java" />
+        <option value="$PROJECT_DIR$/src/Engine/ClientEngine.java" />
       </list>
     </option>
   </component>
@@ -529,6 +519,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Spring-Break-Game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Spring-Break-Game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Actors" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -586,7 +594,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Client">
+  <component name="RunManager" selected="Application.Server">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
@@ -1056,29 +1064,30 @@
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Amazon EC2" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2524377" sideWeight="0.51226014" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24946581" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0063965884" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41386783" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3217768" sideWeight="0.49791667" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2524377" sideWeight="0.51226014" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.48773986" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2990249" sideWeight="0.48773986" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12892741" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30877572" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16452992" sideWeight="0.496208" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24946581" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0063965884" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32394367" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41386783" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15010683" sideWeight="0.503792" order="6" side_tool="true" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1088,7 +1097,6 @@
       <window_info id="Pub Serve" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942432" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32394367" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="UnknownFeatures">
@@ -1135,7 +1143,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="248" />
+      <option name="time" value="249" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1204,7 +1212,6 @@
             <element signature="method#handleProjectile#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleNewPosition#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleAnimation#0;class#ServerEngine#0" expanded="false" />
-            <element signature="method#handleActor#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleRemove#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleDisconnect#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#setupNewUser#0;class#ServerEngine#0" expanded="false" />
@@ -1250,9 +1257,7 @@
             <element signature="method#handleHitscan#0;class#ClientEngine#0" expanded="false" />
             <element signature="method#handleProjectile#0;class#ClientEngine#0" expanded="false" />
             <element signature="method#handleAnimation#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleNewActor#0;class#ClientEngine#0" expanded="false" />
             <element signature="method#handleHit#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleRemove#0;class#ClientEngine#0" expanded="false" />
             <element signature="method#handlePing#0;class#ClientEngine#0" expanded="false" />
             <element signature="method#handleGameMap#0;class#ClientEngine#0" expanded="false" />
             <element signature="method#handleScreenSize#0;class#ClientEngine#0" expanded="false" />
@@ -1312,7 +1317,6 @@
           <caret line="17" column="111" lean-forward="false" selection-start-line="17" selection-start-column="111" selection-end-line="17" selection-end-column="111" />
           <folding>
             <element signature="method#interact#0;class#WeaponDrop#0" expanded="false" />
-            <element signature="method#draw#0;class#WeaponDrop#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1368,7 +1372,6 @@
             <element signature="method#handleProjectile#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleNewPosition#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleAnimation#0;class#ServerEngine#0" expanded="false" />
-            <element signature="method#handleActor#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleRemove#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleDisconnect#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#setupNewUser#0;class#ServerEngine#0" expanded="false" />
@@ -1414,9 +1417,7 @@
             <element signature="method#handleHitscan#0;class#ClientEngine#0" expanded="false" />
             <element signature="method#handleProjectile#0;class#ClientEngine#0" expanded="false" />
             <element signature="method#handleAnimation#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleNewActor#0;class#ClientEngine#0" expanded="false" />
             <element signature="method#handleHit#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleRemove#0;class#ClientEngine#0" expanded="false" />
             <element signature="method#handlePing#0;class#ClientEngine#0" expanded="false" />
             <element signature="method#handleGameMap#0;class#ClientEngine#0" expanded="false" />
             <element signature="method#handleScreenSize#0;class#ClientEngine#0" expanded="false" />
@@ -1576,14 +1577,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Maps/GameMapStorage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="11" column="60" lean-forward="false" selection-start-line="11" selection-start-column="60" selection-end-line="11" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Actors/Interactable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -1643,17 +1636,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Actors/WeaponDrop.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="20" column="41" lean-forward="true" selection-start-line="20" selection-start-column="41" selection-end-line="20" selection-end-column="41" />
-          <folding>
-            <element signature="method#interact#0;class#WeaponDrop#0" expanded="false" />
-            <element signature="method#draw#0;class#WeaponDrop#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Actors/ActorStorage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="581">
@@ -1669,65 +1651,6 @@
         <state relative-caret-position="286">
           <caret line="67" column="43" lean-forward="true" selection-start-line="67" selection-start-column="43" selection-end-line="67" selection-end-column="43" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Actors/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-468">
-          <caret line="103" column="5" lean-forward="true" selection-start-line="103" selection-start-column="5" selection-end-line="103" selection-end-column="5" />
-          <folding>
-            <element signature="method#Player#0;class#Player#0" expanded="false" />
-            <element signature="method#Player#1;class#Player#0" expanded="false" />
-            <element signature="method#giveWeapon#0;class#Player#0" expanded="false" />
-            <element signature="method#giveWeapons#0;class#Player#0" expanded="false" />
-            <element signature="method#getAmmoCount#0;class#Player#0" expanded="false" />
-            <element signature="method#getAmmoCount#1;class#Player#0" expanded="false" />
-            <element signature="method#giveAmmo#0;class#Player#0" expanded="false" />
-            <element signature="method#heal#0;class#Player#0" expanded="false" />
-            <element signature="method#fireWeapon#0;class#Player#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Gui/UserBox.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="202" column="34" lean-forward="false" selection-start-line="202" selection-start-column="16" selection-end-line="202" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Engine/ClientEngine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-297">
-          <caret line="171" column="70" lean-forward="false" selection-start-line="171" selection-start-column="70" selection-end-line="171" selection-end-column="70" />
-          <folding>
-            <element signature="method#begin#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#logicTick#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#findNearestActor#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleMouse#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleMouseRelease#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleMousePressed#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleMouseDragged#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#keyPressed#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleKeyboard#0;class#ClientEngine#0" expanded="false" />
-            <element signature="docComment;method#handleMail#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleMail#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleNewPosition#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleWelcome#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleHitscan#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleProjectile#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleAnimation#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleNewActor#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleHit#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleRemove#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handlePing#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleGameMap#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleScreenSize#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#handleWeaponFire#0;class#ClientEngine#0" expanded="false" />
-            <element signature="method#setPlayer#0;class#ClientEngine#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1758,10 +1681,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Actors/WeaponDrop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="60" column="13" lean-forward="true" selection-start-line="60" selection-start-column="13" selection-end-line="60" selection-end-column="13" />
+          <folding>
+            <element signature="method#interact#0;class#WeaponDrop#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Maps/GameMapStorage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="11" column="60" lean-forward="false" selection-start-line="11" selection-start-column="60" selection-end-line="11" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Gui/UserBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="203" column="9" lean-forward="true" selection-start-line="203" selection-start-column="9" selection-end-line="203" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Actors/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="103" column="5" lean-forward="true" selection-start-line="103" selection-start-column="5" selection-end-line="103" selection-end-column="5" />
+          <folding>
+            <element signature="method#Player#0;class#Player#0" expanded="false" />
+            <element signature="method#Player#1;class#Player#0" expanded="false" />
+            <element signature="method#giveWeapon#0;class#Player#0" expanded="false" />
+            <element signature="method#giveWeapons#0;class#Player#0" expanded="false" />
+            <element signature="method#getAmmoCount#0;class#Player#0" expanded="false" />
+            <element signature="method#getAmmoCount#1;class#Player#0" expanded="false" />
+            <element signature="method#giveAmmo#0;class#Player#0" expanded="false" />
+            <element signature="method#heal#0;class#Player#0" expanded="false" />
+            <element signature="method#fireWeapon#0;class#Player#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Engine/ServerEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="683">
-          <caret line="268" column="42" lean-forward="false" selection-start-line="268" selection-start-column="42" selection-end-line="268" selection-end-column="42" />
+        <state relative-caret-position="313">
+          <caret line="191" column="0" lean-forward="false" selection-start-line="189" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#ServerEngine#0" expanded="false" />
@@ -1777,7 +1744,6 @@
             <element signature="method#handleProjectile#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleNewPosition#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleAnimation#0;class#ServerEngine#0" expanded="false" />
-            <element signature="method#handleActor#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleRemove#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#handleDisconnect#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#setupNewUser#0;class#ServerEngine#0" expanded="false" />
@@ -1786,6 +1752,37 @@
             <element signature="method#getRads#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#makeRocks#0;class#ServerEngine#0" expanded="false" />
             <element signature="method#removeActor#0;class#ServerEngine#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Engine/ClientEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="385" column="32" lean-forward="false" selection-start-line="385" selection-start-column="32" selection-end-line="385" selection-end-column="32" />
+          <folding>
+            <element signature="method#begin#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#logicTick#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#findNearestActor#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleMouse#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleMouseRelease#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleMousePressed#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleMouseDragged#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#keyPressed#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleKeyboard#0;class#ClientEngine#0" expanded="false" />
+            <element signature="docComment;method#handleMail#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleMail#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleNewPosition#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleWelcome#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleHitscan#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleProjectile#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleAnimation#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleHit#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handlePing#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleGameMap#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleScreenSize#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#handleWeaponFire#0;class#ClientEngine#0" expanded="false" />
+            <element signature="method#setPlayer#0;class#ClientEngine#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -1,6 +1,8 @@
 package Mailroom;
 
+import Actors.*;
 import Engine.ServerEngine;
+import Projectiles.Projectile;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -57,6 +59,26 @@ public class ServerMailroom {
                 }
             }
         }, 100);
+    }
+
+    public void sendActor(Actor a) {
+        for (ServerClient client : clients) {
+            sendActor(a, client.getPort());
+        }
+    }
+
+    public void sendActor(Actor a, int port) {
+        ActorStorage as = null;
+        if (a instanceof Projectile)
+            as = ActorStorage.getProjectile((Projectile) a);
+        else if (a instanceof Player)
+            as = ActorStorage.getPlayerStore((Player) a);
+        else if (a instanceof Mob)
+            as = ActorStorage.getMob((Mob) a);
+        else if (a instanceof WeaponDrop)
+            as = ActorStorage.getWeaponDropStore((WeaponDrop) a);
+        else return;
+        sendPackage(new Package(as, Package.ACTOR), port);
     }
 
     public void sendPackage(Package p) {

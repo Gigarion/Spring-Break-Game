@@ -1,6 +1,7 @@
 package Projectiles;
 
 import Actors.Actor;
+import Actors.ActorStorage;
 import Engine.ActorRequest;
 import Util.StdDraw;
 
@@ -11,14 +12,13 @@ public class Projectile extends Actor implements Serializable {
     private int pierceCount;
     private double vel, rad;
     private double range;
-    private int damage;
+    private int damage, srcID;
     private double startX, startY;
-    private String image;
-    private Actor src;
 
     public Projectile(Actor src, double destX, double destY, int r,
                       double range, double speed, int damage, int pierceCount, String image) {
         super(-1, src.getX(), src.getY(), r);
+        this.srcID = src.getID();
         this.startX = x;
         this.startY = y;
         this.range = range;
@@ -26,8 +26,22 @@ public class Projectile extends Actor implements Serializable {
         this.rad = getAngle(destX, destY);
         this.damage = damage;
         this.image = image;
-        this.src = src;
         this.pierceCount = pierceCount;
+        this.canHit = false;
+        this.passesHeight = 1;
+    }
+
+    public Projectile(ActorStorage as) {
+        super(as.id, as.x, as.y, as.r);
+        this.srcID = (int) as.get(ActorStorage.SRC_ID);
+        this.startX = (double) as.get(ActorStorage.START_X);
+        this.startY = (double) as.get(ActorStorage.START_Y);
+        this.range = (double) as.get(ActorStorage.RANGE);
+        this.vel = (double) as.get(ActorStorage.VEL);
+        this.rad = (double) as.get(ActorStorage.RAD);
+        this.damage = (int) as.get(ActorStorage.DAMAGE);
+        this.image = as.image;
+        this.pierceCount = (int) as.get(ActorStorage.PIERCE_COUNT);
         this.canHit = false;
         this.passesHeight = 1;
     }
@@ -42,7 +56,15 @@ public class Projectile extends Actor implements Serializable {
         return Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
     }
 
+    public double getStartX() {return this.startX;}
+    public double getStartY() {return this.startY;}
+    public double getRange() {return this.range;}
+    public double getVel() {return this.vel;}
+    public double getRad() {return this.rad;}
     public int getDamage() { return damage; }
+    public int getPierceCount() {return this.pierceCount;}
+
+    public int getSrcID() {return srcID;}
 
     // thanks stackoverflow
     private double getAngle(double destX, double destY) {
@@ -91,8 +113,6 @@ public class Projectile extends Actor implements Serializable {
 
     @Override
     public void hit(int damage) {}
-
-    public Actor getSrc() {return this.src;}
 
     public int decrementPierceCount() {
         this.pierceCount--;

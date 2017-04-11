@@ -110,7 +110,7 @@ public class ClientEngine {
         }
         logicFrame = ((logicFrame + 1) % 100000);
         for (Actor a : actorMap.values()) {
-           if (!(a instanceof Mob)) a.update();
+            if (!(a instanceof Mob)) a.update();
         }
         Actor selected = actorMap.get(selectedID);
         if (selected != null && !userBox.inVisibleRange(selected.getX(), selected.getY())) {
@@ -161,9 +161,11 @@ public class ClientEngine {
     }   // individual handleMouse
 
     private void handleMouseRelease(MouseEvent e, double x, double y) {
-        switch(e.getButton()) {
-            case MouseEvent.BUTTON3: handleWeaponFire(player.release(x, y));
-            default: break;
+        switch (e.getButton()) {
+            case MouseEvent.BUTTON3:
+                handleWeaponFire(player.release(x, y));
+            default:
+                break;
         }
     }
 
@@ -191,14 +193,16 @@ public class ClientEngine {
                 handleWeaponFire(player.fireWeapon(userBox.getMouseX(), userBox.getMouseY()));
             }
             break;
-            default: System.out.println(userBox.getClickedButton() + " : " + MouseEvent.BUTTON3);
+            default:
+                System.out.println(userBox.getClickedButton() + " : " + MouseEvent.BUTTON3);
                 break;
         }
     }
 
     private void handleMouseDragged(MouseEvent e, double x, double y) {
         switch (e.getButton()) {
-            default: break;
+            default:
+                break;
         }
     }
 
@@ -288,9 +292,6 @@ public class ClientEngine {
             case Package.HITSCAN:
                 handleHitscan(p);
                 break;
-            case Package.PROJECT:
-                handleProjectile(p);
-                break;
             case Package.NEW_POS:
                 handleNewPosition(p);
                 break;
@@ -333,9 +334,6 @@ public class ClientEngine {
         int id = (Integer) p.getPayload();
         player.setID(id);
         actorMap.put(id, player);
-        System.out.println("orig" + player);
-    //    player = (Player) actorMap.get(id);
-        System.out.println("in map " + player);
         userBox.setPlayer(id);
         begin();
     }
@@ -344,11 +342,6 @@ public class ClientEngine {
         HitScan hs = (HitScan) p.getPayload();
         if (hs.getShowLine())
             animationQueue.add(new HitScanLine(hs));
-    }
-
-    private void handleProjectile(Package p) {
-        Projectile proj = (Projectile) p.getPayload();
-        actorMap.put(proj.getID(), proj);
     }
 
     private void handleAnimation(Package p) {
@@ -366,12 +359,27 @@ public class ClientEngine {
     }
 
     private void handleNewActor(Package p) {
-        Actor a = (Actor) p.getPayload();
+        ActorStorage as = (ActorStorage) p.getPayload();
+        Actor a = null;
+        switch (as.getType()) {
+            case ActorStorage.PROJ_TYPE:
+                a = new Projectile(as);
+                break;
+            case ActorStorage.PLAYER_TYPE:
+                a = new Player(as);
+                break;
+            case ActorStorage.MOB_TYPE:
+                a = new Mob(as);
+                break;
+            case ActorStorage.WEAPON_DROP_TYPE:
+                a = new WeaponDrop(as);
+                break;
+            default: System.out.println("bad actorstorage type"); return;
+        }
         int id = a.getID();
         if (id != player.getID())
             actorMap.put(id, a);
         if (player.getID() == -1 && a instanceof Player && (((Player) a).getName().equals(player.getName()))) {
-            System.out.println("hey");
             player.setID(id);
             actorMap.put(id, player);
             userBox.setPlayer(id);
@@ -380,7 +388,6 @@ public class ClientEngine {
 
     private void handleHit(Package p) {
         int id = (Integer) p.getPayload();
-        System.out.println("hit " + id + " " + player.getID());
         int damage = Integer.parseInt(p.getExtra());
         Actor a = actorMap.get(id);
         if (a != null) {
@@ -398,11 +405,7 @@ public class ClientEngine {
                 selectedID = -1;
             }
             if (id == player.getID()) {
-                System.out.println("removed me");
-                Player replacement = new Player(player.getName());
-                replacement.giveWeapons();
-                clientMailroom.sendMessage(new Package(replacement, Package.ACTOR));
-                this.player = replacement;
+                handlePlayerDeath();
             }
         }
     }
@@ -450,7 +453,7 @@ public class ClientEngine {
             if (attack instanceof Projectile) {
                 // fire a projectile to the server
                 // adds to animation queue cause that happens already which is probs bad
-                clientMailroom.sendMessage(new Package(attack, Package.PROJECT));
+                clientMailroom.sendActor((Projectile)attack);
             }
         }
     }
@@ -460,8 +463,18 @@ public class ClientEngine {
         while (!clientMailroom.isAlive()) {
             Thread.yield();
         }
-        clientMailroom.sendMessage(new Package(player, Package.WELCOME));
+        ActorStorage as = ActorStorage.getPlayerStore(player);
+        clientMailroom.sendMessage(new Package(as, Package.WELCOME));
         player.giveWeapons();
+    }
+
+    private void handlePlayerDeath() {
+        System.out.println("removed me");
+        Player replacement = new Player(player.getName());
+        replacement.giveWeapons();
+        ActorStorage as = ActorStorage.getPlayerStore(replacement);
+        clientMailroom.sendMessage(new Package(as, Package.ACTOR));
+        this.player = replacement;
     }
 
 }

@@ -23,7 +23,7 @@ public class Package implements Serializable {
     // Client requests a projectile be put on the field
     // Client:: Payload: Projectile object, Extra: ID of spawning actor
     // Server:: ""
-    public static final char PROJECT = 2;
+   // public static final char PROJECT = 2;
 
     // Either client or Server demands a position update,
     // mostly used to notify of new player positions
@@ -37,8 +37,9 @@ public class Package implements Serializable {
     public static final char ANIMATE = 4;
 
     // Somebody requests an Actor be added to the game
+    // sends an ActorStorage Object, not the full actor
     // Client:: ?????
-    // Server:: Payload: new Actor, Extra: n/a
+    // Server:: Payload: ActorStorage, Extra: n/a
     public static final char ACTOR   = 5;
 
     // Server notifies the field of a hit to an actor
@@ -56,7 +57,10 @@ public class Package implements Serializable {
     // Server:: ""
     public static final char REMOVE = 8;
 
-    //TODO: make the next package replace 9
+
+    // 9 IS FREE ********************************************
+
+
 
     // informs server that a client disconnected and that player should get removed
     // Client:: n/a

@@ -6,12 +6,17 @@ import Util.StdDraw;
 import java.io.Serializable;
 import java.util.LinkedList;
 
-public class Mob extends Actor implements Serializable {
+public class Mob extends Actor {
     private int hp;
 
     public Mob(int id, double x, double y, double r, int hp) {
         super(id, x, y, r);
         this.hp = hp;
+    }
+
+    public Mob(ActorStorage as) {
+        super(as.id, as.x, as.y, as.r);
+        this.hp = (Integer) as.extras.get(ActorStorage.MAXHP);
     }
 
     public int getHP() {
@@ -27,7 +32,6 @@ public class Mob extends Actor implements Serializable {
     @Override
 
     public void draw(boolean selected) {
-
         if (selected) {
             StdDraw.setPenColor(StdDraw.RED);
             StdDraw.filledSquare(x, y, 10);
@@ -38,6 +42,5 @@ public class Mob extends Actor implements Serializable {
 
     public void hit(int damage) {
         hp -= damage;
-        System.out.println(hp + " : " + damage);
     }
 }

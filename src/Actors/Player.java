@@ -5,6 +5,7 @@ import Util.DefaultMap;
 import Util.StdDraw;
 import Weapons.*;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Player extends Actor {
@@ -31,6 +32,23 @@ public class Player extends Actor {
         this.equipped = null;
         this.lastSwap = 0;
         this.canHit = true;
+    }
+
+    // load player from ActorStorage
+    public Player(ActorStorage as) {
+        super(as.id, as.x, as.y, as.r);
+        this.name = (String) as.extras.get(ActorStorage.NAME);
+        this.maxHP = (Integer) as.extras.get(ActorStorage.MAXHP);
+        this.hp = maxHP;
+
+        this.weapons = new LinkedList<>();
+        this.ammoMap = new DefaultMap<>(0);
+        this.interactRange = (Double) as.extras.get(ActorStorage.INTERACT_RANGE);
+
+        this.equipped = null;
+        this.lastSwap = 0;
+        this.canHit = as.canHit;
+        this.passesHeight = as.passesHeight;
     }
 
     public void setID(int id) {
@@ -168,7 +186,6 @@ public class Player extends Actor {
         } catch (Exception e) {
             StdDraw.picture(x, y, "img/Actors/player.png", Math.toDegrees(rads) - 90);
         }
-        //StdDraw.circle(x, y, interactRange);
     }
 
     @Override

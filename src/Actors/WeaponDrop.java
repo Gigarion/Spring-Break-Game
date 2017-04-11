@@ -10,17 +10,25 @@ import Weapons.Weapon;
  * and ammo when they interact with it.
  */
 public class WeaponDrop extends Actor implements Interactable {
-    private String image;
     private String weaponString;
     private String projectileString;
     private int ammoCount;
 
     public WeaponDrop(int id, double x, double y, String weaponString, String projectileString, int ammoCount) {
         super(id, x, y, 5);
-        image = null;
+        this.image = null;
         this.weaponString = weaponString;
         this.projectileString = projectileString;
         this.ammoCount = ammoCount;
+        this.canHit = false;
+    }
+
+    public WeaponDrop(ActorStorage as) {
+        super(as.id, as.x, as.y, as.r);
+        this.image = as.image;
+        this.weaponString = (String) as.extras.get(ActorStorage.WEAPON_STR);
+        this.projectileString = (String) as.extras.get(ActorStorage.PROJ_STR);
+        this.ammoCount = (Integer) as.extras.get(ActorStorage.AMMO_COUNT);
         this.canHit = false;
     }
 
@@ -28,6 +36,11 @@ public class WeaponDrop extends Actor implements Interactable {
         this.image = image;
     }
 
+    // methods for ActorStorage
+    String getImage() {return this.image;}
+    String getWeaponString() { return this.weaponString;}
+    String getProjectileString() { return this.projectileString;}
+    int getAmmoCount() {return this.ammoCount;}
     // in case the player doesn't pick up the weapon or something else
     @Override
     public Iterable<Object> interact(Player p) {
@@ -49,9 +62,9 @@ public class WeaponDrop extends Actor implements Interactable {
         if (image == null)
             image = "crate.jpg";
         try {
-            StdDraw.picture(x, y, "src/img/" + image);
+            StdDraw.picture(x, y, "src/img/" + image, 20, 20);
         } catch (Exception e) {
-            StdDraw.picture(x, y, "img/" + image);
+            StdDraw.picture(x, y, "img/" + image, 20, 20);
         }
         if (selected) {
             StdDraw.setPenColor(StdDraw.RED);

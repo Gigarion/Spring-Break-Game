@@ -1,8 +1,12 @@
 package Weapons;
 
 import Actors.Actor;
+import Animations.FlyText;
 import Projectiles.Projectile;
 import Projectiles.ProjectileFactory;
+import Util.StdDraw;
+
+import java.util.LinkedList;
 
 /**
  * Created by Gig on 3/31/2017.
@@ -68,7 +72,9 @@ public class Weapon {
 
             }
             lastShot = System.currentTimeMillis();
-            return pFactory.fire(src, destX, destY);
+            LinkedList toReturn = (LinkedList) pFactory.fire(src, destX, destY);
+            toReturn.add(new FlyText(src.getX(), src.getY(), "TESTING", StdDraw.BOOK_RED));
+            return toReturn;
         }
         return null;
     }

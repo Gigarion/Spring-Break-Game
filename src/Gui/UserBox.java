@@ -217,11 +217,7 @@ public class UserBox {
             }
         }
 
-        for (Animation hsl : animationQueue) {
-            if (hsl.getTTL() <= 0)
-                animationQueue.remove(hsl);
-            hsl.draw(drawFrame);
-        }
+
         for (Actor actor : actorMap.values()) {
             if (actor.getID() == player.getID()) {
                 ((Player) actor).draw(false, getAngle(getMouseX(), getMouseY()));
@@ -232,6 +228,13 @@ public class UserBox {
             else
                 actor.draw(false);
         }
+
+        for (Animation hsl : animationQueue) {
+            if (hsl.getTTL() <= 0)
+                animationQueue.remove(hsl);
+            hsl.draw(drawFrame);
+        }
+
         if (mapGrid != null)
             mapGrid.draw();
 

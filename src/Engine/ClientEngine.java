@@ -455,6 +455,9 @@ public class ClientEngine {
                 // adds to animation queue cause that happens already which is probs bad
                 clientMailroom.sendActor((Projectile)attack);
             }
+            if (attack instanceof Animation) {
+                clientMailroom.sendMessage(new Package(attack, Package.ANIMATE, "" + player.getID()));
+            }
         }
     }
 

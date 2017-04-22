@@ -25,6 +25,6 @@ public class ServerMenu extends JFrame {
     }
 
     public static void main(String[] args) {
-        new ServerMenu(2, 3333);
+        new ServerMenu(1, 3333);
     }
 }

@@ -81,7 +81,7 @@ public class Player extends Actor {
         weapons.add(new Weapon("Bow/Arrow/1/700/100/false/true/300", "P/400/200/1/1/5/2/-/"));
         giveAmmo("Arrow", 5);
 
-        weapons.add(new Weapon("Sword/Melee/0/200/50/false/false/", "H/40/20/1/1/false"));
+        weapons.add(new Weapon("Sword/Melee/0/300/50/false/false/", "H/40/20/1/1/false"));
 
         giveAmmo("Melee", Integer.MAX_VALUE);
         equipped = weapons.removeFirst();
@@ -152,6 +152,7 @@ public class Player extends Actor {
         if (equipped.isThrowable()) {
             if (equipped.getClip() == 0) {
                 equipped = weapons.removeFirst();
+                equipped.equip();
             }
         }
         return toReturn;

@@ -53,6 +53,10 @@ public class Weapon {
             this.maxChargeTime = Integer.parseInt(info[7]);
     }
 
+    public void equip() {
+        this.lastShot = System.currentTimeMillis();
+    }
+
     // attempt to fire this weapon, only valid if not reloading,
     // constrained by fireRate, and current clip.
     // returns the stack of objects associated with firing this weapon

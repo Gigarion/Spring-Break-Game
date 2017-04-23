@@ -360,7 +360,7 @@ public class ClientEngine {
 
     private void handleNewActor(Package p) {
         ActorStorage as = (ActorStorage) p.getPayload();
-        Actor a = null;
+        Actor a;
         switch (as.getType()) {
             case ActorStorage.PROJ_TYPE:
                 a = new Projectile(as);
@@ -424,6 +424,7 @@ public class ClientEngine {
         this.mapGrid = gameMap.getMapGrid();
         userBox.setGameMap(gameMap);
         mapGrid.setShowGrid(false);
+        mapGrid.setShowPlayerBoxes(true);
     }
 
     private void handleScreenSize(Package p) {
@@ -467,7 +468,7 @@ public class ClientEngine {
             Thread.yield();
         }
         ActorStorage as = ActorStorage.getPlayerStore(player);
-        clientMailroom.sendMessage(new Package(as, Package.WELCOME));
+        clientMailroom.sendMessage(new Package(as, Package.WELCOME, player.getName()));
         player.giveWeapons();
     }
 

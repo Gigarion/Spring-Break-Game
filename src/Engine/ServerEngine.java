@@ -10,6 +10,7 @@ import Projectiles.HitScan;
 import Projectiles.Projectile;
 
 import java.awt.print.PrinterJob;
+import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,6 +30,7 @@ public class ServerEngine {
     private ServerMailroom mailroom;
     private ConcurrentHashMap<Integer, Actor> actorMap;
     private ConcurrentHashMap<Integer, Integer> portToPlayerMap;
+    private HashSet<String> playerNames;
     private AtomicInteger nextFreeId;
     private int maxLogX, maxLogY;
     private EventLog eventLog;
@@ -43,14 +45,17 @@ public class ServerEngine {
         void playerJoined();
     }
 
-    public ServerEngine(int playerCap, int port) {
+    ServerEngine(int playerCap, int port, String mapFile) {
         maxLogX = 2000;
         maxLogY = 2000;
         System.out.println("server: " + port);
+
+        this.playerNames = new HashSet<>();
+
         this.started = false;
 
         //TODO: make this not static and shitty
-        this.mapGrid = new GameMap("ServerTest.gm").getMapGrid();
+        this.mapGrid = new GameMap(mapFile).getMapGrid();
 
         this.eventLog = new EventLog(port);
 
@@ -62,6 +67,12 @@ public class ServerEngine {
         this.mailroom = new ServerMailroom(playerCap, this::handleMessage, this::setTimers);
         this.mailroom.begin(port);
     }
+
+    /******************************************************
+     *  Getters for ServerBase functionality
+     ******************************************************/
+
+    public Iterable<String> getPlayers() { return playerNames;}
 
     private void setTimers() {
         if (started) return;
@@ -138,6 +149,7 @@ public class ServerEngine {
         Player newPlayer = new Player(as);
         newPlayer.setID(id);
         actorMap.put(id, newPlayer);
+        playerNames.add(p.getExtra());
         mailroom.sendPackage(new Package(id, Package.WELCOME), p.getPort());
 
         // handle onboarding
@@ -213,7 +225,12 @@ public class ServerEngine {
 
     private void handleDisconnect(Package p) {
         int actorId = portToPlayerMap.get(p.getPayload());
+        Actor a = actorMap.get(actorId);
+        if (a instanceof Player) {
+            playerNames.remove(((Player) a).getName());
+        }
         actorMap.remove(actorId);
+
         mailroom.sendPackage(new Package(actorId, Package.REMOVE));
     }
 
@@ -229,6 +246,8 @@ public class ServerEngine {
 
         GameMap gameMap = new GameMap("ServerTest.gm");
         mailroom.sendPackage(new Package(gameMap.getStorage(), Package.GAME_MAP));
+
+        portToPlayerMap.put(port, newPlayer.getID());
 
         for (Actor actor : actorMap.values()) {
             mailroom.sendActor(actor, port);

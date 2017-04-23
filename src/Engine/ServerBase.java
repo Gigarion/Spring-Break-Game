@@ -1,5 +1,7 @@
 package Engine;
 
+import com.sun.security.ntlm.Server;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.HashMap;
@@ -14,9 +16,19 @@ import java.util.HashMap;
 public class ServerBase {
     private int port;
     private HashMap<String, ServerEngine> lobbies;
+    private ServerSocket serverSocket;
     public ServerBase() {
         this.port = 3333;
         this.lobbies = new HashMap<>();
+        openSocket();
+    }
+
+    private void openSocket() {
+        try {
+            this.serverSocket = new ServerSocket(1901);
+        } catch (Exception e) {
+            
+        }
     }
 
     public void startLobby(String name, int playerCap) {

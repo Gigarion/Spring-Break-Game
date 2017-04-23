@@ -251,24 +251,29 @@ public class ClientEngine {
         oldX = player.getX();
         oldY = player.getY();
 
+        double movement_size = MOVEMENT_SIZE;
+        if (userBox.isKeyPressed(KeyEvent.VK_SHIFT)) {
+            movement_size *= 2.5;
+        }
+
         if (userBox.isKeyPressed(UP)) {
-            if (mapGrid.validMove(player.getX(), player.getY() + MOVEMENT_SIZE, player)) {
-                player.moveY(MOVEMENT_SIZE);
+            if (mapGrid.validMove(player.getX(), player.getY() + movement_size, player)) {
+                player.moveY(movement_size);
             }
         }
         if (userBox.isKeyPressed(DOWN)) {
-            if (mapGrid.validMove(player.getX(), player.getY() - MOVEMENT_SIZE, player)) {
-                player.moveY(-MOVEMENT_SIZE);
+            if (mapGrid.validMove(player.getX(), player.getY() - movement_size, player)) {
+                player.moveY(-movement_size);
             }
         }
         if (userBox.isKeyPressed(LEFT)) {
-            if (mapGrid.validMove(player.getX() - MOVEMENT_SIZE, player.getY(), player)) {
-                player.moveX(-MOVEMENT_SIZE);
+            if (mapGrid.validMove(player.getX() - movement_size, player.getY(), player)) {
+                player.moveX(-movement_size);
             }
         }
         if (userBox.isKeyPressed(RIGHT)) {
-            if (mapGrid.validMove(player.getX() + MOVEMENT_SIZE, player.getY(), player)) {
-                player.moveX(MOVEMENT_SIZE);
+            if (mapGrid.validMove(player.getX() + movement_size, player.getY(), player)) {
+                player.moveX(movement_size);
             }
         }
         if (player.getX() != oldX || player.getY() != oldY) {
@@ -424,7 +429,8 @@ public class ClientEngine {
         this.mapGrid = gameMap.getMapGrid();
         userBox.setGameMap(gameMap);
         mapGrid.setShowGrid(false);
-        mapGrid.setShowPlayerBoxes(true);
+        mapGrid.setShowPlayerBoxes(false);
+        mapGrid.setShowBoxes(true);
     }
 
     private void handleScreenSize(Package p) {

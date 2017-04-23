@@ -67,7 +67,7 @@ public class ServerEngine {
         this.nextFreeId = new AtomicInteger(0);
         this.actorMap = new ConcurrentHashMap<>();
         this.portToPlayerMap = new ConcurrentHashMap<>();
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 1; i++)
             makeRocks();
         this.mailroom = new ServerMailroom(playerCap, this::handleMessage, this::setTimers);
         this.mailroom.begin(port);

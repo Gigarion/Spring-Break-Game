@@ -25,6 +25,7 @@ public class ClientMailroom {
     private void beginAndConnect() {
         try {
             String addr = "52.3.232.116";
+            //String addr = "localhost";
             socket = new Socket(addr, 3333);
             System.out.println(socket);
             outputStream = new ObjectOutputStream(socket.getOutputStream());

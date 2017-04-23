@@ -93,8 +93,8 @@ public class UserBox {
     public void begin() {
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         double aspect = d.getWidth() / d.getHeight();
-        //StdDraw.setCanvasSize((int) d.getWidth(), (int) d.getHeight());
-        StdDraw.setCanvasSize((int) (Y_SCALE * aspect), Y_SCALE);
+        StdDraw.setCanvasSize((int) d.getWidth(), (int) d.getHeight());
+        //StdDraw.setCanvasSize((int) (Y_SCALE * aspect), Y_SCALE);
         StdDraw.enableDoubleBuffering();
         StdDraw.setYscale(0, Y_SCALE);
         this.vis_x_radius = Y_SCALE * aspect / 2;
@@ -111,14 +111,6 @@ public class UserBox {
         }, 0, DRAW_INTERVAL);
 
         StdDraw.clearCursor();
-    }
-
-    public void setFullScreen(boolean fullScreen) {
-        if (fullScreen) {
-            StdDraw.setFullScreen();
-        } else {
-            StdDraw.setNormal();
-        }
     }
 
     public void toggleCameraLock() {
@@ -282,7 +274,11 @@ public class UserBox {
         StdDraw.text(hudCenterX,  hudSixthY + (hudHeight * 2/3), player.getName());
         StdDraw.text(hudCenterX, hudHalfY, "HP: " + player.getHP() + "/" + player.getMaxHP());
         StdDraw.text(hudCenterX, hudThirdY, "Ping: " + ping);
-        StdDraw.text(hudCenterX, hudSixthY, "Weapon: " + player.getWeaponName() + " : " + player.getCurrentClip() + "/" + player.getAmmoCount());
+        String weaponText = "Weapon: " + player.getWeaponName();
+        if (!player.getWeaponName().equals("Sword")) {
+            weaponText += " : " + player.getCurrentClip() + "/" + player.getAmmoCount();
+        }
+        StdDraw.text(hudCenterX, hudSixthY, weaponText);
     }
 
     private void drawCrosshair() {

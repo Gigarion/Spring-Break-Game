@@ -177,17 +177,17 @@ public class Player extends Actor {
     @Override
     public void draw(boolean selected) {
         try {
-            StdDraw.picture(x, y, "src/img/Actors/player2.png");
+            StdDraw.picture(x, y, "src/img/Actors/player2.png", 40, 40);
         } catch (Exception e) {
-            StdDraw.picture(x, y, "img/Actors/player2.png");
+            StdDraw.picture(x, y, "img/Actors/player2.png", 40, 40);
         }
     }
 
     public void draw(boolean selected, double rads) {
         try {
-            StdDraw.picture(x, y, "src/img/Actors/player2.png", Math.toDegrees(rads) - 90);
+            StdDraw.picture(x, y, "src/img/Actors/Player2.png", 40, 40, Math.toDegrees(rads) - 90);
         } catch (Exception e) {
-            StdDraw.picture(x, y, "img/Actors/player2.png", Math.toDegrees(rads) - 90);
+            StdDraw.picture(x, y, "img/Actors/Player.png", 40, 40, Math.toDegrees(rads) - 90);
         }
     }
 

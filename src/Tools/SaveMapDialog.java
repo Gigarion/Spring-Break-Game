@@ -57,7 +57,7 @@ public class SaveMapDialog extends JDialog {
         if (!name.equals("")) {
             try {
                 System.out.println("printing");
-                FileOutputStream fos = new FileOutputStream("data/Mbbbaps/" + mapNameField.getText() + ".gm");
+                FileOutputStream fos = new FileOutputStream("data/Maps/" + mapNameField.getText() + ".gm");
                 ObjectOutputStream fw = new ObjectOutputStream(fos);
                 GameMapStorage gms = gameMap.getStorage();
                 fw.writeObject(gms);

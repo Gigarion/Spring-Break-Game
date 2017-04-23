@@ -10,6 +10,7 @@ import Projectiles.HitScan;
 import Projectiles.Projectile;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,7 +35,7 @@ public class ServerEngine {
     private ServerMailroom mailroom;
     private ConcurrentHashMap<Integer, Actor> actorMap;
     private ConcurrentHashMap<Integer, Integer> portToPlayerMap;
-    private HashMap<String, String> playerNames;
+    private HashMap<String, String> playerStates;
     private AtomicInteger nextFreeId;
     private int maxLogX, maxLogY;
     private EventLog eventLog;
@@ -54,7 +55,7 @@ public class ServerEngine {
         maxLogY = 2000;
         System.out.println("server: " + port);
 
-        this.playerNames = new HashMap<>();
+        this.playerStates = new HashMap<>();
 
         this.started = false;
 
@@ -76,7 +77,7 @@ public class ServerEngine {
      *  Getters for ServerBase functionality
      ******************************************************/
 
-    public Iterable<String> getPlayers() { return playerNames.values();}
+    public Map<String, String> getPlayerStates() { return new HashMap<>(playerStates);}
 
     private void setTimers() {
         if (started) return;
@@ -155,7 +156,7 @@ public class ServerEngine {
         Player newPlayer = new Player(as);
         newPlayer.setID(id);
         actorMap.put(id, newPlayer);
-        playerNames.put(p.getExtra(), CONNECTED);
+        playerStates.put(p.getExtra(), CONNECTED);
         mailroom.sendPackage(new Package(id, Package.WELCOME), p.getPort());
 
         // handle onboarding
@@ -233,7 +234,7 @@ public class ServerEngine {
         int actorId = portToPlayerMap.get(p.getPayload());
         Actor a = actorMap.get(actorId);
         if (a instanceof Player) {
-            playerNames.put(((Player) a).getName(), DISCONN);
+            playerStates.put(((Player) a).getName(), DISCONN);
         }
         actorMap.remove(actorId);
 
@@ -334,7 +335,7 @@ public class ServerEngine {
             if (((Player) a).getHP() <=0) {
                 removeActor(a);
                 System.out.println("removing player");
-                playerNames.put(((Player) a).getName(), DEAD);
+                playerStates.put(((Player) a).getName(), DEAD);
                 return;
             }
         }

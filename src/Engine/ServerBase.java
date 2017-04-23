@@ -32,7 +32,7 @@ public class ServerBase {
     }
 
     private Iterable<String> getPlayersInLobby(String lobby) {
-        return lobbies.get(lobby).getPlayers();
+        return lobbies.get(lobby).getPlayerStates().values();
     }
 
     private boolean available(int port) {

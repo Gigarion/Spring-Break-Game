@@ -33,15 +33,21 @@ public class ServerEngine {
     private int maxLogX, maxLogY;
     private EventLog eventLog;
     private MapGrid mapGrid;
+    private boolean started;
 
     public interface MessageHandler {
         void handleMessage(Package p);
     }
 
+    public interface PlayerJoinHandler {
+        void playerJoined();
+    }
+
     public ServerEngine(int playerCap, int port) {
         maxLogX = 2000;
         maxLogY = 2000;
-        System.out.println("server");
+        System.out.println("server: " + port);
+        this.started = false;
 
         //TODO: make this not static and shitty
         this.mapGrid = new GameMap("ServerTest.gm").getMapGrid();
@@ -53,11 +59,13 @@ public class ServerEngine {
         this.portToPlayerMap = new ConcurrentHashMap<>();
         for (int i = 0; i < 50; i++)
             makeRocks();
-        this.mailroom = new ServerMailroom(playerCap, this::handleMessage);
-        setTimers();
+        this.mailroom = new ServerMailroom(playerCap, this::handleMessage, this::setTimers);
+        this.mailroom.begin(port);
     }
 
     private void setTimers() {
+        if (started) return;
+        this.started = true;
         Timer updateTimer = new Timer("Server update timer", true);
         updateTimer.schedule(new TimerTask() {
             @Override
@@ -130,7 +138,6 @@ public class ServerEngine {
         Player newPlayer = new Player(as);
         newPlayer.setID(id);
         actorMap.put(id, newPlayer);
-        portToPlayerMap.put(p.getPort(), id);
         mailroom.sendPackage(new Package(id, Package.WELCOME), p.getPort());
 
         // handle onboarding

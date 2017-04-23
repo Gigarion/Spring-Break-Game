@@ -1,5 +1,6 @@
 package Gui;
 
+import Engine.ServerBase;
 import Engine.ServerEngine;
 
 import javax.swing.*;
@@ -18,13 +19,12 @@ public class ServerMenu extends JFrame {
         setSize(300, 300);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         startServerButton.addActionListener((ActionEvent e) -> {
-            new ServerEngine(playerCount, 3333);
-
+            new ServerBase().startLobby(playerCount);
         });
         setVisible(true);
     }
 
     public static void main(String[] args) {
-        new ServerMenu(1, 3333);
+        new ServerMenu(15, 3333);
     }
 }

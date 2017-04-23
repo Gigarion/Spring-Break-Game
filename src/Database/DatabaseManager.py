@@ -46,8 +46,8 @@ class DatabaseManager:
         return self._db.child().get(self._currUser['idToken']).val()
 
     def store(self, filename):
-       helps = self._store.child("Maps/").put("__init__.py",self._currUser['idToken'])
-
+       helps = self._store.child("Maps/test").put("__init__.py",self._currUser['idToken'])
+2
 
 if __name__ == '__main__':
     dbm = DatabaseManager()

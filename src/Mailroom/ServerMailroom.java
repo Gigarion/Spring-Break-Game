@@ -3,6 +3,7 @@ package Mailroom;
 import Actors.*;
 import Engine.ServerEngine;
 import Projectiles.Projectile;
+import com.sun.security.ntlm.Server;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,27 +20,41 @@ public class ServerMailroom {
     private ServerSocket acceptSocket;
     private ConcurrentLinkedQueue<ServerClient> clients;
     private ServerEngine.MessageHandler handler;
+    private ServerEngine.PlayerJoinHandler playerJoinHandler;
     private AtomicInteger nextId;
+    private int maxClients;
 
-    public ServerMailroom(int maxClients, ServerEngine.MessageHandler handler) {
+    public ServerMailroom(int maxClients, ServerEngine.MessageHandler handler, ServerEngine.PlayerJoinHandler playerJoinHandler) {
         clients = new ConcurrentLinkedQueue<>();
         this.handler = handler;
+        this.playerJoinHandler = playerJoinHandler;
+        this.maxClients = maxClients;
         this.nextId = new AtomicInteger();
-        //mailTimer = new Timer("Server Mailroom Timer", true);
-        try {
-            acceptSocket = new ServerSocket(3333);
-            // yes, will loop until all clients hook in
-            // fight me, but it blocks yeh? so why the fight?
-            while (clients.size() < maxClients) {
-                Socket clientSocket = acceptSocket.accept();
-                clients.add(new ServerClient(clientSocket, getNextId()));
-                Thread.yield();
+    }
+
+    public void begin(int port) {
+        Thread t = new Thread(){
+            @Override
+            public void run() {
+                try {
+                    acceptSocket = new ServerSocket(port);
+                    // yes, will loop until all clients hook in
+                    // fight me, but it blocks yeh? so why the fight?
+                    while (clients.size() < maxClients) {
+                        Socket clientSocket = acceptSocket.accept();
+                        ServerClient client = new ServerClient(clientSocket, getNextId());
+                        clients.add(client);
+                        setTimer(client);
+                        playerJoinHandler.playerJoined();
+                        Thread.yield();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (ServerClient client : clients)
-            setTimer(client);
+        };
+        t.setDaemon(true);
+        t.run();
     }
 
     private void setTimer(ServerClient client) {

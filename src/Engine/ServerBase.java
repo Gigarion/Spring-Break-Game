@@ -23,15 +23,19 @@ public class ServerBase {
         while (!available(port)) {
             port++;
         }
-        lobbies.put(name, new ServerEngine(playerCap, port));
+        lobbies.put(name, new ServerEngine(playerCap, port, "ServerTest.gm"));
         //TODO: show lobby player counts, whether they're accepting people
     }
 
-    public Iterable<String> getLobbies() {
+    private Iterable<String> getLobbies() {
         return lobbies.keySet();
     }
 
-    public boolean available(int port) {
+    private Iterable<String> getPlayersInLobby(String lobby) {
+        return lobbies.get(lobby).getPlayerStates().values();
+    }
+
+    private boolean available(int port) {
         ServerSocket ss = null;
         try {
             ss = new ServerSocket(port);

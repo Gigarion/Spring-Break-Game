@@ -21,7 +21,7 @@ public class HitScan implements Serializable {
         this.damage = damage;
         this.pierceCount = pierceCount;
         this.range = range;
-        this.showLine = true;
+        this.showLine = false;
     }
 
     public void setShowLine(boolean showLine) {

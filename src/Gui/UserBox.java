@@ -227,8 +227,10 @@ public class UserBox {
             hsl.draw(drawFrame);
         }
 
-        if (mapGrid != null)
+        if (mapGrid != null) {
+            if (player != null) mapGrid.setPlayer(player);
             mapGrid.draw();
+        }
 
         if (isKeyPressed(KeyEvent.VK_ESCAPE)) {
             StdDraw.close();
@@ -316,6 +318,9 @@ public class UserBox {
     public void setPlayer(int playerID) {
         this.player = (Player) actorMap.get(playerID);
         this.center = new Point2D.Double(player.getX(), player.getY());
+        if (mapGrid != null) {
+            mapGrid.setPlayer(player);
+        }
     }
 
     public void setExitHandler(ExitHandler exitHandler) {

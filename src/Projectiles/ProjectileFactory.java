@@ -55,6 +55,7 @@ public class ProjectileFactory implements Serializable {
         for (int i = 0; i < count; i++) {
             if (type == HITSCAN) {
                 HitScan hs = getHitScan(src, destX, destY);
+                hs.setShowLine(this.hitScanLine);
                 toReturn.add(hs);
                 if (hitScanLine)
                     toReturn.add(new HitScanLine(hs));

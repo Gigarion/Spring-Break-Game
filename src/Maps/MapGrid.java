@@ -120,11 +120,15 @@ public class MapGrid implements Serializable {
                 }
             }
         }
+        System.out.println(player != null);
+        System.out.println(showPlayerBoxes);
+
         if (player != null && showPlayerBoxes) {
             for (Point p : getBoxes(player)) {
                 StdDraw.setPenColor(StdDraw.RED);
                 StdDraw.filledRectangle((boxSize * p.getX()) + boxSize / 2, (boxSize * p.getY()) + boxSize / 2, boxSize / 2, boxSize / 2);
                 StdDraw.setPenColor();
+                System.out.println("drawn");
             }
         }
         // draw gridlines

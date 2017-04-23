@@ -212,15 +212,7 @@ public class ClientEngine {
         if (e.getKeyChar() == 'r') {
             Actor a = actorMap.get(selectedID);
             if (a != null && a instanceof Interactable) {
-                Iterable<Object> results = ((Interactable) a).interact(player);
-                if (results != null) {
-                    for (Object result : results) {
-                        System.out.println("result");
-                    }
-                }
-            }
-            if (a instanceof WeaponDrop) {
-                clientMailroom.sendMessage(new Package(selectedID, Package.REMOVE));
+                clientMailroom.sendMessage(new Package(player.getID(), Package.INTERACT, a.getID() + ""));
             }
         }
         if (e.getKeyChar() == 'q') {
@@ -321,6 +313,9 @@ public class ClientEngine {
             case Package.GAME_MAP:
                 handleGameMap(p);
                 break;
+            case Package.INTERACT:
+                handleInteract(p);
+                break;
             default:
                 System.out.println("Unused package type: " + p.getType());
         }
@@ -379,7 +374,9 @@ public class ClientEngine {
             case ActorStorage.WEAPON_DROP_TYPE:
                 a = new WeaponDrop(as);
                 break;
-            default: System.out.println("bad actorstorage type"); return;
+            default:
+                System.out.println("bad actorstorage type");
+                return;
         }
         int id = a.getID();
         if (id != player.getID())
@@ -441,6 +438,16 @@ public class ClientEngine {
         userBox.setBounds(maxLogX, maxLogY);
     }
 
+    private void handleInteract(Package p) {
+        Interactable a = (Interactable) actorMap.get(p.getPayload());
+        Iterable<Object> results = a.interact(player);
+        if (results != null) {
+            for (Object result : results) {
+                System.out.println("result");
+            }
+        }
+    }
+
     /******************************************************
      *  Miscellaneous
      ******************************************************/
@@ -460,7 +467,7 @@ public class ClientEngine {
             if (attack instanceof Projectile) {
                 // fire a projectile to the server
                 // adds to animation queue cause that happens already which is probs bad
-                clientMailroom.sendActor((Projectile)attack);
+                clientMailroom.sendActor((Projectile) attack);
             }
             if (attack instanceof Animation) {
                 clientMailroom.sendMessage(new Package(attack, Package.ANIMATE, "" + player.getID()));

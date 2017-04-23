@@ -2,6 +2,7 @@ package Engine;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.HashMap;
 
 /**
  * Created by Gig on 4/5/2017.
@@ -12,15 +13,22 @@ import java.net.ServerSocket;
  */
 public class ServerBase {
     private int port;
+    private HashMap<String, ServerEngine> lobbies;
     public ServerBase() {
         this.port = 3333;
+        this.lobbies = new HashMap<>();
     }
 
-    public void startLobby(int playerCap) {
+    public void startLobby(String name, int playerCap) {
         while (!available(port)) {
             port++;
         }
-        new ServerEngine(playerCap, port);
+        lobbies.put(name, new ServerEngine(playerCap, port));
+        //TODO: show lobby player counts, whether they're accepting people
+    }
+
+    public Iterable<String> getLobbies() {
+        return lobbies.keySet();
     }
 
     public boolean available(int port) {

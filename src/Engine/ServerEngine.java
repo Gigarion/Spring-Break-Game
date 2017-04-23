@@ -46,7 +46,7 @@ public class ServerEngine {
     public ServerEngine(int playerCap, int port) {
         maxLogX = 2000;
         maxLogY = 2000;
-        System.out.println("server");
+        System.out.println("server: " + port);
         this.started = false;
 
         //TODO: make this not static and shitty
@@ -60,7 +60,7 @@ public class ServerEngine {
         for (int i = 0; i < 50; i++)
             makeRocks();
         this.mailroom = new ServerMailroom(playerCap, this::handleMessage, this::setTimers);
-        this.mailroom.begin();
+        this.mailroom.begin(port);
     }
 
     private void setTimers() {

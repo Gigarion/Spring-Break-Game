@@ -32,12 +32,12 @@ public class ServerMailroom {
         this.nextId = new AtomicInteger();
     }
 
-    public void begin() {
+    public void begin(int port) {
         Thread t = new Thread(){
             @Override
             public void run() {
                 try {
-                    acceptSocket = new ServerSocket(3333);
+                    acceptSocket = new ServerSocket(port);
                     // yes, will loop until all clients hook in
                     // fight me, but it blocks yeh? so why the fight?
                     while (clients.size() < maxClients) {

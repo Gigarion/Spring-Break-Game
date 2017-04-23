@@ -52,10 +52,10 @@ public class ClientEngine {
 
 
     // constructor, takes logical maxes and visual radius for userbox
-    public ClientEngine() {
+    public ClientEngine(String ip, int port) {
         animationQueue = new ConcurrentLinkedQueue<>();
         actorMap = new ConcurrentHashMap<>();
-        this.clientMailroom = new ClientMailroom();
+        this.clientMailroom = new ClientMailroom(ip, port);
 
         // set up user interface
         userBox = new UserBox(actorMap, animationQueue);

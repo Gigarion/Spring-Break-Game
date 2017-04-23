@@ -18,21 +18,21 @@ public class ClientMailroom {
     private ObjectInputStream inputStream;
     private boolean alive;
 
-    public ClientMailroom() {
-        beginAndConnect();
+    public ClientMailroom(String ip, int port) {
+        beginAndConnect(ip, port);
     }
 
-    private void beginAndConnect() {
+    private void beginAndConnect(String ip, int port) {
         try {
             //String addr = "52.3.232.116";
             String addr = "localhost";
-            socket = new Socket(addr, 3333);
+            socket = new Socket(addr, port);
             System.out.println(socket);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
             alive = true;
         } catch (ConnectException e) {
-            beginAndConnect();
+            beginAndConnect(ip, port);
         } catch (Exception e) {
             e.printStackTrace();
         }

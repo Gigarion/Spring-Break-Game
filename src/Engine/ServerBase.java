@@ -1,10 +1,13 @@
 package Engine;
 
-import com.sun.security.ntlm.Server;
-
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Gig on 4/5/2017.
@@ -17,17 +20,51 @@ public class ServerBase {
     private int port;
     private HashMap<String, ServerEngine> lobbies;
     private ServerSocket serverSocket;
+    private ObjectOutputStream outputStream;
+    private ObjectInputStream inputStream;
     public ServerBase() {
         this.port = 3333;
         this.lobbies = new HashMap<>();
+    }
+
+    public void begin() {
         openSocket();
     }
 
     private void openSocket() {
+        new Timer().schedule(new TimerTask() {
+            public void run() {
+                try {
+                    serverSocket = new ServerSocket(1901);
+                    while (true) {
+                        acceptClient();
+                    }
+                } catch (Exception e) {
+                    System.out.println("bad serversocket");
+                }
+            }
+        }, 0);
+    }
+
+    private void acceptClient() {
         try {
-            this.serverSocket = new ServerSocket(1901);
+            Socket clientSocket = serverSocket.accept();
+            inputStream = new ObjectInputStream(clientSocket.getInputStream());
+            outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+
+            String username = (String) inputStream.readObject();
+            String pass = (String) inputStream.readObject();
+            System.out.println(username + " : " + pass);
+
+            outputStream.writeBoolean(true);
+
+            outputStream.writeObject("localhost");
+            outputStream.writeInt(3333);
+            System.out.println("wrote port");
+            outputStream.flush();
+            clientSocket.close();
         } catch (Exception e) {
-            
+            System.out.println("error in acceptclient");
         }
     }
 
@@ -35,8 +72,10 @@ public class ServerBase {
         while (!available(port)) {
             port++;
         }
+        System.out.println("Starting lobby on port " + port);
         lobbies.put(name, new ServerEngine(playerCap, port, "ServerTest.gm"));
         //TODO: show lobby player counts, whether they're accepting people
+        System.out.println("done");
     }
 
     private Iterable<String> getLobbies() {

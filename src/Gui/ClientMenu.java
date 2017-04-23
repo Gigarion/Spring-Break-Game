@@ -60,9 +60,13 @@ public class ClientMenu extends JFrame {
 
             // get ip and port of server to link to
             String ip = (String) inputStream.readObject();
+            System.out.println(ip);
             int port = inputStream.readInt();
+            System.out.println("got port");
+            socket.close();
             startGame(ip, port);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("bad login");
         }
     }

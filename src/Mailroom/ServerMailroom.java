@@ -83,16 +83,7 @@ public class ServerMailroom {
     }
 
     public void sendActor(Actor a, int port) {
-        ActorStorage as = null;
-        if (a instanceof Projectile)
-            as = ActorStorage.getProjectile((Projectile) a);
-        else if (a instanceof Player)
-            as = ActorStorage.getPlayerStore((Player) a);
-        else if (a instanceof Mob)
-            as = ActorStorage.getMob((Mob) a);
-        else if (a instanceof WeaponDrop)
-            as = ActorStorage.getWeaponDropStore((WeaponDrop) a);
-        else return;
+        ActorStorage as = ActorStorage.getActorStore(a);
         sendPackage(new Package(as, Package.ACTOR), port);
     }
 

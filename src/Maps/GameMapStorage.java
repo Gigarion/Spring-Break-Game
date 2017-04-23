@@ -1,6 +1,7 @@
 package Maps;
 
-import Actors.Actor;
+import Actors.*;
+import Projectiles.Projectile;
 
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -15,13 +16,18 @@ public class GameMapStorage implements Serializable {
     MapGrid mapGrid;
     int maxX, maxY;
     String image;
-    public LinkedList<Actor> actors;
+    public LinkedList<ActorStorage> actors;
     GameMapStorage(GameMap gameMap) {
         this.mapGrid = gameMap.getMapGrid();
+        this.mapGrid.setPlayer(null);
         this.maxX = gameMap.getMaxX();
         this.maxY = gameMap.getMaxY();
         this.image = gameMap.getImage();
-        this.actors = gameMap.getActors();
+        this.actors = new LinkedList<>();
+        for (Actor a : gameMap.getActors()) {
+            ActorStorage toStore = ActorStorage.getActorStore(a);
+            this.actors.add(toStore);
+        }
     }
 
     // extracts the gamemap without actors attached,

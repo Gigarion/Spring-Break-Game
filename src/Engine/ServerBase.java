@@ -1,5 +1,6 @@
 package Engine;
 
+import javax.net.ssl.SSLServerSocket;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -38,6 +39,7 @@ public class ServerBase {
                     serverSocket = new ServerSocket(1901);
                     while (true) {
                         acceptClient();
+                        System.out.println("accepted");
                     }
                 } catch (Exception e) {
                     System.out.println("bad serversocket");

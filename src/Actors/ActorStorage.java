@@ -9,14 +9,14 @@ import java.util.HashMap;
  * Created by Gig on 4/10/2017.
  * Serializable storage class for saving actor info in files
  * Particularly useful for the Mapbuilder's actor additions.
- *
+ * <p>
  * Does not save player weapons, ammo, or inventory
- *
+ * <p>
  * May refactor Mailroom to send these instead
  */
 public class ActorStorage implements Serializable {
     // type constants
-    public static final int ACTOR_TYPE  = -1;
+    public static final int ACTOR_TYPE = -1;
     public static final int PLAYER_TYPE = 0;
     // use 1 next
     public static final int WEAPON_DROP_TYPE = 2;
@@ -68,9 +68,25 @@ public class ActorStorage implements Serializable {
         extras.put(s, o);
     }
 
-    public Object get(String s) {return extras.get(s);}
+    public Object get(String s) {
+        return extras.get(s);
+    }
 
-    public static ActorStorage getPlayerStore(Player p) {
+    public static ActorStorage getActorStore(Actor a) {
+        if (a instanceof Player) {
+            return getPlayerStore((Player) a);
+        } else if (a instanceof WeaponDrop) {
+            return getWeaponDropStore((WeaponDrop) a);
+        } else if (a instanceof Mob) {
+            return getMob((Mob) a);
+        } else if (a instanceof Projectile) {
+            return getProjectile((Projectile) a);
+        } else {
+            return null;
+        }
+    }
+
+    private static ActorStorage getPlayerStore(Player p) {
         ActorStorage toReturn = new ActorStorage(p);
         toReturn.type = PLAYER_TYPE;
         toReturn.put(NAME, p.getName());
@@ -79,7 +95,7 @@ public class ActorStorage implements Serializable {
         return toReturn;
     }
 
-    public static ActorStorage getWeaponDropStore(WeaponDrop wd) {
+    private static ActorStorage getWeaponDropStore(WeaponDrop wd) {
         ActorStorage toReturn = new ActorStorage(wd);
         toReturn.type = WEAPON_DROP_TYPE;
         toReturn.put(WEAPON_STR, wd.getWeaponString());
@@ -88,14 +104,14 @@ public class ActorStorage implements Serializable {
         return toReturn;
     }
 
-    public static ActorStorage getMob(Mob m) {
+    private static ActorStorage getMob(Mob m) {
         ActorStorage toReturn = new ActorStorage(m);
         toReturn.type = MOB_TYPE;
         toReturn.put(MAXHP, m.getHP());
         return toReturn;
     }
 
-    public static ActorStorage getProjectile(Projectile p) {
+    private static ActorStorage getProjectile(Projectile p) {
         ActorStorage toReturn = new ActorStorage(p);
         toReturn.type = PROJ_TYPE;
         toReturn.put(SRC_ID, p.getSrcID());
@@ -109,5 +125,22 @@ public class ActorStorage implements Serializable {
         return toReturn;
     }
 
-    public int getType() {return type;}
+    public static Actor getActor(ActorStorage as) {
+        switch (as.getType()) {
+            case MOB_TYPE:
+                return new Mob(as);
+            case PLAYER_TYPE:
+                return new Player(as);
+            case WEAPON_DROP_TYPE:
+                return new WeaponDrop(as);
+            case PROJ_TYPE:
+                return new Projectile(as);
+            default:
+                return null;
+        }
+    }
+
+    public int getType() {
+        return type;
+    }
 }

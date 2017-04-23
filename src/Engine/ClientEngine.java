@@ -480,7 +480,7 @@ public class ClientEngine {
         while (!clientMailroom.isAlive()) {
             Thread.yield();
         }
-        ActorStorage as = ActorStorage.getPlayerStore(player);
+        ActorStorage as = ActorStorage.getActorStore(player);
         clientMailroom.sendMessage(new Package(as, Package.WELCOME, player.getName()));
         player.giveWeapons();
     }
@@ -489,7 +489,7 @@ public class ClientEngine {
         System.out.println("removed me");
         Player replacement = new Player(player.getName());
         replacement.giveWeapons();
-        ActorStorage as = ActorStorage.getPlayerStore(replacement);
+        ActorStorage as = ActorStorage.getActorStore(replacement);
         clientMailroom.sendMessage(new Package(as, Package.ACTOR));
         this.player = replacement;
     }

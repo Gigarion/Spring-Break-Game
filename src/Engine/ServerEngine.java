@@ -59,7 +59,6 @@ public class ServerEngine {
 
         this.started = false;
 
-        //TODO: make this not static and shitty
         this.mapGrid = new GameMap(mapFile).getMapGrid();
 
         this.eventLog = new EventLog(port);

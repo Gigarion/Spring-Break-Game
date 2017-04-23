@@ -9,8 +9,7 @@ import Maps.MapGrid;
 import Projectiles.HitScan;
 import Projectiles.Projectile;
 
-import java.awt.print.PrinterJob;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,10 +26,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class ServerEngine {
+    // player states
+    static final String CONNECTED = "CONN";
+    static final String DISCONN = "DC";
+    static final String DEAD = "DEAD";
+
     private ServerMailroom mailroom;
     private ConcurrentHashMap<Integer, Actor> actorMap;
     private ConcurrentHashMap<Integer, Integer> portToPlayerMap;
-    private HashSet<String> playerNames;
+    private HashMap<String, String> playerNames;
     private AtomicInteger nextFreeId;
     private int maxLogX, maxLogY;
     private EventLog eventLog;
@@ -50,7 +54,7 @@ public class ServerEngine {
         maxLogY = 2000;
         System.out.println("server: " + port);
 
-        this.playerNames = new HashSet<>();
+        this.playerNames = new HashMap<>();
 
         this.started = false;
 
@@ -72,7 +76,7 @@ public class ServerEngine {
      *  Getters for ServerBase functionality
      ******************************************************/
 
-    public Iterable<String> getPlayers() { return playerNames;}
+    public Iterable<String> getPlayers() { return playerNames.values();}
 
     private void setTimers() {
         if (started) return;
@@ -144,12 +148,14 @@ public class ServerEngine {
         System.out.println("welcomed");
         // upon getting a welcome, send a return packet containing
         // the id the player should be assigned.
+
+        // TODO: prevent dead players from reconnecting... eventually
         int id = getNextId();
         ActorStorage as = (ActorStorage) p.getPayload();
         Player newPlayer = new Player(as);
         newPlayer.setID(id);
         actorMap.put(id, newPlayer);
-        playerNames.add(p.getExtra());
+        playerNames.put(p.getExtra(), CONNECTED);
         mailroom.sendPackage(new Package(id, Package.WELCOME), p.getPort());
 
         // handle onboarding
@@ -227,7 +233,7 @@ public class ServerEngine {
         int actorId = portToPlayerMap.get(p.getPayload());
         Actor a = actorMap.get(actorId);
         if (a instanceof Player) {
-            playerNames.remove(((Player) a).getName());
+            playerNames.put(((Player) a).getName(), DISCONN);
         }
         actorMap.remove(actorId);
 
@@ -328,6 +334,7 @@ public class ServerEngine {
             if (((Player) a).getHP() <=0) {
                 removeActor(a);
                 System.out.println("removing player");
+                playerNames.put(((Player) a).getName(), DEAD);
                 return;
             }
         }

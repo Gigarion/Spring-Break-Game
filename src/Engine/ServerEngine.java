@@ -59,7 +59,6 @@ public class ServerEngine {
 
         this.started = false;
 
-        //TODO: make this not static and shitty
         this.mapGrid = new GameMap(mapFile).getMapGrid();
 
         this.eventLog = new EventLog(port);
@@ -67,7 +66,7 @@ public class ServerEngine {
         this.nextFreeId = new AtomicInteger(0);
         this.actorMap = new ConcurrentHashMap<>();
         this.portToPlayerMap = new ConcurrentHashMap<>();
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 10; i++)
             makeRocks();
         this.mailroom = new ServerMailroom(playerCap, this::handleMessage, this::setTimers);
         this.mailroom.begin(port);
@@ -141,6 +140,7 @@ public class ServerEngine {
             case Package.REMOVE: handleRemove(p); break;
             case Package.PING: handlePing(p); break;
             case Package.DISCONNECT: handleDisconnect(p); break;
+            case Package.INTERACT: handleInteract(p); break;
             default:   System.out.println("unhandled package type: " + p.getType()); break;
         }
     }
@@ -239,6 +239,18 @@ public class ServerEngine {
         actorMap.remove(actorId);
 
         mailroom.sendPackage(new Package(actorId, Package.REMOVE));
+    }
+
+    private void handleInteract(Package p) {
+        Player src = (Player) actorMap.get(p.getPayload());
+        Interactable acted = (Interactable) actorMap.get(Integer.parseInt(p.getExtra()));
+        Actor actor = (Actor) acted;
+        if (actor == null)
+            return;
+        mailroom.sendPackage(new Package(actor.getID(), Package.INTERACT));
+        if (acted instanceof WeaponDrop) {
+            removeActor(actor);
+        }
     }
 
     private void handlePing(Package p) {
@@ -381,7 +393,7 @@ public class ServerEngine {
     private void makeRocks() {
         int x = 10 + (int) (Math.random() * 580);
         int id = getNextId();
-        actorMap.put(id, new WeaponDrop(id, x, 500, "Rock/Rock/1/150/100/true/false/", "P/200/20/1/1/5/.8/Rock.png/", 1));
+        actorMap.put(id, new WeaponDrop(id, x, 500, "Rock/Rock/1/150/100/true/false/", "P/200/20/1/1/5/.8/Rock.png/", 0));
     }
 
     private void removeActor(Actor a) {

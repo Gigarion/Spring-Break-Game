@@ -58,8 +58,11 @@ public class Package implements Serializable {
     public static final char REMOVE = 8;
 
 
-    // 9 IS FREE ********************************************
-
+    // player tries to interact with an interactable, sends to server to
+    // address conflicts with self and others
+    // Client:: Payload: Integer id of actor, Extra: Integer id of interactable
+    // Server:: Payload: Integer id of interactable, Extra: n/a
+    public static final char INTERACT = 9;
 
 
     // informs server that a client disconnected and that player should get removed

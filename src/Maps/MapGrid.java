@@ -120,8 +120,6 @@ public class MapGrid implements Serializable {
                 }
             }
         }
-        System.out.println(player != null);
-        System.out.println(showPlayerBoxes);
 
         if (player != null && showPlayerBoxes) {
             for (Point p : getBoxes(player)) {

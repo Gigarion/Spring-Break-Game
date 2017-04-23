@@ -42,12 +42,15 @@ public class WeaponDrop extends Actor implements Interactable {
     String getProjectileString() { return this.projectileString;}
     int getAmmoCount() {return this.ammoCount;}
     // in case the player doesn't pick up the weapon or something else
+
+
+    // weapon drops don't return anything
     @Override
     public Iterable<Object> interact(Player p) {
         Weapon toGive = new Weapon(weaponString, projectileString);
         String ammoType = toGive.getAmmoType();
         p.giveWeapon(toGive);
-        p.giveAmmo(ammoType, ammoCount);
+        //p.giveAmmo(ammoType, ammoCount);
         return null;
     }
 

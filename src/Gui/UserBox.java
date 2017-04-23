@@ -133,7 +133,6 @@ public class UserBox {
     public void setGameMap(GameMap gameMap) {
         this.gameMap = gameMap;
         this.mapGrid = gameMap.getMapGrid();
-        mapGrid.setShowBoxes(true);
     }
 
     public boolean inVisibleRange(double x, double y) {

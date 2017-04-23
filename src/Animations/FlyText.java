@@ -6,7 +6,6 @@ import java.awt.*;
 
 /**
  * Created by Gig on 3/27/2017.
- * TODO: make this class work, good small side branch
  * TODO: implement fonts in StdDraw
  * TODO: also blending, but that'll take longer
  */

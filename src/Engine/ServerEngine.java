@@ -144,6 +144,7 @@ public class ServerEngine {
             case Package.PING: handlePing(p); break;
             case Package.DISCONNECT: handleDisconnect(p); break;
             case Package.INTERACT: handleInteract(p); break;
+            case Package.ROTATE: handleRotate(p); break;
             default:   System.out.println("unhandled package type: " + p.getType()); break;
         }
     }
@@ -201,22 +202,7 @@ public class ServerEngine {
 
     private void handleActor(Package p) {
         ActorStorage as = (ActorStorage) p.getPayload();
-        Actor a = null;
-        switch (as.getType()) {
-            case ActorStorage.PROJ_TYPE:
-                a = new Projectile(as);
-                break;
-            case ActorStorage.PLAYER_TYPE:
-                a = new Player(as);
-                break;
-            case ActorStorage.MOB_TYPE:
-                a = new Mob(as);
-                break;
-            case ActorStorage.WEAPON_DROP_TYPE:
-                a = new WeaponDrop(as);
-                break;
-            default: System.out.println("bad actorstorage type"); return;
-        }
+        Actor a = ActorStorage.getActor(as);
         if (a.getID() == -1)
             a.setID(getNextId());
         actorMap.put(a.getID(), a);
@@ -260,6 +246,12 @@ public class ServerEngine {
 
     private void handlePing(Package p) {
         mailroom.sendPackage(p, p.getPort());
+    }
+
+    private void handleRotate(Package p) {
+        Actor a = actorMap.get(p.getPayload());
+        a.setRads(Double.parseDouble(p.getExtra()));
+        mailroom.sendPackage(p);
     }
 
     // not technically mail but relevant, called from handleWelcome

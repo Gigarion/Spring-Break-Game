@@ -21,6 +21,7 @@ public abstract class Actor {
     protected double yScale; // base size for drawing
     protected int id;
     protected boolean canHit;
+    protected double rads; // rotation in radians of this actor
     protected char passesHeight; // what is the base level of terrain height this actor can naturally go over
     protected String image;
 
@@ -86,6 +87,9 @@ public abstract class Actor {
     }
     public int getID() { return id; }
     public void setID(int id) { this.id = id; }
+
+    public void setRads(double rads) {this.rads = rads;}
+    public double getRads() {return this.rads;}
 
     public synchronized void moveTo(double x, double y) {
         this.x = x;

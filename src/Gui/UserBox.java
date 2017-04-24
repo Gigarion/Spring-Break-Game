@@ -218,7 +218,8 @@ public class UserBox {
 
         for (Actor actor : actorMap.values()) {
             if (actor.getID() == player.getID()) {
-                ((Player) actor).draw(false, getAngle(getMouseX(), getMouseY()));
+                actor.setRads(getAngle(getMouseX(), getMouseY()));
+                actor.draw(false);
                 continue;
             }
             if (actor.getID() == selectedActor)

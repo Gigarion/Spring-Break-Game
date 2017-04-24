@@ -18,7 +18,7 @@ class ServerClient {
     private boolean live;
 
     ServerClient(Socket socket, int id) {
-        System.out.println("HEY IM NEW" + id);
+        System.out.println("new socket" + id);
         isDeadLock = new Object();
         this.id = id;
         this.live = true;

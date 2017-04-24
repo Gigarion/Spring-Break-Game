@@ -16,7 +16,6 @@ public class ClientMenu extends JFrame {
     private JPanel mainMenuPanel;
     private JButton enterGameButton;
     private JTextField playerNameField;
-    private JTextField ipTextField;
 
     private Socket socket;
     private ObjectInputStream inputStream;
@@ -62,9 +61,8 @@ public class ClientMenu extends JFrame {
 
             // get ip and port of server to link to
             String ip = (String) inputStream.readObject();
-            System.out.println(ip);
             int port = inputStream.readInt();
-            System.out.println("got port");
+            System.out.println("Received Game Port");
             socket.close();
             startGame(ip, port);
         } catch (Exception e) {

@@ -63,7 +63,6 @@ public class Player extends Actor {
         if (weapon.isThrowable()) {
             String ammoType = weapon.getAmmoType();
             int ammoCount = ammoMap.get(ammoType);
-            System.out.println(ammoCount);
             if (ammoCount > 0 || equipped.getAmmoType().equals(ammoType)) {
                 ammoMap.put(ammoType, ammoCount + 1);
                 return;

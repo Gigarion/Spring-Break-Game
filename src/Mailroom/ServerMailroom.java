@@ -102,15 +102,15 @@ public class ServerMailroom {
         if (!clients.contains(client)) {
             return;
         }
-        System.out.println("one died...");
+        System.out.println("Client port#" + client.getPort() + " Disconnected");
         clients.remove(client);
         handler.handleMessage(new Package(client.getPort(), Package.DISCONNECT));
 
         Runnable task2 = () -> {
             try {
-                System.out.println("trying to get new client");
+                System.out.println("Waiting...");
                 Socket clientSocket = acceptSocket.accept();
-                System.out.println("new client");
+                System.out.println("New Client Accepted");
                 ServerClient newClient = new ServerClient(clientSocket, getNextId());
                 clients.add(newClient);
                 setTimer(newClient);

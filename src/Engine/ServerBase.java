@@ -56,13 +56,11 @@ public class ServerBase {
 
             String username = (String) inputStream.readObject();
             String pass = (String) inputStream.readObject();
-            System.out.println(username + " : " + pass);
 
             outputStream.writeBoolean(true);
 
             outputStream.writeObject("localhost");
             outputStream.writeInt(3333);
-            System.out.println("wrote port");
             outputStream.flush();
             clientSocket.close();
         } catch (Exception e) {

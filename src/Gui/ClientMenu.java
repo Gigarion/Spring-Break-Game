@@ -46,6 +46,8 @@ public class ClientMenu extends JFrame {
 
     // attempt to log in the user using credentials
     private void login() {
+        if (socket == null)
+            connect();
         if (playerNameField.getText().equals(""))
             return;
         try {

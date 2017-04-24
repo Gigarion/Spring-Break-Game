@@ -53,7 +53,7 @@ import javax.swing.*;
 import Gui.UserBox;
 
 
-public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
+public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
 
     public static final Color BLACK = Color.BLACK;
     public static final Color BLUE = Color.BLUE;
@@ -136,6 +136,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     // private static ClientEngine clientEngine = null;
     private static UserBox userBox = null;
 
+    private static Composite base;
+
     // singleton pattern: client can't instantiate
     private StdDraw() {
     }
@@ -186,6 +188,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         offscreen = offscreenImage.createGraphics();
         onscreen = onscreenImage.createGraphics();
 
+        base = offscreen.getComposite();
 
         setXscale();
         setYscale();
@@ -208,6 +211,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 
         draw.addMouseListener(std);
         draw.addMouseMotionListener(std);
+        draw.addMouseWheelListener(std);
 
         frame.setContentPane(draw);
         frame.addKeyListener(std);    // JLabel cannot get keyboard focus
@@ -1457,6 +1461,14 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 
+    public static void setAlpha(float alpha) {
+        offscreen.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+    }
+
+    public static void resetAlpha() {
+        offscreen.setComposite(base);
+    }
+
     public static void clearCursor() {
         // Transparent 16 x 16 pixel cursor image.
         BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
@@ -1469,4 +1481,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         frame.getContentPane().setCursor(blankCursor);
     }
 
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        synchronized (mouseLock) {
+            userBox.handleMouseWheel(e);
+        }
+    }
 }

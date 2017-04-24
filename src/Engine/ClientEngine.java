@@ -15,6 +15,7 @@ import Maps.MapGrid;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -52,10 +53,10 @@ public class ClientEngine {
 
 
     // constructor, takes logical maxes and visual radius for userbox
-    public ClientEngine() {
+    public ClientEngine(String ip, int port) {
         animationQueue = new ConcurrentLinkedQueue<>();
         actorMap = new ConcurrentHashMap<>();
-        this.clientMailroom = new ClientMailroom();
+        this.clientMailroom = new ClientMailroom(ip, port);
 
         // set up user interface
         userBox = new UserBox(actorMap, animationQueue);
@@ -63,6 +64,7 @@ public class ClientEngine {
         userBox.setExitHandler(this::exit);
         userBox.setKeyboardHandler(this::keyPressed);
         userBox.setMouseHandler(this::handleMouse);
+        userBox.setMouseWheelHandler(this::handleMouseWheel);
 
         // gotta start mail thread here
         Timer mailTimer = new Timer("Client Engine Mail Timer", true);
@@ -206,10 +208,14 @@ public class ClientEngine {
         }
     }
 
+    private void handleMouseWheel(MouseWheelEvent e) {
+        player.swapWeapon();
+    }
+
     private void keyPressed(KeyEvent e) {
         if (e.getKeyChar() == WPN_SWAP)
             player.swapWeapon();
-        if (e.getKeyChar() == 'r') {
+        if (e.getKeyChar() == ' ') {
             Actor a = actorMap.get(selectedID);
             if (a != null && a instanceof Interactable) {
                 clientMailroom.sendMessage(new Package(player.getID(), Package.INTERACT, a.getID() + ""));
@@ -480,7 +486,7 @@ public class ClientEngine {
         while (!clientMailroom.isAlive()) {
             Thread.yield();
         }
-        ActorStorage as = ActorStorage.getPlayerStore(player);
+        ActorStorage as = ActorStorage.getActorStore(player);
         clientMailroom.sendMessage(new Package(as, Package.WELCOME, player.getName()));
         player.giveWeapons();
     }
@@ -489,7 +495,7 @@ public class ClientEngine {
         System.out.println("removed me");
         Player replacement = new Player(player.getName());
         replacement.giveWeapons();
-        ActorStorage as = ActorStorage.getPlayerStore(replacement);
+        ActorStorage as = ActorStorage.getActorStore(replacement);
         clientMailroom.sendMessage(new Package(as, Package.ACTOR));
         this.player = replacement;
     }

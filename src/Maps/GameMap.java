@@ -1,6 +1,7 @@
 package Maps;
 
 import Actors.Actor;
+import Actors.ActorStorage;
 import Util.StdDraw;
 
 import java.io.FileInputStream;
@@ -38,7 +39,10 @@ public class GameMap {
             this.maxX = gm.maxX;
             this.maxY = gm.maxY;
             this.image = gm.image;
-            this.actors = gm.actors;
+            this.actors = new LinkedList<>();
+            for (ActorStorage as : gm.actors) {
+                this.actors.add(ActorStorage.getActor(as));
+            }
 
 
         } catch (Exception e) {

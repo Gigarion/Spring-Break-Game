@@ -3,6 +3,7 @@ package Projectiles;
 import Actors.Actor;
 import Actors.ActorStorage;
 import Engine.ActorRequest;
+import Maps.MapGrid;
 import Util.StdDraw;
 
 import java.io.Serializable;
@@ -28,7 +29,7 @@ public class Projectile extends Actor implements Serializable {
         this.image = image;
         this.pierceCount = pierceCount;
         this.canHit = false;
-        this.passesHeight = 1;
+        this.passesHeight = MapGrid.HALF_HEIGHT;
     }
 
     public Projectile(ActorStorage as) {

@@ -306,7 +306,6 @@ public class ServerEngine {
             if (hits >= hs.getPierceCount())
                 break;
         }
-        System.out.println(areHit.size());
         return areHit;
     }
 

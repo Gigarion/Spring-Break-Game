@@ -1,9 +1,9 @@
 package Actors;// actors with health, probably mostly used for enemies unless I make the supports killable
 
 import Engine.ActorRequest;
+import Maps.MapGrid;
 import Util.StdDraw;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 
 public class Mob extends Actor {
@@ -12,6 +12,7 @@ public class Mob extends Actor {
     public Mob(int id, double x, double y, double r, int hp) {
         super(id, x, y, r);
         this.hp = hp;
+        this.passesHeight = MapGrid.GROUND_HEIGHT;
     }
 
     public Mob(ActorStorage as) {

@@ -10,7 +10,10 @@ import Util.StdDraw;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.Point2D;
+import java.security.Key;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,6 +45,9 @@ public class UserBox {
         void handleKeyboard(KeyEvent e);
     }
 
+    public interface MouseWheelHandler {
+        void handleMouseWheel(MouseWheelEvent mwe);
+    }
 
     private static final int UP = KeyEvent.VK_W;
     private static final int DOWN = KeyEvent.VK_S;
@@ -49,7 +55,7 @@ public class UserBox {
     private static final int RIGHT = KeyEvent.VK_D;
 
     private static final int Y_SCALE = 1000;
-    private static final int DRAW_INTERVAL = 10;
+    private static final int DRAW_INTERVAL = 16;
     private static final int HUD_WIDTH = (int) (0.27 * Y_SCALE);
     private static final int VIS_Y_RADIUS = Y_SCALE / 2;
     private static final int EDGE_RADIUS = (int )(Y_SCALE * 0.11);
@@ -63,6 +69,7 @@ public class UserBox {
     private ExitHandler exitHandler;            // called for engine to handle exits
     private MouseHandler mouseHandler;          // called for engine to handle mouse events
     private KeyboardHandler keyboardHandler;    // called for engine to handle keyboard events
+    private MouseWheelHandler mouseWheelHandler; // called for engine to handle mouse wheel events
 
 
     private int clickedButton;
@@ -244,8 +251,10 @@ public class UserBox {
             StdDraw.setPenColor();
         }
 
-        drawHUD();
-        drawCrosshair();
+        if (!StdDraw.isKeyPressed(KeyEvent.VK_CONTROL)) {
+            drawHUD();
+            drawCrosshair();
+        }
 
         handleMouseLocation();
         drawFrame = (drawFrame + 1) % 10000000;
@@ -256,6 +265,7 @@ public class UserBox {
         if (player == null) {
             return;
         }
+        StdDraw.setAlpha((float) 0.55);
         double hudHeight = VIS_Y_RADIUS * 0.5;
         double hudCenterX = getVisibleXMax() - (HUD_WIDTH / 2) - 10;
         double hudThirdX = getVisibleXMax() - (HUD_WIDTH * 2 / 3) - 10;
@@ -271,7 +281,9 @@ public class UserBox {
         StdDraw.filledPolygon(xBox, yBox);
         StdDraw.setPenColor();
         StdDraw.polygon(xBox, yBox);
+        StdDraw.resetAlpha();
 
+        StdDraw.setFont(new Font("TimesRoman", Font.BOLD, 16));
         StdDraw.text(hudCenterX,  hudSixthY + (hudHeight * 2/3), player.getName());
         StdDraw.text(hudCenterX, hudHalfY, "HP: " + player.getHP() + "/" + player.getMaxHP());
         StdDraw.text(hudCenterX, hudThirdY, "Ping: " + ping);
@@ -331,6 +343,7 @@ public class UserBox {
     public void setMouseHandler(MouseHandler mouseHandler) {
         this.mouseHandler = mouseHandler;
     }
+    public void setMouseWheelHandler(MouseWheelHandler mouseWheelHandler) { this.mouseWheelHandler = mouseWheelHandler;}
     public void setClickedButton(int button) {
         this.clickedButton = button;
     }
@@ -399,6 +412,11 @@ public class UserBox {
         if (mouseHandler != null) {
             mouseHandler.handleMouse(e, getMouseX(), getMouseY());
         }
+    }
+    public void handleMouseWheel(MouseWheelEvent mwe) {
+        //System.out.println(mwe.getWheelRotation());
+        if (mouseWheelHandler != null)
+            mouseWheelHandler.handleMouseWheel(mwe);
     }
     public void exit() {
         if (exitHandler != null)

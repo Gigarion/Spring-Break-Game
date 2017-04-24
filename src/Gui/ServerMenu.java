@@ -19,7 +19,9 @@ public class ServerMenu extends JFrame {
         setSize(300, 300);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         startServerButton.addActionListener((ActionEvent e) -> {
-            new ServerBase().startLobby("Lobby", playerCount);
+            ServerBase sb = new ServerBase();
+            sb.begin();
+            sb.startLobby("Lobby", playerCount);
         });
         setVisible(true);
     }

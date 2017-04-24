@@ -45,6 +45,9 @@ public class Projectile extends Actor implements Serializable {
         this.pierceCount = (int) as.get(ActorStorage.PIERCE_COUNT);
         this.canHit = false;
         this.passesHeight = 1;
+
+        setxScale(as.xScale);
+        setyScale(as.yScale);
     }
 
     public boolean outOfRange() {

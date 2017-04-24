@@ -77,7 +77,6 @@ public class Weapon {
             }
             lastShot = System.currentTimeMillis();
             LinkedList toReturn = (LinkedList) pFactory.fire(src, destX, destY);
-            toReturn.add(new FlyText(src.getX(), src.getY(), "TESTING", StdDraw.BOOK_RED));
             return toReturn;
         }
         return null;

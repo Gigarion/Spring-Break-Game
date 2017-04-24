@@ -18,6 +18,8 @@ public class Mob extends Actor {
     public Mob(ActorStorage as) {
         super(as.id, as.x, as.y, as.r);
         this.hp = (Integer) as.extras.get(ActorStorage.MAXHP);
+        setxScale(as.xScale);
+        setyScale(as.yScale);
     }
 
     public int getHP() {

@@ -30,6 +30,8 @@ public class WeaponDrop extends Actor implements Interactable {
         this.projectileString = (String) as.extras.get(ActorStorage.PROJ_STR);
         this.ammoCount = (Integer) as.extras.get(ActorStorage.AMMO_COUNT);
         this.canHit = false;
+        setxScale(as.xScale);
+        setyScale(as.yScale);
     }
 
     public void setImage(String image) {
@@ -62,12 +64,15 @@ public class WeaponDrop extends Actor implements Interactable {
 
     @Override
     public void draw(boolean selected) {
-        if (image == null)
+        if (image == null) {
             image = "crate.jpg";
+            setxScale(20);
+            setyScale(20);
+        }
         try {
-            StdDraw.picture(x, y, "src/img/" + image, 20, 20);
+            StdDraw.picture(x, y, "src/img/" + image, xScale, yScale);
         } catch (Exception e) {
-            StdDraw.picture(x, y, "img/" + image, 20, 20);
+            StdDraw.picture(x, y, "img/" + image, xScale, yScale);
         }
         if (selected) {
             StdDraw.setPenColor(StdDraw.RED);

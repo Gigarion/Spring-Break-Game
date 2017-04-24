@@ -21,9 +21,9 @@ public class Package implements Serializable {
     public static final char HITSCAN = 1;
 
     // Client requests a projectile be put on the field
-    // Client:: Payload: Projectile object, Extra: ID of spawning actor
+    // Client:: Payload: Integer index of actor, Extra: double new angle in radians
     // Server:: ""
-   // public static final char PROJECT = 2;
+    public static final char ROTATE = 2;
 
     // Either client or Server demands a position update,
     // mostly used to notify of new player positions

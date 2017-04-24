@@ -110,6 +110,9 @@ public class ClientEngine {
         if ((logicFrame % 20 == 0) && userBox.isMousePressed()) {
             handleMouse(null, userBox.getMouseX(), userBox.getMouseY());
         }
+        if ((logicFrame % 100) == 0) {
+            clientMailroom.sendMessage(new Package(player.getID(), Package.ROTATE, Double.toString(player.getRads())));
+        }
         logicFrame = ((logicFrame + 1) % 100000);
         for (Actor a : actorMap.values()) {
             if (!(a instanceof Mob)) a.update();
@@ -322,6 +325,9 @@ public class ClientEngine {
             case Package.INTERACT:
                 handleInteract(p);
                 break;
+            case Package.ROTATE:
+                handleRotate(p);
+                break;
             default:
                 System.out.println("Unused package type: " + p.getType());
         }
@@ -452,6 +458,14 @@ public class ClientEngine {
                 System.out.println("result");
             }
         }
+    }
+
+    private void handleRotate(Package p) {
+        Actor a = actorMap.get(p.getPayload());
+        if (a == player || a == null) {
+            return;
+        }
+        a.setRads(Double.parseDouble(p.getExtra()));
     }
 
     /******************************************************

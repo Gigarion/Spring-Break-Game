@@ -32,6 +32,8 @@ public class Player extends Actor {
         this.equipped = null;
         this.lastSwap = 0;
         this.canHit = true;
+        setxScale(40);
+        setyScale(40);
     }
 
     // load player from ActorStorage
@@ -49,6 +51,9 @@ public class Player extends Actor {
         this.lastSwap = 0;
         this.canHit = as.canHit;
         this.passesHeight = as.passesHeight;
+
+        setxScale(as.xScale);
+        setyScale(as.yScale);
     }
 
     public void setID(int id) {
@@ -177,9 +182,9 @@ public class Player extends Actor {
     @Override
     public void draw(boolean selected) {
         try {
-            StdDraw.picture(x, y, "src/img/Actors/Player2.png", 40, 40, Math.toDegrees(rads) - 90);
+            StdDraw.picture(x, y, "src/img/Actors/Player2.png", xScale, yScale, Math.toDegrees(rads) - 90);
         } catch (Exception e) {
-            StdDraw.picture(x, y, "img/Actors/Player.png", 40, 40, Math.toDegrees(rads) - 90);
+            StdDraw.picture(x, y, "img/Actors/Player.png", xScale, yScale, Math.toDegrees(rads) - 90);
         }
     }
 

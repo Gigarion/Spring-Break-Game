@@ -45,7 +45,7 @@ public class ActorStorage implements Serializable {
     public static final String PIERCE_COUNT = "pc";
 
     private int type;
-    public final double x, y, r;
+    public final double x, y, r, xScale, yScale;
     public final int id;
     final boolean canHit;
     final char passesHeight;
@@ -57,6 +57,8 @@ public class ActorStorage implements Serializable {
         this.x = a.getX();
         this.y = a.getY();
         this.r = a.getR();
+        this.xScale = a.xScale;
+        this.yScale = a.yScale;
         this.id = a.getID();
         this.canHit = a.canHit();
         this.passesHeight = a.getPassesHeight();

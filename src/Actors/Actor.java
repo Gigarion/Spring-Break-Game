@@ -8,6 +8,17 @@ public abstract class Actor {
     protected double x;
     protected double y;
     protected double r;
+
+    public void setxScale(double xScale) {
+        this.xScale = xScale;
+    }
+
+    public void setyScale(double yScale) {
+        this.yScale = yScale;
+    }
+
+    protected double xScale; // base size for drawing
+    protected double yScale; // base size for drawing
     protected int id;
     protected boolean canHit;
     protected double rads; // rotation in radians of this actor

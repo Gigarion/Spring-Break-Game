@@ -1,6 +1,7 @@
 package Engine;
 
 import Actors.*;
+import Animations.FlyText;
 import Animations.HitScanLine;
 import Mailroom.Package;
 import Mailroom.ServerMailroom;
@@ -8,7 +9,9 @@ import Maps.GameMap;
 import Maps.MapGrid;
 import Projectiles.HitScan;
 import Projectiles.Projectile;
+import Util.StdDraw;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -176,6 +179,8 @@ public class ServerEngine {
         int srcId = Integer.parseInt(p.getExtra());
         for (Actor hit : fireHitScan(hs, srcId)) {
             mailroom.sendPackage(new Package(hit.getID(), Package.HIT, Integer.toString(hs.getDamage())));
+            FlyText ft = new FlyText(hit.getX(), hit.getY(), "HIT!", StdDraw.BOOK_RED);
+            mailroom.sendPackage(new Package(ft, Package.ANIMATE, hit.getID() + ""));
         }
         if (hs.getShowLine())
             mailroom.sendPackage(new Package(new HitScanLine(hs), Package.ANIMATE));
@@ -319,6 +324,8 @@ public class ServerEngine {
                 if (target.collides(p)) {
                     target.hit(p.getDamage());
                     mailroom.sendPackage(new Package(target.getID(), Package.HIT, p.getDamage() + ""));
+                    FlyText ft = new FlyText(target.getX(), target.getY(), "HIT", StdDraw.BOOK_RED);
+                    mailroom.sendPackage(new Package(ft, Package.ANIMATE, target.getID() + ""));
                     int piercesLeft = p.decrementPierceCount();
                     if (piercesLeft <= 0) {
                         removeActor(p);

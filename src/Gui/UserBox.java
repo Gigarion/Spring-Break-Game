@@ -13,9 +13,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.awt.geom.Point2D;
-import java.security.Key;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -318,17 +316,28 @@ public class UserBox {
         if (player == null)
             return;
         Inventory inv = player.inventory;
+        Item[] equipped = inv.getEquippedItems();
         int rowSize = 10;
         for (int i = 0; i < rowSize; i++) {
             StdDraw.setAlpha((float)0.60);
             StdDraw.setPenColor(StdDraw.WHITE);
-            StdDraw.filledRectangle(getVisibleXMin() + 25 +  (50 * i), getVisibleYMax() - 40, 20, 20);
+            double currX = getVisibleXMin() + 25 +  (50 * i);
+            double currY = getVisibleYMax() - 40;
+            StdDraw.filledRectangle(currX, currY, 20,20);
             if (inv.getSelected() == i) {
                 StdDraw.setPenRadius(0.004);
+                StdDraw.setPenColor(Color.YELLOW);
+                StdDraw.setAlpha(0.30);
+                StdDraw.filledRectangle(currX, currY, 20, 20);
+                StdDraw.setAlpha(0.9);
                 StdDraw.setPenColor(StdDraw.RED);
-                StdDraw.rectangle(getVisibleXMin() + 25 +  (50 * i), getVisibleYMax() - 40, 20, 20);
+                StdDraw.rectangle(currX, currY, 20, 20);
                 StdDraw.setPenRadius();
             }
+            StdDraw.resetAlpha();
+            StdDraw.setPenColor();
+            if (equipped[i] != null)
+                equipped[i].drawItem(currX, currY);
         }
         StdDraw.setPenColor();
         StdDraw.resetAlpha();

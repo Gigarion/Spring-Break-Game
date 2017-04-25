@@ -3,9 +3,8 @@ package Actors;
 import Engine.ActorRequest;
 import Util.DefaultMap;
 import Util.StdDraw;
-import Weapons.*;
+import Equipment.*;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Player extends Actor {
@@ -14,6 +13,7 @@ public class Player extends Actor {
     private DefaultMap<String, Integer> ammoMap; // count of each ammo type
     private Weapon equipped;
     private String name;
+    public Inventory inventory;
 
     private int maxHP;
     private int hp;
@@ -32,6 +32,7 @@ public class Player extends Actor {
         this.equipped = null;
         this.lastSwap = 0;
         this.canHit = true;
+        this.inventory = new Inventory(20);
         setxScale(40);
         setyScale(40);
     }
@@ -92,13 +93,14 @@ public class Player extends Actor {
         equipped.reload(ammoMap.get("Arrow"));
     }
 
-    public void swapWeapon() {
+    public void swapWeapon(int howFar) {
         if (equipped.isCharging()) return;
         if (System.currentTimeMillis() - lastSwap < 50)
             return;
         lastSwap = System.currentTimeMillis();
         weapons.add(equipped);
         equipped = weapons.removeFirst();
+        inventory.moveSelected(howFar);
     }
 
     public int getAmmoCount() {

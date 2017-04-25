@@ -33,7 +33,6 @@ public class ClientEngine {
     private static final int DOWN = KeyEvent.VK_S;
     private static final int LEFT = KeyEvent.VK_A;
     private static final int RIGHT = KeyEvent.VK_D;
-    private static final char WPN_SWAP = 'e';
     private static final double MOVEMENT_SIZE = 1; // TODO: player speeds/stats
     private static final int LOGIC_INTERVAL = 1;
 
@@ -212,26 +211,32 @@ public class ClientEngine {
     }
 
     private void handleMouseWheel(MouseWheelEvent e) {
-        player.swapWeapon();
+        player.swapWeapon(e.getWheelRotation());
     }
 
     private void keyPressed(KeyEvent e) {
-        if (e.getKeyChar() == WPN_SWAP)
-            player.swapWeapon();
-        if (e.getKeyChar() == ' ') {
-            Actor a = actorMap.get(selectedID);
-            if (a != null && a instanceof Interactable) {
-                clientMailroom.sendMessage(new Package(player.getID(), Package.INTERACT, a.getID() + ""));
+        switch (e.getKeyChar()) {
+            case 'e':
+                player.swapWeapon(1);
+                break;
+            case 'q':
+                player.swapWeapon(-1);
+                break;
+            case 'y':
+                userBox.toggleCameraLock();
+                break;
+            case 'r':
+                player.reload();
+                break;
+            case ' ': {
+                Actor a = actorMap.get(selectedID);
+                if (a != null && a instanceof Interactable) {
+                    clientMailroom.sendMessage(new Package(player.getID(), Package.INTERACT, a.getID() + ""));
+                }
             }
-        }
-        if (e.getKeyChar() == 'q') {
-            player.reload();
-        }
-        if (e.getKeyChar() == 'y') {
-            userBox.toggleCameraLock();
-        }
-        if (e.getKeyChar() == 'e') {
-            player.swapWeapon();
+            break;
+            default:
+                break;
         }
     }           // individual key press
 
@@ -372,24 +377,7 @@ public class ClientEngine {
 
     private void handleNewActor(Package p) {
         ActorStorage as = (ActorStorage) p.getPayload();
-        Actor a;
-        switch (as.getType()) {
-            case ActorStorage.PROJ_TYPE:
-                a = new Projectile(as);
-                break;
-            case ActorStorage.PLAYER_TYPE:
-                a = new Player(as);
-                break;
-            case ActorStorage.MOB_TYPE:
-                a = new Mob(as);
-                break;
-            case ActorStorage.WEAPON_DROP_TYPE:
-                a = new WeaponDrop(as);
-                break;
-            default:
-                System.out.println("bad actorstorage type");
-                return;
-        }
+        Actor a = ActorStorage.getActor(as);
         int id = a.getID();
         if (id != player.getID())
             actorMap.put(id, a);

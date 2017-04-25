@@ -1,10 +1,8 @@
-package Weapons;
+package Equipment;
 
 import Actors.Actor;
-import Animations.FlyText;
 import Projectiles.Projectile;
 import Projectiles.ProjectileFactory;
-import Util.StdDraw;
 
 import java.util.LinkedList;
 

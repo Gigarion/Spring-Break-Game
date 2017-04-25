@@ -11,8 +11,10 @@ import Mailroom.Package;
  */
 public class ActorRequest {
     public final static char MOVE = 0;
+    public final static char ANIMATE = 1;
 
     private int type;
+    private Object payload;
     private String extra;
 
     // if you really know what you want

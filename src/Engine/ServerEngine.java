@@ -325,7 +325,7 @@ public class ServerEngine {
                 if (target.collides(p)) {
                     target.hit(p.getDamage());
                     mailroom.sendPackage(new Package(target.getID(), Package.HIT, p.getDamage() + ""));
-                    FlyText ft = new FlyText(target.getX(), target.getY(), "HIT", StdDraw.BOOK_RED);
+                    FlyText ft = new FlyText(target.getX(), target.getY(), "HIT", Constants.BOOK_RED);
                     mailroom.sendPackage(new Package(ft, Package.ANIMATE, target.getID() + ""));
                     int piercesLeft = p.decrementPierceCount();
                     if (piercesLeft <= 0) {

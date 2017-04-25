@@ -1,5 +1,6 @@
 package Equipment;
 
+import Engine.ActorRequest;
 import Util.StdDraw;
 
 import java.util.ArrayList;
@@ -38,17 +39,13 @@ public class Inventory {
         // see if it's in the equipped slots
         for (Item i : equipped) {
             if (item.getId() == i.getId() && leftToAdd > 0) {
-                currentWeight -= i.getWeight();
                 leftToAdd = i.add(leftToAdd);
-                currentWeight += i.getWeight();
             }
         }
         // see if it's in general inventory
         for (Item i : items) {
             if (item.getId() == i.getId() && leftToAdd > 0) {
-                currentWeight -= i.getWeight();
                 leftToAdd = i.add(leftToAdd);
-                currentWeight += i.getWeight();
             }
         }
         // adjust for adds
@@ -60,7 +57,7 @@ public class Inventory {
 
         // add, update weight
         items.add(item);
-        currentWeight += item.getWeight();
+        setWeight();
 
         if (currentWeight > maxWeight)
             return OVER_WEIGHT;
@@ -78,4 +75,16 @@ public class Inventory {
     public int getSlotCount() {
         return this.slotCount;
     }
+
+    private void setWeight() {
+        currentWeight = 0;
+        for (Item i : equipped)
+            currentWeight += i.getWeight();
+        for (Item i : items)
+            currentWeight += i.getWeight();
+    }
+
+//    public Iterable<Package> useSelectedItem(double mouseX, double mouseY) {
+//        return equipped.get(selected).interact();
+//    }
 }

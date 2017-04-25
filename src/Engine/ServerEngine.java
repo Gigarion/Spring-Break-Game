@@ -392,7 +392,7 @@ public class ServerEngine {
     private void makeRocks() {
         int x = 10 + (int) (Math.random() * 580);
         int id = getNextId();
-        actorMap.put(id, new WeaponDrop(id, x, 500, "Rock/Rock/1/150/100/true/false/", "P/200/20/1/1/5/.8/Rock.png/", 0));
+        actorMap.put(id, new WeaponDrop(id, x, 500, "Rock/Rock/1/150/100/true/false/0/1/99", "P/200/20/1/1/5/.8/Rock.png/", 0));
     }
 
     private void removeActor(Actor a) {

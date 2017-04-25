@@ -1,5 +1,6 @@
 package Equipment;
 
+import Util.Constants;
 import Util.StdDraw;
 
 /**
@@ -14,6 +15,7 @@ public abstract class Item {
     double weight;   // weight of an individual item in the stack
     String invImage; // image to be shown in inventory
     int count, maxCount; // count in this stack
+    String ammoType; // if this is an ammo, what kind?
     Item(String name, int type, double weight, int maxCount) {
         this.name = name;
         xScale = 10;
@@ -21,16 +23,22 @@ public abstract class Item {
         this.maxCount = maxCount;
         this.weight = weight;
         this.type = type;
+        this.ammoType = Constants.NOT_AMMO;
     }
 
     // attempt to add @param count of the item to this stack,
     // returns the number of items added
     public int add(int count) {
-        while (this.count > maxCount && count > 0) {
+        while (this.count < maxCount && count > 0) {
             this.count++;
             count--;
         }
         return count;
+    }
+
+    // plz only use the constants
+    void setAmmoType(String ammoType) {
+        this.ammoType = ammoType;
     }
 
     public String getName() {return this.name;}
@@ -41,6 +49,10 @@ public abstract class Item {
     public void setCount(int count) {
         this.count = count;
     }
+    public int decrement() {
+        return --count;
+    }
+
     public void setMaxCount(int maxCount) {this.maxCount = maxCount;}
     public void setInvImage(String imageStr) {this.invImage = imageStr;}
     double getWeight() {return this.weight * this.count;}

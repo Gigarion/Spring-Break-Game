@@ -59,10 +59,12 @@ public class ToolMenu extends JFrame {
     private JTextField weaponFileNameField;
     private JTextField weightField;
     private JTextField maxCountField;
+    private JButton loadFileButton;
+    private JComboBox weaponFileComboBox;
     private JLabel outputLabel;
 
     public ToolMenu() {
-        setSize(600, 600);
+        setSize(1000, 900);
         setContentPane(toolPane);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,6 +73,7 @@ public class ToolMenu extends JFrame {
         setProjectileListeners();
         setWeaponListeners();
         setSaveWeaponListeners();
+        setupLoadWeaponUI();
 
         tabbedPane.addChangeListener((ChangeEvent e) -> {
             switch (tabbedPane.getSelectedIndex()) {
@@ -102,7 +105,7 @@ public class ToolMenu extends JFrame {
                 StringBuilder sb = new StringBuilder();
                 sb.append(wpnNameField.getText());
                 sb.append('/');
-                sb.append((String) ammoComboBox.getSelectedItem());
+                sb.append(ammoComboBox.getSelectedItem().toString().toUpperCase());
                 sb.append('/');
                 sb.append(wpnMaxClipField.getText());
                 sb.append('/');
@@ -201,6 +204,61 @@ public class ToolMenu extends JFrame {
                 }
             }
         });
+    }
+
+    private void setupLoadWeaponUI() {
+        try {
+            File folder = new File("data/Items/");
+            System.out.println(folder.getAbsolutePath());
+            if (folder.isDirectory()) {
+                for (File f : folder.listFiles()) {
+                    System.out.println("here");
+                    weaponFileComboBox.addItem(f.getName());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        loadFileButton.addActionListener((e) -> {
+            ItemStorage is = ItemStorage.loadItemStore(weaponFileComboBox.getSelectedItem().toString());
+            loadWeapon((Weapon) ItemStorage.getItem(is));
+            loadProj((Weapon) ItemStorage.getItem(is));
+
+        });
+    }
+
+    private void loadWeapon(Weapon wpn) {
+        String[] wpnInfo = wpn.getWeaponString().split("/");
+        wpnNameField.setText(wpnInfo[0]);
+        wpnMaxClipField.setText(wpnInfo[2]);
+        wpnFireRateField.setText(wpnInfo[3]);
+        wpnReloadRateField.setText(wpnInfo[4]);
+        throwableCheckBox.setSelected(Boolean.parseBoolean(wpnInfo[5]));
+        chargeableCheckBox.setSelected(Boolean.parseBoolean(wpnInfo[6]));
+        chargeTimeField.setText(wpnInfo[7]);
+        weightField.setText(wpnInfo[8]);
+        maxCountField.setText(wpnInfo[9]);
+    }
+
+    private void loadProj(Weapon wpn) {
+        String[] projInfo = wpn.getpFactoryString().split("/");
+        if (projInfo[0].equals("P")) {
+            pRangeField.setText(projInfo[1]);
+            pDamageField.setText(projInfo[2]);
+            pPierceCountField.setText(projInfo[3]);
+            pCountField.setText(projInfo[4]);
+            pRadiusField.setText(projInfo[5]);
+            pSpeedField.setText(projInfo[6]);
+            pImageField.setText(projInfo[7]);
+        }
+        else {
+            hRangeField.setText(projInfo[1]);
+            hDamageField.setText(projInfo[2]);
+            hPierceCountField.setText(projInfo[3]);
+            hCountField.setText(projInfo[4]);
+            showLineRadioButton.setSelected(Boolean.parseBoolean(projInfo[5]));
+        }
     }
 
     private void setSaveWeaponListeners() {

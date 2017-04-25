@@ -3,6 +3,8 @@ package Equipment;
 import Actors.Actor;
 import Projectiles.Projectile;
 import Projectiles.ProjectileFactory;
+import Util.Constants;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.util.LinkedList;
 
@@ -28,7 +30,7 @@ public class Weapon extends Item {
     private long startCharge; // when did it start charging?
     private boolean charging; // is this weapon charging?
 
-    private String ammoType;
+    private String usesAmmo;
 
     public Weapon(String weaponString, String pFactoryString) {
         super("not_set", WEAPON_TYPE, 1, 1);
@@ -39,17 +41,19 @@ public class Weapon extends Item {
         this.reloadStart = 0;
         this.lastShot = 0;
         this.pFactory = new ProjectileFactory(pFactoryString);
+        this.count = 1;
     }
 
     private void loadFromString(String weaponString) {
         System.out.println(weaponString);
         String[] info = weaponString.split("/");
         this.name = info[0];
-        this.ammoType = info[1];
+        this.usesAmmo = info[1];
         this.maxClip = Integer.parseInt(info[2]);
         this.fireRate = Integer.parseInt(info[3]);
         this.reloadRate = Integer.parseInt(info[4]);
         this.isThrowable = Boolean.parseBoolean(info[5]);
+        if (isThrowable) this.ammoType = usesAmmo;
         this.isChargeable = Boolean.parseBoolean(info[6]);
         if (isChargeable)
             this.maxChargeTime = Integer.parseInt(info[7]);
@@ -99,10 +103,10 @@ public class Weapon extends Item {
 
     public int getClip() {return this.clip;}
     public int getMaxClip() {return this.maxClip;}
-    public String getAmmoType() {return this.ammoType;}
+    public String getUsesAmmo() {return this.usesAmmo;}
 
     private boolean canFire() {
-        return ((clip > 0 || ammoType.equals("Melee")) && !isReloading()
+        return ((clip > 0 || ammoType.equals(Constants.AMMO_MELEE) || ammoType.equals(Constants.NOT_AMMO)) && !isReloading()
                 && (System.currentTimeMillis() - lastShot > fireRate));
     }
 
@@ -114,7 +118,7 @@ public class Weapon extends Item {
         return isThrowable;
     }
 
-    public synchronized void charge() {
+    synchronized void charge() {
         if (!isChargeable || charging || !canFire()) {
             return;
         }
@@ -122,7 +126,7 @@ public class Weapon extends Item {
         startCharge = System.currentTimeMillis();
     }
 
-    public synchronized Iterable<Object> release(Actor src, double destX, double destY) {
+    synchronized Iterable<Object> release(Actor src, double destX, double destY) {
         if (!isChargeable || !charging) return null;
 
         long timeCharged = System.currentTimeMillis() - startCharge;
@@ -142,18 +146,22 @@ public class Weapon extends Item {
         return toReturn;
     }
 
-    public boolean isChargeable() {
+    boolean isChargeable() {
         return isChargeable;
     }
 
-    public boolean isCharging() {
+    boolean isCharging() {
         return isChargeable && charging;
     }
 
-    public double getChargeRatio() {
+    double getChargeRatio() {
         if (!charging)
             return 0;
 
         return Math.min(1, (System.currentTimeMillis() - startCharge) / (double) maxChargeTime);
     }
+
+    public String getWeaponString() {return this.weaponString;}
+    public String getpFactoryString() {return this.pFactoryString;}
+
 }

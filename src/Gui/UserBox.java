@@ -292,9 +292,9 @@ public class UserBox {
         StdDraw.text(hudCenterX,  hudSixthY + (hudHeight * 2/3), player.getName());
         StdDraw.text(hudCenterX, hudHalfY, "HP: " + player.getHP() + "/" + player.getMaxHP());
         StdDraw.text(hudCenterX, hudThirdY, "Ping: " + ping);
-        String weaponText = "Weapon: " + player.getWeaponName();
-        if (!player.getWeaponName().equals("Sword")) {
-            weaponText += " : " + player.getCurrentClip() + "/" + player.getAmmoCount();
+        String weaponText = "Weapon: " + player.getEquippedName();
+        if (!player.getEquippedName().equals("Sword")) {
+            weaponText += " : " + player.getCurrentCount() + "/" + player.getAmmoCount();
         }
         StdDraw.text(hudCenterX, hudSixthY, weaponText);
     }

@@ -20,6 +20,7 @@ public class ItemStorage {
     private static String COUNT = "COUNT";
     private static String MAX_COUNT = "MAX_COUNT";
     private static String EXTRAS = "EXTRAS";
+    private static String AMMO_TYPE = "AMMO_TYPE";
 
     private HashMap<String, Object> dataMap;
 
@@ -34,19 +35,19 @@ public class ItemStorage {
         dataMap.put(INVIMG, item.invImage);
         dataMap.put(COUNT, item.count);
         dataMap.put(MAX_COUNT, item.maxCount);
+        dataMap.put(AMMO_TYPE, item.ammoType);
         dataMap.put(EXTRAS, new HashMap<>());
     }
 
     public ItemStorage(ItemStorage is) {
         dataMap = new HashMap<>();
         for (String key : is.dataMap.keySet()) {
-            String newKey = new String(key);
             Object newObj = is.dataMap.get(key);
-            if (newKey.equals(EXTRAS)) {
-                dataMap.put(newKey, new HashMap<>((Map) newObj));
+            if (key.equals(EXTRAS)) {
+                dataMap.put(key, new HashMap<>((Map<String, Object>) newObj));
             }
             else {
-                dataMap.put(newKey, newObj);
+                dataMap.put(key, newObj);
             }
         }
     }

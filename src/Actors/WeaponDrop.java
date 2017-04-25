@@ -50,9 +50,9 @@ public class WeaponDrop extends Actor implements Interactable {
     @Override
     public Iterable<Object> interact(Player p) {
         Weapon toGive = new Weapon(weaponString, projectileString);
-        String ammoType = toGive.getAmmoType();
-        p.giveWeapon(toGive);
-        p.giveAmmo(ammoType, ammoCount);
+        //String ammoType = toGive.getAmmoType();
+        p.giveItem(toGive);
+        //p.giveAmmo(ammoType, ammoCount);
         return null;
     }
 

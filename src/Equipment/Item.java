@@ -7,11 +7,11 @@ import Util.StdDraw;
  * a stack of one item type, which may be in a player's inventory
  */
 public abstract class Item {
-    public static final int WEAPON_TYPE = 0;
+    static final int WEAPON_TYPE = 0;
     protected String name;
-    private int type;
+    protected int type;
     double xScale, yScale;
-    private double weight;   // weight of an individual item in the stack
+    double weight;   // weight of an individual item in the stack
     String invImage; // image to be shown in inventory
     int count, maxCount; // count in this stack
     Item(String name, int type, double weight, int maxCount) {

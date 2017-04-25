@@ -57,6 +57,8 @@ public class ToolMenu extends JFrame {
     private JTextField pFactoryStringField;
     private JButton saveWeaponButton;
     private JTextField weaponFileNameField;
+    private JTextField weightField;
+    private JTextField maxCountField;
     private JLabel outputLabel;
 
     public ToolMenu() {
@@ -113,6 +115,10 @@ public class ToolMenu extends JFrame {
                 sb.append(chargeableCheckBox.isSelected());
                 sb.append('/');
                 sb.append(chargeTimeField.getText());
+                sb.append('/');
+                sb.append(weightField.getText());
+                sb.append('/');
+                sb.append(maxCountField.getText());
                 outputField.setText(sb.toString());
         });
     }
@@ -201,15 +207,7 @@ public class ToolMenu extends JFrame {
         saveWeaponButton.addActionListener((ActionEvent e) -> {
             Weapon weapon = new Weapon(weaponStringField.getText(), pFactoryStringField.getText());
             ItemStorage is = ItemStorage.getWeaponStore(weapon);
-            try {
-                FileOutputStream fos = new FileOutputStream("data/Items/" + is.getName() + ".is");
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(is);
-                oos.close();
-                fos.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            ItemStorage.writeItemStore(is);
         });
     }
 

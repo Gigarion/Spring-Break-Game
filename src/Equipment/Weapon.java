@@ -9,8 +9,8 @@ import java.util.LinkedList;
 /**
  * Created by Gig on 3/31/2017.
  * weaponString format:
- * 0    1     2        3   4   5         6          7
- * name ammo  max clip FR  RR  throwable chargeable maxChargeTime
+ * 0    1     2        3   4   5         6          7             8      9
+ * name ammo  max clip FR  RR  throwable chargeable maxChargeTime weight maxCount
  */
 public class Weapon extends Item {
     String weaponString, pFactoryString;
@@ -42,6 +42,7 @@ public class Weapon extends Item {
     }
 
     private void loadFromString(String weaponString) {
+        System.out.println(weaponString);
         String[] info = weaponString.split("/");
         this.name = info[0];
         this.ammoType = info[1];
@@ -52,6 +53,9 @@ public class Weapon extends Item {
         this.isChargeable = Boolean.parseBoolean(info[6]);
         if (isChargeable)
             this.maxChargeTime = Integer.parseInt(info[7]);
+        this.weight = Double.parseDouble(info[8]);
+        this.maxCount = Integer.parseInt(info[9]);
+        this.type = WEAPON_TYPE;
     }
 
     public void equip() {

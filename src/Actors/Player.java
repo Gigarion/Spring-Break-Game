@@ -66,7 +66,7 @@ public class Player extends Actor {
     }
 
     void giveWeapon(Weapon weapon) {
-        if (weapon.isThrowable()) {
+        if (weapon.isThrowable() && equipped != null) {
             String ammoType = weapon.getAmmoType();
             int ammoCount = ammoMap.get(ammoType);
             if (ammoCount > 0 || equipped.getAmmoType().equals(ammoType)) {
@@ -228,6 +228,7 @@ public class Player extends Actor {
     }
 
     public Iterable<Object> release(double destX, double destY) {
+        if (equipped == null) return null;
         Iterable<Object> toReturn = equipped.release(this, destX, destY);
         if (equipped.getClip() == 0) {
             reload();

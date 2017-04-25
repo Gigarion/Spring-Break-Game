@@ -315,7 +315,9 @@ public class UserBox {
     }
 
     private void drawInventory() {
-        Inventory inv = new Inventory(10 , 10);
+        if (player == null)
+            return;
+        Inventory inv = player.inventory;
         int rowSize = 10;
         for (int i = 0; i < rowSize; i++) {
             StdDraw.setAlpha((float)0.60);

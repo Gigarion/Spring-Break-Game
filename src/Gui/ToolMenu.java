@@ -102,7 +102,7 @@ public class ToolMenu extends JFrame {
                 StringBuilder sb = new StringBuilder();
                 sb.append(wpnNameField.getText());
                 sb.append('/');
-                sb.append((String) ammoComboBox.getSelectedItem());
+                sb.append(ammoComboBox.getSelectedItem().toString().toUpperCase());
                 sb.append('/');
                 sb.append(wpnMaxClipField.getText());
                 sb.append('/');

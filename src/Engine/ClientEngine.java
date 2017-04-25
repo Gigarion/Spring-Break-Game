@@ -167,7 +167,7 @@ public class ClientEngine {
     private void handleMouseRelease(MouseEvent e, double x, double y) {
         switch (e.getButton()) {
             case MouseEvent.BUTTON3:
-                handleWeaponFire(player.release(x, y));
+                handleUseEquipped(player.release(x, y));
             default:
                 break;
         }
@@ -194,7 +194,7 @@ public class ClientEngine {
             }
             break;
             case MouseEvent.BUTTON3: {
-                handleWeaponFire(player.fireWeapon(userBox.getMouseX(), userBox.getMouseY()));
+                handleUseEquipped(player.useEquipped(userBox.getMouseX(), userBox.getMouseY()));
             }
             break;
             default:
@@ -236,7 +236,15 @@ public class ClientEngine {
             }
             break;
             default:
-                break;
+                try {
+                    int index = Integer.parseInt(e.getKeyChar() + "") - 1;
+                    if (index < 0)
+                        index = 9;
+                    player.selectItem(index);
+                } catch (Exception ex) {
+                    // ignore it
+            }
+            break;
         }
     }           // individual key press
 
@@ -460,25 +468,25 @@ public class ClientEngine {
      *  Miscellaneous
      ******************************************************/
 
-    private void handleWeaponFire(Iterable<Object> attacks) {
-        if (attacks == null) {
+    private void handleUseEquipped(Iterable<Object> effects) {
+        if (effects == null) {
             return;
         }
-        for (Object attack : attacks) {
-            if (attack instanceof HitScan) {
+        for (Object effect : effects) {
+            if (effect instanceof HitScan) {
                 // fire a hitscan to the server
                 // adds to animation queue
                 Animation a = new SwingAnimation(player, 10, "sord.png", userBox.getMouseX(), userBox.getMouseY());
                 clientMailroom.sendMessage(new Package(a, Package.ANIMATE, Integer.toString(player.getID())));
-                clientMailroom.sendMessage(new Package(attack, Package.HITSCAN, Integer.toString(player.getID())));
+                clientMailroom.sendMessage(new Package(effect, Package.HITSCAN, Integer.toString(player.getID())));
             }
-            if (attack instanceof Projectile) {
+            if (effect instanceof Projectile) {
                 // fire a projectile to the server
                 // adds to animation queue cause that happens already which is probs bad
-                clientMailroom.sendActor((Projectile) attack);
+                clientMailroom.sendActor((Projectile) effect);
             }
-            if (attack instanceof Animation) {
-                clientMailroom.sendMessage(new Package(attack, Package.ANIMATE, "" + player.getID()));
+            if (effect instanceof Animation) {
+                clientMailroom.sendMessage(new Package(effect, Package.ANIMATE, "" + player.getID()));
             }
         }
     }

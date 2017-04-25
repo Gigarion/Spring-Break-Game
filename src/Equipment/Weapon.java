@@ -9,12 +9,12 @@ import java.util.LinkedList;
 /**
  * Created by Gig on 3/31/2017.
  * weaponString format:
- * 0    1     2        3   4   5         6          7
- * name ammo  max clip FR  RR  throwable chargeable maxChargeTime
+ * 0    1     2        3   4   5         6          7             8      9
+ * name ammo  max clip FR  RR  throwable chargeable maxChargeTime weight maxCount
  */
-public class Weapon {
+public class Weapon extends Item {
+    String weaponString, pFactoryString;
     private ProjectileFactory pFactory;
-    private String name;
     private int clip;
     private int maxClip;
     private int fireRate;
@@ -30,15 +30,19 @@ public class Weapon {
 
     private String ammoType;
 
-    public Weapon(String weaponString, String factoryString) {
+    public Weapon(String weaponString, String pFactoryString) {
+        super("not_set", WEAPON_TYPE, 1, 1);
+        this.weaponString = weaponString;
+        this.pFactoryString = pFactoryString;
+        this.loadFromString(weaponString);
         this.clip = 0;
         this.reloadStart = 0;
         this.lastShot = 0;
-        this.loadFromString(weaponString);
-        this.pFactory = new ProjectileFactory(factoryString);
+        this.pFactory = new ProjectileFactory(pFactoryString);
     }
 
     private void loadFromString(String weaponString) {
+        System.out.println(weaponString);
         String[] info = weaponString.split("/");
         this.name = info[0];
         this.ammoType = info[1];
@@ -49,6 +53,9 @@ public class Weapon {
         this.isChargeable = Boolean.parseBoolean(info[6]);
         if (isChargeable)
             this.maxChargeTime = Integer.parseInt(info[7]);
+        this.weight = Double.parseDouble(info[8]);
+        this.maxCount = Integer.parseInt(info[9]);
+        this.type = WEAPON_TYPE;
     }
 
     public void equip() {
@@ -74,8 +81,7 @@ public class Weapon {
 
             }
             lastShot = System.currentTimeMillis();
-            LinkedList toReturn = (LinkedList) pFactory.fire(src, destX, destY);
-            return toReturn;
+            return stuff;
         }
         return null;
     }
@@ -94,7 +100,6 @@ public class Weapon {
     public int getClip() {return this.clip;}
     public int getMaxClip() {return this.maxClip;}
     public String getAmmoType() {return this.ammoType;}
-    public String getName() {return this.name;}
 
     private boolean canFire() {
         return ((clip > 0 || ammoType.equals("Melee")) && !isReloading()

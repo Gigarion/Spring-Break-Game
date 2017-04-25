@@ -1,5 +1,7 @@
 package Gui;
 
+import Equipment.ItemStorage;
+import Equipment.Weapon;
 import Tools.MapBuilder;
 
 import javax.swing.*;
@@ -51,6 +53,12 @@ public class ToolMenu extends JFrame {
     private JTextField maxYField;
     private JComboBox mapListComboBox;
     private JPanel toolPane;
+    private JTextField weaponStringField;
+    private JTextField pFactoryStringField;
+    private JButton saveWeaponButton;
+    private JTextField weaponFileNameField;
+    private JTextField weightField;
+    private JTextField maxCountField;
     private JLabel outputLabel;
 
     public ToolMenu() {
@@ -62,6 +70,7 @@ public class ToolMenu extends JFrame {
         setHitScanListeners();
         setProjectileListeners();
         setWeaponListeners();
+        setSaveWeaponListeners();
 
         tabbedPane.addChangeListener((ChangeEvent e) -> {
             switch (tabbedPane.getSelectedIndex()) {
@@ -72,9 +81,12 @@ public class ToolMenu extends JFrame {
                     getRootPane().setDefaultButton(generateProjectileStringButton);
                     break;
                 case 2:
-                    getRootPane().setDefaultButton(generateHitScanButton);
+                    getRootPane().setDefaultButton(saveWeaponButton);
                     break;
                 case 3:
+                    getRootPane().setDefaultButton(generateHitScanButton);
+                    break;
+                case 4:
                     getRootPane().setDefaultButton(beginMapBuilderButton);
                     break;
                 default:
@@ -86,9 +98,7 @@ public class ToolMenu extends JFrame {
     }
 
     private void setWeaponListeners() {
-        generateWeaponStringButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        generateWeaponStringButton.addActionListener((ActionEvent e) -> {
                 StringBuilder sb = new StringBuilder();
                 sb.append(wpnNameField.getText());
                 sb.append('/');
@@ -105,9 +115,11 @@ public class ToolMenu extends JFrame {
                 sb.append(chargeableCheckBox.isSelected());
                 sb.append('/');
                 sb.append(chargeTimeField.getText());
+                sb.append('/');
+                sb.append(weightField.getText());
+                sb.append('/');
+                sb.append(maxCountField.getText());
                 outputField.setText(sb.toString());
-            }
-
         });
     }
 
@@ -191,30 +203,15 @@ public class ToolMenu extends JFrame {
         });
     }
 
+    private void setSaveWeaponListeners() {
+        saveWeaponButton.addActionListener((ActionEvent e) -> {
+            Weapon weapon = new Weapon(weaponStringField.getText(), pFactoryStringField.getText());
+            ItemStorage is = ItemStorage.getWeaponStore(weapon);
+            ItemStorage.writeItemStore(is);
+        });
+    }
+
     public static void main(String[] args) {
         new ToolMenu();
-//         try {
-//
-//             Socket s = new Socket("localhost", 9999);
-//             OutputStreamWriter bos = new OutputStreamWriter(s.getOutputStream());
-//             System.out.println("output");
-//             Scanner isr = new Scanner(s.getInputStream());
-//
-//             System.out.println("input");
-//             System.out.println(s.isConnected());
-//
-//
-//             bos.write("sbg1901\n");
-//             bos.write("hey\n");
-//             bos.write("another\n");
-//             bos.write("fin\n");
-//             bos.flush();
-//             System.out.println(isr.next());
-//             s.close();
-//             System.out.println("wrote tool");
-//
-//         } catch(Exception e) {
-//             e.printStackTrace();
-//         }
     }
 }

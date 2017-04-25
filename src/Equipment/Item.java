@@ -1,6 +1,5 @@
 package Equipment;
 
-import Engine.ActorRequest;
 import Util.StdDraw;
 
 /**
@@ -8,15 +7,15 @@ import Util.StdDraw;
  * a stack of one item type, which may be in a player's inventory
  */
 public abstract class Item {
-    public static final int WEAPON_TYPE = 0;
-    private int id;
-    private int type;
+    static final int WEAPON_TYPE = 0;
+    protected String name;
+    protected int type;
     double xScale, yScale;
-    private double weight;   // weight of an individual item in the stack
+    double weight;   // weight of an individual item in the stack
     String invImage; // image to be shown in inventory
     int count, maxCount; // count in this stack
-    Item(int id, int type, double weight, int maxCount) {
-        this.id = id;
+    Item(String name, int type, double weight, int maxCount) {
+        this.name = name;
         xScale = 10;
         yScale = 10;
         this.maxCount = maxCount;
@@ -34,7 +33,7 @@ public abstract class Item {
         return count;
     }
 
-    public int getId() {return this.id;}
+    public String getName() {return this.name;}
     public int getCount() {return this.count;}
     public int getType() {return this.type;}
 
@@ -42,14 +41,16 @@ public abstract class Item {
     public void setCount(int count) {
         this.count = count;
     }
+    public void setMaxCount(int maxCount) {this.maxCount = maxCount;}
     public void setInvImage(String imageStr) {this.invImage = imageStr;}
     double getWeight() {return this.weight * this.count;}
 
     public void drawItem(double x, double y) {
         if (invImage == null)
-            StdDraw.filledCircle(x, y, 5);
+            invImage = "rock.png";
+            //StdDraw.filledCircle(x, y, 5);
         try {
-            StdDraw.picture(x, y, "src/img/Actors/" + invImage, xScale, yScale);
+            StdDraw.picture(x, y, "src/img/" + invImage, xScale, yScale);
         } catch (Exception e) {
             StdDraw.picture(x, y, "img/Actors/" + invImage, xScale, yScale);
         }

@@ -36,13 +36,18 @@ public class Inventory {
         int leftToAdd = item.getCount();
         // see if it's in the equipped slots
         for (Item i : equipped) {
-            if (item.getId() == i.getId() && leftToAdd > 0) {
+            if (i == null)
+                continue;
+            if (item.getName().equals(i.getName()) && leftToAdd > 0) {
                 leftToAdd = i.add(leftToAdd);
+                System.out.println(item.getCount());
             }
         }
         // see if it's in general inventory
         for (Item i : items) {
-            if (item.getId() == i.getId() && leftToAdd > 0) {
+            if (i == null)
+                continue;
+            if (item.getName().equals(i.getName()) && leftToAdd > 0) {
                 leftToAdd = i.add(leftToAdd);
             }
         }
@@ -86,10 +91,16 @@ public class Inventory {
     public int getSelected() { return this.selected; }
 
     public void moveSelected(int offset) {
-        System.out.println("called " + offset);
         selected = Math.max(selected + offset, 0);
         selected = Math.min(selected, ROW_SIZE - 1);
     }
+
+    public void select(int index) {
+        if (index >= 0 && index < ROW_SIZE)
+            selected = index;
+    }
+
+    public Item[] getEquippedItems() {return equipped;}
 
     public Iterable<Item> getItems() {return Arrays.asList(items);}
 
@@ -99,14 +110,22 @@ public class Inventory {
 
     private void setWeight() {
         currentWeight = 0;
-        for (Item i : equipped)
-            currentWeight += i.getWeight();
-        for (Item i : items)
-            currentWeight += i.getWeight();
+        for (Item i : equipped) {
+            if (i != null)
+                currentWeight += i.getWeight();
+        }
+        for (Item i : items) {
+            if (i != null)
+                currentWeight += i.getWeight();
+        }
     }
 
     public double getWeight() {
         return currentWeight;
+    }
+
+    public Item getEquipped() {
+        return equipped[selected];
     }
 
 //    public Iterable<Package> useSelectedItem(double mouseX, double mouseY) {

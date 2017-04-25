@@ -9,6 +9,7 @@ import Maps.GameMap;
 import Maps.MapGrid;
 import Projectiles.HitScan;
 import Projectiles.Projectile;
+import Util.Constants;
 import Util.StdDraw;
 
 import java.awt.*;
@@ -179,7 +180,7 @@ public class ServerEngine {
         int srcId = Integer.parseInt(p.getExtra());
         for (Actor hit : fireHitScan(hs, srcId)) {
             mailroom.sendPackage(new Package(hit.getID(), Package.HIT, Integer.toString(hs.getDamage())));
-            FlyText ft = new FlyText(hit.getX(), hit.getY(), "HIT!", StdDraw.BOOK_RED);
+            FlyText ft = new FlyText(hit.getX(), hit.getY(), "HIT!", Constants.BOOK_RED);
             mailroom.sendPackage(new Package(ft, Package.ANIMATE, hit.getID() + ""));
         }
         if (hs.getShowLine())

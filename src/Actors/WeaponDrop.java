@@ -2,7 +2,7 @@ package Actors;
 
 import Engine.ActorRequest;
 import Util.StdDraw;
-import Weapons.Weapon;
+import Equipment.Weapon;
 
 /**
  * Created by Gig on 4/1/2017.

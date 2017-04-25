@@ -3,6 +3,8 @@ package Gui;
 import Actors.Actor;
 import Actors.Player;
 import Animations.Animation;
+import Equipment.Inventory;
+import Equipment.Item;
 import Maps.GameMap;
 import Maps.MapGrid;
 import Util.StdDraw;
@@ -87,6 +89,8 @@ public class UserBox {
     private MapGrid mapGrid;
     private GameMap gameMap;
 
+    private boolean inventoryOpen;
+
     private double mouseX, mouseY;
 
     public UserBox(ConcurrentHashMap<Integer, Actor> actorMap, ConcurrentLinkedQueue<Animation> animationQueue) {
@@ -140,6 +144,7 @@ public class UserBox {
     public void setGameMap(GameMap gameMap) {
         this.gameMap = gameMap;
         this.mapGrid = gameMap.getMapGrid();
+        centerCamera();
     }
 
     public boolean inVisibleRange(double x, double y) {
@@ -255,6 +260,7 @@ public class UserBox {
         if (!StdDraw.isKeyPressed(KeyEvent.VK_CONTROL)) {
             drawHUD();
             drawCrosshair();
+            drawInventory();
         }
 
         handleMouseLocation();
@@ -306,6 +312,24 @@ public class UserBox {
         StdDraw.circle(mouseX, mouseY, 10);
         StdDraw.setPenRadius();
         StdDraw.setPenColor();
+    }
+
+    private void drawInventory() {
+        Inventory inv = new Inventory(10 , 10);
+        int rowSize = 10;
+        for (int i = 0; i < rowSize; i++) {
+            StdDraw.setAlpha((float)0.60);
+            StdDraw.setPenColor(StdDraw.WHITE);
+            StdDraw.filledRectangle(getVisibleXMin() + 25 +  (50 * i), getVisibleYMax() - 40, 20, 20);
+            if (inv.getSelected() == i) {
+                StdDraw.setPenRadius(0.004);
+                StdDraw.setPenColor(StdDraw.RED);
+                StdDraw.rectangle(getVisibleXMin() + 25 +  (50 * i), getVisibleYMax() - 40, 20, 20);
+                StdDraw.setPenRadius();
+            }
+        }
+        StdDraw.setPenColor();
+        StdDraw.resetAlpha();
     }
 
     private void handleMouseLocation() {

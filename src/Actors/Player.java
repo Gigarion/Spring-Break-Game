@@ -3,9 +3,8 @@ package Actors;
 import Engine.ActorRequest;
 import Util.DefaultMap;
 import Util.StdDraw;
-import Weapons.*;
+import Equipment.*;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Player extends Actor {

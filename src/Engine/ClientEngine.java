@@ -372,24 +372,7 @@ public class ClientEngine {
 
     private void handleNewActor(Package p) {
         ActorStorage as = (ActorStorage) p.getPayload();
-        Actor a;
-        switch (as.getType()) {
-            case ActorStorage.PROJ_TYPE:
-                a = new Projectile(as);
-                break;
-            case ActorStorage.PLAYER_TYPE:
-                a = new Player(as);
-                break;
-            case ActorStorage.MOB_TYPE:
-                a = new Mob(as);
-                break;
-            case ActorStorage.WEAPON_DROP_TYPE:
-                a = new WeaponDrop(as);
-                break;
-            default:
-                System.out.println("bad actorstorage type");
-                return;
-        }
+        Actor a = ActorStorage.getActor(as);
         int id = a.getID();
         if (id != player.getID())
             actorMap.put(id, a);

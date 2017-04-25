@@ -1,17 +1,11 @@
 package Actors;
 
 import Engine.ActorRequest;
-import Util.DefaultMap;
 import Util.StdDraw;
 import Equipment.*;
 
-import java.util.LinkedList;
-
 public class Player extends Actor {
     private static final int INTERACT_RANGE = 30;
-    //private LinkedList<Weapon> weapons;
-    private DefaultMap<String, Integer> ammoMap; // count of each ammo type
-    private Weapon equipped;
     private String name;
     public Inventory inventory;
 
@@ -26,10 +20,7 @@ public class Player extends Actor {
         this.name = userName;
         this.maxHP = 100;
         this.hp = maxHP;
-        //this.weapons = new LinkedList<>();
-        this.ammoMap = new DefaultMap<>(0);
         this.interactRange = INTERACT_RANGE;
-        this.equipped = null;
         this.lastSwap = 0;
         this.canHit = true;
         this.inventory = new Inventory(20);
@@ -45,10 +36,7 @@ public class Player extends Actor {
         this.hp = maxHP;
 
         //this.weapons = new LinkedList<>();
-        this.ammoMap = new DefaultMap<>(0);
         this.interactRange = (Double) as.extras.get(ActorStorage.INTERACT_RANGE);
-
-        this.equipped = null;
         this.lastSwap = 0;
         this.canHit = as.canHit;
         this.passesHeight = as.passesHeight;
@@ -65,72 +53,40 @@ public class Player extends Actor {
         return this.id;
     }
 
-    void giveWeapon(Weapon weapon) {
-        if (weapon.isThrowable() && equipped != null) {
-            String ammoType = weapon.getAmmoType();
-            int ammoCount = ammoMap.get(ammoType);
-            if (ammoCount > 0 || equipped.getAmmoType().equals(ammoType)) {
-                ammoMap.put(ammoType, ammoCount + 1);
-                return;
-            } else if ( ammoCount == 0) {
-                ammoMap.put(ammoType, ammoCount + 1);
-            }
-        }
-        inventory.addItem(weapon);
-        setEquipped();
+    boolean giveItem(Item item) {
+        boolean result = inventory.addItem(item);
         reload();
+        return result;
     }
 
     public void giveWeapons() {
         ItemStorage is = ItemStorage.loadItemStore("Bow");
         Weapon w = ItemStorage.getWeapon(is);
-        giveWeapon(w);
-        giveAmmo("Arrow", 5);
+        giveItem(w);
 
         is = ItemStorage.loadItemStore("Sword");
         w = ItemStorage.getWeapon(is);
-        giveWeapon(w);
-
-        giveAmmo("Melee", Integer.MAX_VALUE);
+        giveItem(w);
     }
 
     public void swapWeapon(int howFar) {
-        if (equipped != null && equipped.isCharging()) return;
+        if (inventory.isCharging()) return;
         if (System.currentTimeMillis() - lastSwap < 50)
             return;
         lastSwap = System.currentTimeMillis();
-       // weapons.add(equipped);
         inventory.moveSelected(howFar);
-        setEquipped();
     }
 
     public void selectItem(int index) {
         inventory.select(index);
-        setEquipped();
     }
 
     public int getAmmoCount() {
-        if (equipped == null)
-            return -1;
-        return getAmmoCount(equipped.getAmmoType());
+        return inventory.getAmmoCount();
     }
 
     private int getAmmoCount(String type) {
-        Integer count = ammoMap.get(type);
-        if (count == null)
-            return 0;
-        return count;
-    }
-
-    void giveAmmo(String type, int count) {
-        Integer current = ammoMap.get(type);
-        if (current == null)
-            current = 0;
-        current += count;
-        ammoMap.put(type, current);
-
-        if (equipped != null && equipped.getAmmoType().equals(type) && equipped.getClip() == 0)
-            reload();
+        return inventory.getAmmoCount();
     }
 
     // fully heal player
@@ -146,33 +102,7 @@ public class Player extends Actor {
     }
 
     public Iterable<Object> useEquipped(double destX, double destY) {
-        if (equipped != null && equipped instanceof Weapon)
-            return fireWeapon(destX, destY);
-        return null;
-    }
-
-    // returns either a hitscan or a projectile to register as an attack
-    private Iterable<Object> fireWeapon(double destX, double destY) {
-        if (equipped == null) return null;
-
-        if (equipped.isChargeable()) {
-            equipped.charge();
-            return null;
-        }
-        Iterable<Object> toReturn = equipped.fire(this, destX, destY);
-
-        if (toReturn != null && equipped.isThrowable()) {
-            ammoMap.put(equipped.getAmmoType(), ammoMap.get(equipped.getAmmoType()));
-        }
-        if (equipped.getClip() == 0) {
-            reload();
-        }
-        if (equipped.isThrowable()) {
-            if (equipped.getClip() == 0) {
-                equipped = null;
-            }
-        }
-        return toReturn;
+        return inventory.useSelectedItem(this, destX, destY);
     }
 
     // shift the player's location by dist in the x direction
@@ -207,44 +137,25 @@ public class Player extends Actor {
     }
 
     public void reload() {
-        if (equipped == null) return;
-        int current = ammoMap.get(equipped.getAmmoType());
-        current = equipped.reload(current);
-        ammoMap.put(equipped.getAmmoType(), current);
+        inventory.reload();
     }
     public String getName() { return this.name; }
     public int getHP() {return hp;}
     public int getMaxHP() {return maxHP;}
     public double getInteractRange() { return interactRange; }
-    public String getWeaponName() {
-        if (equipped == null)
-            return "none";
-        return this.equipped.getName();
+
+    public String getEquippedName() {
+        return inventory.getEquippedName();
     }
-    public int getCurrentClip() {
-        if (equipped == null)
-            return -1;
-        return this.equipped.getClip();
+    public int getCurrentCount() {
+        return inventory.getCurrentCount();
     }
 
     public Iterable<Object> release(double destX, double destY) {
-        if (equipped == null) return null;
-        Iterable<Object> toReturn = equipped.release(this, destX, destY);
-        if (equipped.getClip() == 0) {
-            reload();
-        }
-        return toReturn;
+        return inventory.release(this, destX, destY);
     }
 
     public double getChargeRatio() {
-        if (equipped == null)
-            return 0;
-        return equipped.getChargeRatio();
-    }
-
-    private void setEquipped() {
-        equipped = null;// weapons.removeFirst();
-        if (inventory.getEquipped() != null && inventory.getEquipped() instanceof Weapon)
-            equipped = (Weapon) inventory.getEquipped();
+        return inventory.getChargeRatio();
     }
 }

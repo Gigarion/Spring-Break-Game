@@ -26,4 +26,11 @@ public class Constants {
     // default colors
     private static final Color DEFAULT_PEN_COLOR = BLACK;
     private static final Color DEFAULT_CLEAR_COLOR = WHITE;
+
+    // ammo constants
+    public static final String NOT_AMMO = "NONE";
+    public static final String AMMO_ARROW = "ARROW";
+    public static final String AMMO_ROCK = "ROCK";
+    public static final String AMMO_BULLET = "BULLET";
+    public static final String AMMO_MELEE = "MELEE";
 }

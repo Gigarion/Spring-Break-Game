@@ -59,10 +59,12 @@ public class ToolMenu extends JFrame {
     private JTextField weaponFileNameField;
     private JTextField weightField;
     private JTextField maxCountField;
+    private JButton loadFileButton;
+    private JComboBox weaponFileComboBox;
     private JLabel outputLabel;
 
     public ToolMenu() {
-        setSize(600, 600);
+        setSize(1000, 900);
         setContentPane(toolPane);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,6 +73,7 @@ public class ToolMenu extends JFrame {
         setProjectileListeners();
         setWeaponListeners();
         setSaveWeaponListeners();
+        setupLoadWeaponUI();
 
         tabbedPane.addChangeListener((ChangeEvent e) -> {
             switch (tabbedPane.getSelectedIndex()) {
@@ -200,6 +203,26 @@ public class ToolMenu extends JFrame {
                     e.printStackTrace();
                 }
             }
+        });
+    }
+
+    private void setupLoadWeaponUI() {
+        try {
+            File folder = new File("data/Items/");
+            System.out.println(folder.getAbsolutePath());
+            if (folder.isDirectory()) {
+                for (File f : folder.listFiles()) {
+                    System.out.println("here");
+                    weaponFileComboBox.addItem(f.getName());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        loadFileButton.addActionListener((e) -> {
+            ItemStorage is = ItemStorage.loadItemStore(weaponFileComboBox.getSelectedItem().toString());
+            wpnNameField.setText(is.getName());
         });
     }
 

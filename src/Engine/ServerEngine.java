@@ -169,7 +169,7 @@ public class ServerEngine {
 
         // for now, make a new mob whenever a player gets added
         int x = 10 + (int) (Math.random() * 580);
-        Mob m = new Mob(getNextId(), x, 800, 12, 10);
+        Mob m = new Mob(getNextId(), x, 800, 12, 100);
         actorMap.put(m.getID(), m);
         mailroom.sendActor(m);
     }

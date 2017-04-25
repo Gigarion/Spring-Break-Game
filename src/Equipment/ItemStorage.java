@@ -29,7 +29,6 @@ public class ItemStorage {
     private ItemStorage(Item item) {
         this.dataMap = new HashMap<>();
         dataMap.put(NAME, item.getName());
-        System.out.println("putting: " + item.getName());
         dataMap.put(TYPE, item.getType());
         dataMap.put(XSCL, item.xScale);
         dataMap.put(YSCL, item.yScale);
@@ -86,8 +85,6 @@ public class ItemStorage {
 
     public static ItemStorage getWeaponStore(Weapon weapon) {
         ItemStorage toReturn = new ItemStorage(weapon);
-        System.out.println(toReturn.getName() + " and  here");
-        //toReturn.type = WEAPON_TYPE;
         toReturn.putExtra("WPNSTR", weapon.weaponString);
         toReturn.putExtra("PFACSTR", weapon.pFactoryString);
         return toReturn;

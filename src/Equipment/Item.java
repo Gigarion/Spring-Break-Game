@@ -47,9 +47,10 @@ public abstract class Item {
 
     public void drawItem(double x, double y) {
         if (invImage == null)
-            StdDraw.filledCircle(x, y, 5);
+            invImage = "rock.png";
+            //StdDraw.filledCircle(x, y, 5);
         try {
-            StdDraw.picture(x, y, "src/img/Actors/" + invImage, xScale, yScale);
+            StdDraw.picture(x, y, "src/img/" + invImage, xScale, yScale);
         } catch (Exception e) {
             StdDraw.picture(x, y, "img/Actors/" + invImage, xScale, yScale);
         }

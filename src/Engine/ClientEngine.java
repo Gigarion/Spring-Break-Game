@@ -236,7 +236,15 @@ public class ClientEngine {
             }
             break;
             default:
-                break;
+                try {
+                    int index = Integer.parseInt(e.getKeyChar() + "") - 1;
+                    if (index < 0)
+                        index = 9;
+                    player.selectItem(index);
+                } catch (Exception ex) {
+                    // ignore it
+            }
+            break;
         }
     }           // individual key press
 

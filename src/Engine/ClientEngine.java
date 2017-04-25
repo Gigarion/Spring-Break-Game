@@ -194,7 +194,7 @@ public class ClientEngine {
             }
             break;
             case MouseEvent.BUTTON3: {
-                handleWeaponFire(player.fireWeapon(userBox.getMouseX(), userBox.getMouseY()));
+                handleWeaponFire(player.useEquipped(userBox.getMouseX(), userBox.getMouseY()));
             }
             break;
             default:

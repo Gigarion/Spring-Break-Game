@@ -81,8 +81,7 @@ public class Weapon extends Item {
 
             }
             lastShot = System.currentTimeMillis();
-            LinkedList toReturn = (LinkedList) pFactory.fire(src, destX, destY);
-            return toReturn;
+            return stuff;
         }
         return null;
     }

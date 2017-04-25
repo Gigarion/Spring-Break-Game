@@ -145,8 +145,14 @@ public class Player extends Actor {
             this.hp = maxHP;
     }
 
+    public Iterable<Object> useEquipped(double destX, double destY) {
+        if (equipped != null && equipped instanceof Weapon)
+            return fireWeapon(destX, destY);
+        return null;
+    }
+
     // returns either a hitscan or a projectile to register as an attack
-    public Iterable<Object> fireWeapon(double destX, double destY) {
+    private Iterable<Object> fireWeapon(double destX, double destY) {
         if (equipped == null) return null;
 
         if (equipped.isChargeable()) {

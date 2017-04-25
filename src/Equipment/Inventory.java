@@ -40,6 +40,7 @@ public class Inventory {
                 continue;
             if (item.getName().equals(i.getName()) && leftToAdd > 0) {
                 leftToAdd = i.add(leftToAdd);
+                System.out.println(item.getCount());
             }
         }
         // see if it's in general inventory

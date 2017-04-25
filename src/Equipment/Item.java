@@ -1,6 +1,5 @@
 package Equipment;
 
-import Engine.ActorRequest;
 import Util.StdDraw;
 
 /**
@@ -9,14 +8,14 @@ import Util.StdDraw;
  */
 public abstract class Item {
     public static final int WEAPON_TYPE = 0;
-    private int id;
+    protected String name;
     private int type;
     double xScale, yScale;
     private double weight;   // weight of an individual item in the stack
     String invImage; // image to be shown in inventory
     int count, maxCount; // count in this stack
-    Item(int id, int type, double weight, int maxCount) {
-        this.id = id;
+    Item(String name, int type, double weight, int maxCount) {
+        this.name = name;
         xScale = 10;
         yScale = 10;
         this.maxCount = maxCount;
@@ -34,7 +33,7 @@ public abstract class Item {
         return count;
     }
 
-    public int getId() {return this.id;}
+    public String getName() {return this.name;}
     public int getCount() {return this.count;}
     public int getType() {return this.type;}
 
@@ -42,6 +41,7 @@ public abstract class Item {
     public void setCount(int count) {
         this.count = count;
     }
+    public void setMaxCount(int maxCount) {this.maxCount = maxCount;}
     public void setInvImage(String imageStr) {this.invImage = imageStr;}
     double getWeight() {return this.weight * this.count;}
 

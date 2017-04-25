@@ -1461,8 +1461,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 
-    public static void setAlpha(float alpha) {
-        offscreen.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+    public static void setAlpha(double alpha) {
+        offscreen.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) alpha));
     }
 
     public static void resetAlpha() {

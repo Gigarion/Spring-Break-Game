@@ -83,6 +83,9 @@ public class Player extends Actor {
     }
 
     public void giveWeapons() {
+        ItemStorage is = ItemStorage.loadItemStore("Bow");
+        Weapon w = ItemStorage.getWeapon(is);
+        weapons.add(w);
         weapons.add(new Weapon("Bow/Arrow/1/700/100/false/true/300", "P/400/200/1/1/5/2/-/"));
         giveAmmo("Arrow", 5);
 
@@ -90,7 +93,7 @@ public class Player extends Actor {
 
         giveAmmo("Melee", Integer.MAX_VALUE);
         equipped = weapons.removeFirst();
-        equipped.reload(ammoMap.get("Arrow"));
+        reload();
     }
 
     public void swapWeapon(int howFar) {

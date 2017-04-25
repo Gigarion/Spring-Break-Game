@@ -36,13 +36,13 @@ public class Inventory {
         int leftToAdd = item.getCount();
         // see if it's in the equipped slots
         for (Item i : equipped) {
-            if (item.getId() == i.getId() && leftToAdd > 0) {
+            if (item.getName().equals(i.getName()) && leftToAdd > 0) {
                 leftToAdd = i.add(leftToAdd);
             }
         }
         // see if it's in general inventory
         for (Item i : items) {
-            if (item.getId() == i.getId() && leftToAdd > 0) {
+            if (item.getName().equals(i.getName()) && leftToAdd > 0) {
                 leftToAdd = i.add(leftToAdd);
             }
         }

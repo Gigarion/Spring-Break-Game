@@ -118,7 +118,7 @@ public class Weapon extends Item {
         return isThrowable;
     }
 
-    public synchronized void charge() {
+    synchronized void charge() {
         if (!isChargeable || charging || !canFire()) {
             return;
         }
@@ -126,7 +126,7 @@ public class Weapon extends Item {
         startCharge = System.currentTimeMillis();
     }
 
-    public synchronized Iterable<Object> release(Actor src, double destX, double destY) {
+    synchronized Iterable<Object> release(Actor src, double destX, double destY) {
         if (!isChargeable || !charging) return null;
 
         long timeCharged = System.currentTimeMillis() - startCharge;
@@ -146,18 +146,22 @@ public class Weapon extends Item {
         return toReturn;
     }
 
-    public boolean isChargeable() {
+    boolean isChargeable() {
         return isChargeable;
     }
 
-    public boolean isCharging() {
+    boolean isCharging() {
         return isChargeable && charging;
     }
 
-    public double getChargeRatio() {
+    double getChargeRatio() {
         if (!charging)
             return 0;
 
         return Math.min(1, (System.currentTimeMillis() - startCharge) / (double) maxChargeTime);
     }
+
+    public String getWeaponString() {return this.weaponString;}
+    public String getpFactoryString() {return this.pFactoryString;}
+
 }

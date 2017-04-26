@@ -50,27 +50,27 @@ public class ProjectileFactory implements Serializable {
         }
     }
 
-    public Iterable<Object> fire(Actor src, double destX, double destY) {
+    public Iterable<Object> fire(double destX, double destY) {
         LinkedList<Object> toReturn = new LinkedList<>();
         for (int i = 0; i < count; i++) {
             if (type == HITSCAN) {
-                HitScan hs = getHitScan(src, destX, destY);
+                HitScan hs = getHitScan(destX, destY);
                 hs.setShowLine(this.hitScanLine);
                 toReturn.add(hs);
                 if (hitScanLine)
                     toReturn.add(new HitScanLine(hs));
             }
             if (type == PROJECTILE) {
-                toReturn.add(getProjectile(src, destX, destY));
+                toReturn.add(getProjectile(destX, destY));
             }
         }
         return toReturn;
     }
 
-    private HitScan getHitScan(Actor src, double destX, double destY) {
-        return new HitScan(src, destX, destY, damage, pierceCount, range);
+    private HitScan getHitScan(double destX, double destY) {
+        return new HitScan(destX, destY, damage, pierceCount, range);
     }
-    private Projectile getProjectile(Actor src, double destX, double destY) {
-        return new Projectile(src, destX, destY, radius, range, speed, damage, pierceCount, image);
+    private Projectile getProjectile(double destX, double destY) {
+        return new Projectile(destX, destY, radius, range, speed, damage, pierceCount, image);
     }
 }

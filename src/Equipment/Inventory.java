@@ -193,16 +193,16 @@ public class Inventory {
         return quickItems[selected];
     }
 
-    public Iterable<Object> useSelectedItem(Actor src, double mouseX, double mouseY) {
+    public Iterable<Object> useSelectedItem(double mouseX, double mouseY) {
         Item current = quickItems[selected];
         if (current == null) return null;
         if (current instanceof Weapon)
-            return fireWeapon(src, mouseX, mouseY);
+            return fireWeapon(mouseX, mouseY);
         return null;
     }
 
     // Precondition: equipped item is non-null and is a weapon
-    private Iterable<Object> fireWeapon(Actor src, double destX, double destY) {
+    private Iterable<Object> fireWeapon(double destX, double destY) {
         Weapon current = (Weapon) quickItems[selected];
         String usesAmmo = current.getUsesAmmo();
         int clip = current.getClip();
@@ -213,7 +213,7 @@ public class Inventory {
             return null;
         }
 
-        Iterable<Object> attempt = current.fire(src, destX, destY);
+        Iterable<Object> attempt = current.fire(destX, destY);
         if (attempt == null) return null;
         LinkedList<Object> toReturn = new LinkedList<>();
 
@@ -237,10 +237,10 @@ public class Inventory {
         return toReturn;
     }
 
-    public Iterable<Object> release(Actor src, double destX, double destY) {
+    public Iterable<Object> release(double destX, double destY) {
         Weapon equipped = equippedToWeapon();
         if (equipped == null) return null;
-        Iterable<Object> toReturn = equipped.release(src, destX, destY);
+        Iterable<Object> toReturn = equipped.release(destX, destY);
         if (equipped.getClip() == 0) {
             reload();
         }

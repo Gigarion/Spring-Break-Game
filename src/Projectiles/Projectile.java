@@ -15,21 +15,31 @@ public class Projectile extends Actor implements Serializable {
     private double range;
     private int damage, srcID;
     private double startX, startY;
+    private double destX, destY;
 
-    public Projectile(Actor src, double destX, double destY, int r,
+    public Projectile(double destX, double destY, int r,
                       double range, double speed, int damage, int pierceCount, String image) {
-        super(-1, src.getX(), src.getY(), r);
-        this.srcID = src.getID();
-        this.startX = x;
-        this.startY = y;
+        super(-1, -1, -1, r);
+        this.srcID = -1;
+        this.destX = destX;
+        this.destY = destY;
         this.range = range;
         this.vel = speed;
-        this.rad = getAngle(destX, destY);
         this.damage = damage;
         this.image = image;
         this.pierceCount = pierceCount;
         this.canHit = false;
         this.passesHeight = MapGrid.HALF_HEIGHT;
+    }
+
+    public void setActor(Actor src) {
+        System.out.println("setting src");
+        this.srcID = src.getID();
+        this.startX = src.getX();
+        this.startY = src.getY();
+        this.x = startX;
+        this.y = startY;
+        this.rad = getAngle(destX, destY);
     }
 
     public Projectile(ActorStorage as) {
@@ -121,5 +131,9 @@ public class Projectile extends Actor implements Serializable {
     public int decrementPierceCount() {
         this.pierceCount--;
         return this.pierceCount;
+    }
+
+    public boolean isValid() {
+        return srcID != -1 && startX >= 0 && startY >= 0;
     }
 }

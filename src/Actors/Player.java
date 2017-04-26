@@ -1,6 +1,8 @@
 package Actors;
 
 import Engine.ActorRequest;
+import Projectiles.HitScan;
+import Projectiles.Projectile;
 import Util.StdDraw;
 import Equipment.*;
 
@@ -102,7 +104,17 @@ public class Player extends Actor {
     }
 
     public Iterable<Object> useEquipped(double destX, double destY) {
-        return inventory.useSelectedItem(this, destX, destY);
+        Iterable<Object> toReturn = inventory.useSelectedItem(destX, destY);
+        if (toReturn == null) return toReturn;
+        for (Object o : toReturn) {
+            if (o instanceof Projectile) {
+                ((Projectile) o).setActor(this);
+            }
+            if (o instanceof HitScan) {
+                ((HitScan) o).setActor(this);
+            }
+        }
+        return toReturn;
     }
 
     // shift the player's location by dist in the x direction
@@ -152,7 +164,7 @@ public class Player extends Actor {
     }
 
     public Iterable<Object> release(double destX, double destY) {
-        return inventory.release(this, destX, destY);
+        return inventory.release(destX, destY);
     }
 
     public double getChargeRatio() {

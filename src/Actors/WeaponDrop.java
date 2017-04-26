@@ -50,9 +50,7 @@ public class WeaponDrop extends Actor implements Interactable {
     @Override
     public Iterable<Object> interact(Player p) {
         Weapon toGive = new Weapon(weaponString, projectileString);
-        //String ammoType = toGive.getAmmoType();
         p.giveItem(toGive);
-        //p.giveAmmo(ammoType, ammoCount);
         return null;
     }
 
@@ -63,20 +61,20 @@ public class WeaponDrop extends Actor implements Interactable {
     }
 
     @Override
-    public void draw(boolean selected) {
+    public void draw(boolean selected, double xOff, double yOff) {
         if (image == null) {
             image = "crate.jpg";
             setxScale(20);
             setyScale(20);
         }
         try {
-            StdDraw.picture(x, y, "src/img/" + image, xScale, yScale);
+            StdDraw.picture(x + xOff, y + yOff, "src/img/" + image, xScale, yScale);
         } catch (Exception e) {
-            StdDraw.picture(x, y, "img/" + image, xScale, yScale);
+            StdDraw.picture(x + xOff, y + yOff, "img/" + image, xScale, yScale);
         }
         if (selected) {
             StdDraw.setPenColor(StdDraw.RED);
-            StdDraw.circle(x, y, 5);
+            StdDraw.circle(x + xOff, y + yOff, 5);
             StdDraw.setPenColor();
         }
     }

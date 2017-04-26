@@ -337,8 +337,9 @@ public class ServerEngine {
 
         if (a instanceof Mob) {
             if (((Mob) a).getHP() <= 0) {
-                actorMap.remove(id);
+                removeActor(a);
                 killMob(a);
+                return;
             }
         }
 
@@ -396,6 +397,7 @@ public class ServerEngine {
     }
 
     private void removeActor(Actor a) {
+        System.out.println("called");
         actorMap.remove(a.getID());
         mailroom.sendPackage(new Package(a.getID(), Package.REMOVE));
     }

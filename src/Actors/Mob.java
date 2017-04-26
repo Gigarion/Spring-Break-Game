@@ -34,13 +34,17 @@ public class Mob extends Actor {
     }
     @Override
 
-    public void draw(boolean selected) {
+    public void draw(boolean selected, double xOff, double yOff) {
         if (selected) {
             StdDraw.setPenColor(StdDraw.RED);
             StdDraw.filledSquare(x, y, 10);
             StdDraw.setPenColor();
         }
-        StdDraw.filledCircle(x, y, 10);
+        StdDraw.filledCircle(x + xOff, y + yOff, 10);
+    }
+
+    public void draw(double xOff, double yOff) {
+        StdDraw.filledCircle(x + xOff, y + yOff, 10);
     }
 
     public void hit(int damage) {

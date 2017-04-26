@@ -1,6 +1,7 @@
 package Gui;
 
 import Actors.Actor;
+import Actors.Mob;
 import Actors.Player;
 import Animations.Animation;
 import Equipment.Inventory;
@@ -59,6 +60,8 @@ public class UserBox {
     private static final int HUD_WIDTH = (int) (0.27 * Y_SCALE);
     private static final int VIS_Y_RADIUS = Y_SCALE / 2;
     private static final int EDGE_RADIUS = (int )(Y_SCALE * 0.11);
+
+    private double xOff, yOff;
 
     private double vis_x_radius;
 
@@ -156,57 +159,24 @@ public class UserBox {
         centerCamera();
     }
 
-    // request to move the screen in the given direction, only does so
-    // if player is in an appropriate place
-    private void moveScreen(int direction, double movementSize) {
-        switch (direction) {
-            case UP: {
-                if (getVisibleYMax() < maxLogY && getVisibleYMax() + movementSize < maxLogY) {
-                    if (player != null && player.getY() - movementSize < getVisibleYMin() + EDGE_RADIUS)
-                        return;
-                    StdDraw.setYscale(getVisibleYMin() + movementSize, getVisibleYMax() + movementSize);
-                    center = new Point2D.Double(center.x, center.y + movementSize);
-                    mouseY += movementSize;
-                }
-            }
-            break;
-            case DOWN: {
-                if (getVisibleYMin() > 0 && getVisibleYMin() - movementSize > 0) {
-                    if (player != null &&player.getY() + movementSize > getVisibleYMax() - EDGE_RADIUS)
-                        return;
-                    StdDraw.setYscale(getVisibleYMin() - movementSize, getVisibleYMax() - movementSize);
-                    center = new Point2D.Double(center.x, center.y - movementSize);
-                    mouseY -= movementSize;
-                }
-            }
-            break;
-            case LEFT: {
-                if (getVisibleXMin() > 0 && getVisibleXMin() - movementSize > 0) {
-                    if (player != null && player.getX() > getVisibleXMax() - movementSize - EDGE_RADIUS)
-                        return;
-                    StdDraw.setXscale(getVisibleXMin() - movementSize, getVisibleXMax() - movementSize);
-                    center = new Point2D.Double(center.x - movementSize, center.y);
-                    mouseX -= movementSize;
-                }
-            }
-            break;
-            case RIGHT: {
-                if (getVisibleXMax() < maxLogX && getVisibleXMax() + movementSize < maxLogX) {
-                    if (player != null &&player.getX() < getVisibleXMin() + movementSize + EDGE_RADIUS)
-                        return;
-                    StdDraw.setXscale(getVisibleXMin() + movementSize, getVisibleXMax() + movementSize);
-                    center = new Point2D.Double(center.x + movementSize, center.y);
-                    mouseX += movementSize;
-                }
-            }
-            break;
-            default:
-                System.out.println("WTF mate, improper move attempt");
+    private void moveScreen(double xDiff, double yDiff) {
+        if (getVisibleYMax() + yDiff < maxLogY && getVisibleYMin() + yDiff > 0) {
+            StdDraw.setYscale(getVisibleYMin() + yDiff, getVisibleYMax() + yDiff);
+            center = new Point2D.Double(center.x, center.y + yDiff);
+            mouseY += yDiff;
+        }
+        if (getVisibleXMax() + xDiff < maxLogX && getVisibleXMin() + xDiff > 0) {
+            StdDraw.setXscale(getVisibleXMin() + xDiff, getVisibleXMax() + xDiff);
+            center = new Point2D.Double(center.x + xDiff, center.y);
+            mouseX += xDiff;
+            xOff += xDiff;
         }
     }
 
     // called to display the current state of the board
     public void draw() {
+        xOff = 0;
+        yOff = 0;
         if (gameMap != null) {
             gameMap.draw();
         }
@@ -218,17 +188,21 @@ public class UserBox {
             }
         }
 
-
         for (Actor actor : actorMap.values()) {
             if (actor.getID() == player.getID()) {
                 actor.setRads(getAngle(getMouseX(), getMouseY()));
-                actor.draw(false);
+                actor.draw(false, xOff, yOff);
+                continue;
+            }
+            if (actor instanceof Mob) {
+                System.out.println(xOff);
+                ((Mob) actor).draw(xOff, yOff);
                 continue;
             }
             if (actor.getID() == selectedActor)
-                actor.draw(true);
+                actor.draw(true, xOff, yOff);
             else
-                actor.draw(false);
+                actor.draw(false, xOff, yOff);
         }
 
         for (Animation hsl : animationQueue) {
@@ -349,13 +323,13 @@ public class UserBox {
         double x = getMouseX();
         double y = getMouseY();
         if (getVisibleXMax() - x < EDGE_RADIUS)
-            moveScreen(RIGHT, 10);
+            moveScreen(10, 0);
         if (x - getVisibleXMin() < EDGE_RADIUS)
-            moveScreen(LEFT, 10);
+            moveScreen(-10, 0);
         if (getVisibleYMax() - y < EDGE_RADIUS)
-            moveScreen(UP, 10);
+            moveScreen(0, 10);
         if (y - getVisibleYMin() < EDGE_RADIUS)
-            moveScreen(DOWN, 10);
+            moveScreen(0, -10);
     }
 
     // the multitude of setters
@@ -483,7 +457,8 @@ public class UserBox {
 
         mouseX += center.x - oldX;
         mouseY += center.y - oldY;
-
+        xOff += center.x - oldX;
+        yOff += center.y - oldY;
         orientCamera();
     }
     private void orientCamera() {

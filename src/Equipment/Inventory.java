@@ -44,6 +44,7 @@ public class Inventory {
     // 3. Items in the quickItems set, from 0
     // 4. Items in regular inventory
     private void setAmmo() {
+        currAmmo = null;
         Weapon w = equippedToWeapon();
         if (w == null)
             return;

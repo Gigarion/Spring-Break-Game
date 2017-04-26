@@ -435,7 +435,7 @@ public class ClientEngine {
         userBox.setGameMap(gameMap);
         mapGrid.setShowGrid(false);
         mapGrid.setShowPlayerBoxes(false);
-        mapGrid.setShowBoxes(true);
+        mapGrid.setShowBoxes(false);
     }
 
     private void handleScreenSize(Package p) {

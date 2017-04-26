@@ -149,8 +149,8 @@ public class UserBox {
     }
 
     public boolean inVisibleRange(double x, double y) {
-        return (x > getVisibleXMin() && x < getVisibleXMax() + HUD_WIDTH
-                && y > getVisibleYMin() && y < getVisibleYMax());
+        return (x + 10 > getVisibleXMin() && x - 10 < getVisibleXMax() + HUD_WIDTH
+                && y + 10 > getVisibleYMin() && y - 10 < getVisibleYMax());
     }
 
     public void movePlayer() {
@@ -189,13 +189,14 @@ public class UserBox {
         }
 
         for (Actor actor : actorMap.values()) {
+            if (!inVisibleRange(actor.getX(), actor.getY()))
+                continue;
             if (actor.getID() == player.getID()) {
                 actor.setRads(getAngle(getMouseX(), getMouseY()));
                 actor.draw(false, xOff, yOff);
                 continue;
             }
             if (actor instanceof Mob) {
-                System.out.println(xOff);
                 ((Mob) actor).draw(xOff, yOff);
                 continue;
             }
@@ -357,7 +358,6 @@ public class UserBox {
     public void setClickedButton(int button) {
         this.clickedButton = button;
     }
-
     public void updatePing(long ping) {
         this.ping = ping;
     }
@@ -424,7 +424,6 @@ public class UserBox {
         }
     }
     public void handleMouseWheel(MouseWheelEvent mwe) {
-        //System.out.println(mwe.getWheelRotation());
         if (mouseWheelHandler != null)
             mouseWheelHandler.handleMouseWheel(mwe);
     }

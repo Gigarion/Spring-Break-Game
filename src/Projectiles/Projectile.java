@@ -98,19 +98,19 @@ public class Projectile extends Actor implements Serializable {
     }
 
     @Override
-    public void draw(boolean selected) {
+    public void draw(boolean selected, double xOff, double yOff) {
         if (image == null || image.equals("img/-")) {
             try {
-                StdDraw.picture(x, y, "src/img/arrow.png", 40, 10, Math.toDegrees(rad));
+                StdDraw.picture(x + xOff, y + yOff, "src/img/arrow.png", 40, 10, Math.toDegrees(rad));
             } catch (Exception e) {
-                StdDraw.picture(x, y, "img/arrow.png", 40, 10, Math.toDegrees(rad));
+                StdDraw.picture(x + xOff, y + yOff, "img/arrow.png", 40, 10, Math.toDegrees(rad));
             }
         }
         else {
             try {
-                StdDraw.picture(x, y, image, Math.toDegrees(rad));
+                StdDraw.picture(x + xOff, y + yOff, image, Math.toDegrees(rad));
             } catch(Exception e) {
-                StdDraw.filledSquare(x, y , 5);
+                StdDraw.filledSquare(x + xOff, y + yOff, 5);
             }
         }
     }

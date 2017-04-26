@@ -127,7 +127,7 @@ public class MapBuilder {
             }
         }
         if (player.getX() != oldX || player.getY() != oldY) {
-            userBox.movePlayer();
+            //userBox.movePlayer(player);
         }
     }
 

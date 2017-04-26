@@ -123,11 +123,11 @@ public class Player extends Actor {
     }
 
     @Override
-    public void draw(boolean selected) {
+    public void draw(boolean selected, double xOff, double yOff) {
         try {
-            StdDraw.picture(x, y, "src/img/Actors/Player2.png", xScale, yScale, Math.toDegrees(rads) - 90);
+            StdDraw.picture(x + xOff, y + yOff, "src/img/Actors/Player2.png", xScale, yScale, Math.toDegrees(rads) - 90);
         } catch (Exception e) {
-            StdDraw.picture(x, y, "img/Actors/Player.png", xScale, yScale, Math.toDegrees(rads) - 90);
+            StdDraw.picture(x + xOff, y + yOff, "img/Actors/Player.png", xScale, yScale, Math.toDegrees(rads) - 90);
         }
     }
 

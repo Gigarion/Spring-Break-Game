@@ -50,7 +50,7 @@ public abstract class Actor {
             y = coords[1];
         }
     }
-    public abstract void draw(boolean selected);
+    public abstract void draw(boolean selected, double xOff, double yOff);
     public abstract void hit(int damage);
 
     // circular collisions

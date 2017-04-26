@@ -69,10 +69,10 @@ public class Weapon extends Item {
     // attempt to fire this weapon, only valid if not reloading,
     // constrained by fireRate, and current clip.
     // returns the stack of objects associated with firing this weapon
-    public Iterable<Object> fire(Actor src, double destX, double destY) {
+    public Iterable<Object> fire(double destX, double destY) {
         if (canFire()) {
             clip--;
-            Iterable<Object> stuff = pFactory.fire(src, destX, destY);
+            Iterable<Object> stuff = pFactory.fire(destX, destY);
             for (Object o : stuff) {
                 if (o instanceof Projectile && isChargeable) {
                     double percent = ((System.currentTimeMillis() - lastShot) / maxChargeTime);
@@ -126,7 +126,7 @@ public class Weapon extends Item {
         startCharge = System.currentTimeMillis();
     }
 
-    synchronized Iterable<Object> release(Actor src, double destX, double destY) {
+    synchronized Iterable<Object> release(double destX, double destY) {
         if (!isChargeable || !charging) return null;
 
         long timeCharged = System.currentTimeMillis() - startCharge;
@@ -136,7 +136,7 @@ public class Weapon extends Item {
         if (chargeRatio > 1)
             chargeRatio = 1;
         charging = false;
-        Iterable<Object> toReturn = fire(src, destX, destY);
+        Iterable<Object> toReturn = fire(destX, destY);
         for (Object o : toReturn) {
             if (o instanceof Projectile) {
                 ((Projectile) o).modifyRange(chargeRatio);

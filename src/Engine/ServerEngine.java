@@ -212,11 +212,12 @@ public class ServerEngine {
     }
 
     private void handleRemove(Package p) {
+        System.out.println("handleremove");
         Actor actor = actorMap.get(p.getPayload());
         if (actor != null) {
             actorMap.remove(actor.getID());
             if (actor instanceof Mob) {
-                killMob(actor);
+                killMob();
             }
         }
         mailroom.sendPackage(p);
@@ -313,6 +314,7 @@ public class ServerEngine {
 
     // check actor for liveness/validity
     private synchronized void checkActor(Actor a) {
+        if (!actorMap.contains(a)) return;
         int id = a.getID();
         if (a instanceof Projectile) {
             Projectile p = (Projectile) a;
@@ -338,7 +340,7 @@ public class ServerEngine {
         if (a instanceof Mob) {
             if (((Mob) a).getHP() <= 0) {
                 removeActor(a);
-                killMob(a);
+                killMob();
                 return;
             }
         }
@@ -355,7 +357,7 @@ public class ServerEngine {
         if (!inBounds(a.getX(), a.getY())) {
             removeActor(a);
             if (a instanceof Mob)
-                killMob(a);
+                killMob();
         }
     }
 
@@ -381,8 +383,7 @@ public class ServerEngine {
     }
 
     // @name
-    private void killMob(Actor a) {
-        mailroom.sendPackage(new Package(a.getID(), Package.REMOVE));
+    private void killMob() {
         int x = 10 + (int) (Math.random() * 580);
         int id = getNextId();
         Mob mob = new Mob(id, x, 800, 12, 80);
@@ -397,7 +398,6 @@ public class ServerEngine {
     }
 
     private void removeActor(Actor a) {
-        System.out.println("called");
         actorMap.remove(a.getID());
         mailroom.sendPackage(new Package(a.getID(), Package.REMOVE));
     }

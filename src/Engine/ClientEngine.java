@@ -476,11 +476,13 @@ public class ClientEngine {
             if (effect instanceof HitScan) {
                 // fire a hitscan to the server
                 // adds to animation queue
+                if (!((HitScan) effect).isValid()) return;
                 Animation a = new SwingAnimation(player, 10, "sord.png", userBox.getMouseX(), userBox.getMouseY());
                 clientMailroom.sendMessage(new Package(a, Package.ANIMATE, Integer.toString(player.getID())));
                 clientMailroom.sendMessage(new Package(effect, Package.HITSCAN, Integer.toString(player.getID())));
             }
             if (effect instanceof Projectile) {
+                if (!((Projectile) effect).isValid()) return;
                 // fire a projectile to the server
                 // adds to animation queue cause that happens already which is probs bad
                 clientMailroom.sendActor((Projectile) effect);
